@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "VASy3nhL8Gk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.AdminWeb\\BookFlix.AdminWeb.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\saleh\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
+    "C:\\Users\\saleh\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}

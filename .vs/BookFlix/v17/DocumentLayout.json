@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\config\\authorconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\config\\authorconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\config\\bookconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\config\\bookconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\config\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\config\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\config\\reviewconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\config\\reviewconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 199,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20250802135332_initial-add-author-book-review-user-entities-with-configs.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Migrations\\20250802135332_initial-add-author-book-review-user-entities-with-configs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T13:53:32.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\AppDbContextFactory.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\AppDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\AppDbContextFactory.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\AppDbContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T12:51:52.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeToolTip": "BookFlix.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T11:56:52.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T19:07:45.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BookConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T10:53:44.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UserConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\UserConfiguration.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\Config\\UserConfiguration.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\UserConfiguration.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\Config\\UserConfiguration.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAUwB0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T21:05:08.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ReviewConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\ReviewConfiguration.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\Config\\ReviewConfiguration.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\ReviewConfiguration.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\Config\\ReviewConfiguration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T10:43:24.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthorConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\AuthorConfiguration.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\Config\\AuthorConfiguration.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\AuthorConfiguration.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\Config\\AuthorConfiguration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T10:43:19.758Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 199,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 199,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 199,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{68487888-204a-11d3-87eb-00c04f7971a5}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

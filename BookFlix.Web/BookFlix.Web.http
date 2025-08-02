@@ -1,0 +1,6 @@
+@BookFlix.Web_HostAddress = http://localhost:5207
+
+GET {{BookFlix.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
