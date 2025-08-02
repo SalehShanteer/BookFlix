@@ -15,3 +15,4 @@ C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Infrastructure\obj
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Infrastructure\obj\Debug\net9.0\BookFlix.Infrastructure.pdb
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Infrastructure\obj\Debug\net9.0\BookFlix.Infrastructure.genruntimeconfig.cache
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Infrastructure\obj\Debug\net9.0\ref\BookFlix.Infrastructure.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Infrastructure\obj\Debug\net9.0\BookFlix.Infrastructure.sourcelink.json

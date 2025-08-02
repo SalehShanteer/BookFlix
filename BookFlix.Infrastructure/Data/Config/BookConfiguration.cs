@@ -39,6 +39,9 @@ namespace BookFlix.Infrastructure.Data.Config
                     .HasDefaultValueSql("GETDATE()");
                 builder.Property(b => b.UpdatedAt)
                     .IsRequired(false);
+                builder.Property(b => b.FileLocation)
+                    .IsRequired(false)
+                    .HasMaxLength(500);
 
                 // Relationships
                 builder.HasMany(b => b.Authors)

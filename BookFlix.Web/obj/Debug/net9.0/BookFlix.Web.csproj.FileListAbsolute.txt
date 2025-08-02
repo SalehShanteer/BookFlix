@@ -89,3 +89,4 @@ C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\obj\Debug\net9
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\obj\Debug\net9.0\BookFlix.Web.pdb
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\obj\Debug\net9.0\BookFlix.Web.genruntimeconfig.cache
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\obj\Debug\net9.0\ref\BookFlix.Web.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\obj\Debug\net9.0\BookFlix.Web.sourcelink.json

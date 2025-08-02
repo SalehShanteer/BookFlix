@@ -29,7 +29,7 @@ namespace BookFlix.Core.Models
 
         public DateTime? UpdatedAt { get; set; }
 
-        public string? TextFilePath { get; set; }
+        public string? FileLocation { get; set; }
 
         public ICollection<Author> Authors { get; set; } = new List<Author>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
