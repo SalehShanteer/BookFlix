@@ -21,11 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Dtos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BookFlix.Core\BookFlix.Core.csproj" />
     <ProjectReference Include="..\BookFlix.Infrastructure\BookFlix.Infrastructure.csproj" />
   </ItemGroup>

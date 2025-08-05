@@ -16,7 +16,9 @@ namespace BookFlix.Infrastructure.Data
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
+
+            // Add configuration to AppDbContext
+            AppDbContextConfiguration.Configure(optionsBuilder, connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
         }

@@ -4,7 +4,9 @@ namespace BookFlix.Core.Repositories
 {
     public interface IBookRepository : IEntityRepository<Book>
     {
-        Task<List<Book>> GetByAuthorIdAsync(int authorId);
+        Task<IReadOnlyCollection<Book>> GetByAuthorIdAsync(int authorId);
+        Task<Book?> GetByISBNAsync(string? isbn);
+
     }
 
 }

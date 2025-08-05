@@ -15,17 +15,17 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<User>> GetAllAsync()
+        public Task<IReadOnlyCollection<User>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public Task<User?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> UpdateAsync(User entity)
+        public Task UpdateAsync(User entity)
         {
             throw new NotImplementedException();
         }

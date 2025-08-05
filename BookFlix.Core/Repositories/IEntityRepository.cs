@@ -2,10 +2,10 @@
 {
     public interface IEntityRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
-        Task<ICollection<T>> GetAllAsync();
+        Task<IReadOnlyCollection<T>> GetAllAsync();
         Task<T> AddAsync(T entity);
-        Task<T> UpdateAsync(T entity);
+        Task UpdateAsync(T entity);
     }
 }

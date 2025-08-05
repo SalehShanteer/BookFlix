@@ -9,3 +9,4 @@ C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Core\obj\Debug\net
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Core\obj\Debug\net9.0\refint\BookFlix.Core.dll
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Core\obj\Debug\net9.0\BookFlix.Core.pdb
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Core\obj\Debug\net9.0\ref\BookFlix.Core.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Core\obj\Debug\net9.0\BookFlix.Core.sourcelink.json

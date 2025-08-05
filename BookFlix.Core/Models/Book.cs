@@ -5,13 +5,13 @@ namespace BookFlix.Core.Models
 
     public class Book : Entity
     {
-        public string? Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
         public string? ISBN { get; set; }
 
-        public string? Genre { get; set; }
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
         public string? CoverImageUrl { get; set; }
 

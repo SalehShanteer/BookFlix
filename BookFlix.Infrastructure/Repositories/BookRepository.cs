@@ -1,49 +1,78 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
+using BookFlix.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookFlix.Infrastructure.Repositories
 {
 
     public class BookRepository : IBookRepository
     {
-        public Task<Book> AddAsync(Book entity)
+        private readonly AppDbContext _context;
+
+        public BookRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<Book> AddAsync(Book entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _context.Books.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return entity;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Failed to add book due to database error.", ex);
+            }
         }
 
-        public Task<ICollection<Book>> GetAllAsync()
+        public async Task<IReadOnlyCollection<Book>> GetAllAsync() => await _context.Books.Include(b => b.Authors).AsNoTracking().ToListAsync();
+
+
+        public async Task<IReadOnlyCollection<Book>> GetByAuthorIdAsync(int authorId)
         {
-            throw new NotImplementedException();
+            return await _context.Books.AsNoTracking().Where(b => b.Authors.Any(a => a.Id == authorId)).ToListAsync();
         }
 
-        public Task<List<Book>> GetByAuthorIdAsync(int authorId)
+        public async Task<Book?> GetByIdAsync(int id) => await _context.Books.Include(b => b.Authors).FirstOrDefaultAsync(b => b.Id == id);
+
+
+        public async Task UpdateAsync(Book entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Books.Update(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Failed to update book due to database error.", ex);
+            }
         }
 
-        public Task<Book> GetByIdAsync()
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = await _context.Books.FindAsync(id);
+                if (book is null) return false;
+
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Failed to delete book due to database error.", ex);
+            }
+
         }
 
-        public Task<Book> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Book?> GetByISBNAsync(string? isbn) => await _context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.ISBN == isbn);
 
-        public Task<Book> UpdateAsync(Book entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<bool> IEntityRepository<Book>.DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
