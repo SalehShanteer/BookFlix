@@ -1,7 +1,6 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
 using BookFlix.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookFlix.Infrastructure.Repositories
 {
@@ -21,7 +20,7 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<Genre?> GetByIdAsync(int id)
         {
-            return await _context.Genres.AsNoTracking().FirstOrDefaultAsync(g => g.Id == id);
+            return await _context.Genres.FindAsync(id);
         }
     }
 }

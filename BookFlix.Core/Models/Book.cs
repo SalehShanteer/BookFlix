@@ -11,8 +11,6 @@ namespace BookFlix.Core.Models
 
         public string? ISBN { get; set; }
 
-        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
-
         public string? CoverImageUrl { get; set; }
 
         public DateTime? PublicationDate { get; set; }
@@ -32,6 +30,7 @@ namespace BookFlix.Core.Models
         public string? FileLocation { get; set; }
 
         public ICollection<Author> Authors { get; set; } = new List<Author>();
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         //public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
     }

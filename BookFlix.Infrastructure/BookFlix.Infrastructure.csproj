@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Books\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

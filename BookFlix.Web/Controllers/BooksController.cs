@@ -1,7 +1,7 @@
 ﻿using BookFlix.Core.Dtos.Book;
 using BookFlix.Core.Mappings;
 using BookFlix.Core.Repositories;
-using BookFlix.Core.Services;
+using BookFlix.Core.Service_Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookFlix.Web.Controllers
@@ -12,12 +12,14 @@ namespace BookFlix.Web.Controllers
     {
 
         private readonly IBookRepository _bookRepository;
-        private readonly BookService _bookService;
+        private readonly IBookService _bookService;
+        private readonly IBookMappings _bookMappings;
 
-        public BooksController(IBookRepository bookRepository, BookService bookService)
+        public BooksController(IBookRepository bookRepository, IBookService bookService, IBookMappings bookMappings)
         {
             _bookRepository = bookRepository;
             _bookService = bookService;
+            _bookMappings = bookMappings;
         }
 
         [HttpGet("{id}")]
@@ -37,7 +39,7 @@ namespace BookFlix.Web.Controllers
                 return NotFound($"Book with ID = {id} not found!");
             }
 
-            BookDto bookDto = BookMappings.ToBookDto(book);
+            BookDto bookDto = _bookMappings.ToBookDto(book);
             return Ok(bookDto);
         }
 
@@ -58,10 +60,10 @@ namespace BookFlix.Web.Controllers
             }
             try
             {
-                var book = BookMappings.ToBook(createBookDto);
+                var book = await _bookMappings.ToBook(createBookDto);
                 var addedBook = await _bookRepository.AddAsync(book);
-                var bookDto = BookMappings.ToBookDto(addedBook);
-                return CreatedAtAction(nameof(GetBookByIdAsync), new { id = bookDto.Id }, bookDto);
+                var bookDto = _bookMappings.ToBookDto(addedBook);
+                return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
             }
             catch (Exception ex)
             {

@@ -10,6 +10,7 @@ namespace BookFlix.Infrastructure.Data.Config
         {
             builder.ToTable("Authors");
             builder.HasKey(a => a.Id);
+
             builder.Property(a => a.Name)
                 .IsRequired()
                 .HasMaxLength(100);

@@ -1,9 +1,10 @@
 ﻿using BookFlix.Core.Dtos.Book;
 using BookFlix.Core.Repositories;
+using BookFlix.Core.Service_Interfaces;
 
 namespace BookFlix.Core.Services
 {
-    public class BookService
+    public class BookService : IBookService
     {
 
         private readonly IBookRepository _bookRepository;
@@ -26,57 +27,16 @@ namespace BookFlix.Core.Services
             }
         }
 
-        private async Task _ValidateAuthorsAsync(List<int> authorIds, ValidationResult result)
-        {
-            var notFoundAuthorIds = new List<int>();
-            foreach (var id in authorIds)
-            {
-                var author = await _authorRepository.GetByIdAsync(id);
-                if (author is null)
-                {
-                    notFoundAuthorIds.Add(id);
-                }
-            }
-
-            if (notFoundAuthorIds.Count > 0)
-            {
-                result.Errors.Add($"Authors with IDs {string.Join(", ", notFoundAuthorIds)} do not exist.");
-            }
-        }
-
-        private async Task _ValidateGenresAsync(List<int> genreIds, ValidationResult result)
-        {
-            var notFoundgenreIds = new List<int>();
-            foreach (var id in genreIds)
-            {
-                var author = await _genreRepository.GetByIdAsync(id);
-                if (author is null)
-                {
-                    notFoundgenreIds.Add(id);
-                }
-            }
-
-            if (notFoundgenreIds.Count > 0)
-            {
-                result.Errors.Add($"Genres with IDs {string.Join(", ", notFoundgenreIds)} do not exist.");
-            }
-        }
-
         public async Task<ValidationResult> ValidateCreateBookDtoAsync(CreateBookDto createBookDto)
         {
             var result = new ValidationResult();
 
-            //await _ValidateISBN(createBookDto.ISBN, result);
 
             if (createBookDto.PublicationDate is not null && createBookDto.PublicationDate > DateTime.Now)
             {
                 result.Errors.Add("The publication date should not be in the future");
             }
-            //await _ValidateAuthors(createBookDto.AuthorIds, result);
-
-            await Task.WhenAll(_ValidateISBNAsync(createBookDto.ISBN, result),
-                _ValidateAuthorsAsync(createBookDto.AuthorIds, result),
-                _ValidateGenresAsync(createBookDto.GenreIds, result));
+            await _ValidateISBNAsync(createBookDto.ISBN, result);
 
             return result;
         }

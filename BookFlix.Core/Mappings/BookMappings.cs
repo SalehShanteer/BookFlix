@@ -2,13 +2,58 @@
 using BookFlix.Core.Dtos.Book;
 using BookFlix.Core.Dtos.Genre;
 using BookFlix.Core.Models;
+using BookFlix.Core.Repositories;
 
 namespace BookFlix.Core.Mappings
 {
-    public static class BookMappings
+    //    public static class BookMappings
+    //    {
+    //        public static BookDto ToBookDto(Book book)
+    //        {
+    //            BookDto bookDto = new BookDto
+    //            {
+    //                Id = book.Id,
+    //                Title = book.Title,
+    //                Description = book.Description,
+    //                ISBN = book.ISBN,
+    //                CoverImageUrl = book.CoverImageUrl,
+    //                PublicationDate = book.PublicationDate,
+    //                Publisher = book.Publisher,
+    //                PageCount = book.PageCount,
+    //                AverageRating = book.AverageRating,
+    //                IsAvailable = book.IsAvailable,
+    //                CreatedAt = book.CreatedAt,
+    //                UpdatedAt = book.UpdatedAt,
+    //                Authors = book.Authors?.Select(a => new AuthorDto
+    //                {
+    //                    Id = a.Id,
+    //                    Name = a.Name
+    //                }).ToList() ?? new List<AuthorDto>(),
+    //                Genres = book.Genres?.Select(g => new GenreDto
+    //                {
+    //                    Id = g.Id,
+    //                    Name = g.Name
+    //                }).ToList() ?? new List<GenreDto>()
+    //            };
+    //            return bookDto;
+    //        }
+    //    }
+
+    public class BookMappings : IBookMappings
     {
-        public static BookDto ToBookDto(Book book)
+
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IGenreRepository _genreRepository;
+        public BookMappings(IAuthorRepository authorRepository, IGenreRepository genreRepository)
         {
+            _authorRepository = authorRepository;
+            _genreRepository = genreRepository;
+
+        }
+
+        public BookDto ToBookDto(Book book)
+        {
+
             BookDto bookDto = new BookDto
             {
                 Id = book.Id,
@@ -38,8 +83,32 @@ namespace BookFlix.Core.Mappings
         }
 
 
-        public static Book ToBook(CreateBookDto createBookDto)
+        public async Task<Book> ToBook(CreateBookDto createBookDto)
         {
+            var authors = new List<Author>();
+            var genres = new List<Genre>();
+
+            foreach (var authorId in createBookDto.AuthorIds)
+            {
+                var author = await _authorRepository.GetByIdAsync(authorId);
+                if (author is null)
+                {
+                    throw new InvalidOperationException($"Author with ID {authorId} not found.");
+                }
+
+                authors.Add(author);
+            }
+
+            foreach (var genreId in createBookDto.GenreIds)
+            {
+                var genre = await _genreRepository.GetByIdAsync(genreId);
+                if (genre is null)
+                {
+                    throw new InvalidOperationException($"genreId with ID {genreId} not found.");
+                }
+                genres.Add(genre);
+            }
+
             Book book = new Book
             {
                 Title = createBookDto.Title,
@@ -52,8 +121,8 @@ namespace BookFlix.Core.Mappings
                 IsAvailable = createBookDto.IsAvailable,
                 FileLocation = createBookDto.FileLocation,
                 CreatedAt = DateTime.Now,
-                Authors = createBookDto.AuthorIds.Select(id => new Author { Id = id }).ToList(),
-                Genres = createBookDto.GenreIds.Select(id => new Genre { Id = id }).ToList()
+                Authors = authors,
+                Genres = genres
             };
             return book;
         }

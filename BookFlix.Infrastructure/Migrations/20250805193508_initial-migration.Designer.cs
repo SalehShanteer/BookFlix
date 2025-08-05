@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookFlix.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250805074729_add-bookgenre-bookauthor-entities-and-add-book-controller-with-bookDto-validation-and-fix-some-bugs")]
-    partial class addbookgenrebookauthorentitiesandaddbookcontrollerwithbookDtovalidationandfixsomebugs
+    [Migration("20250805193508_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
