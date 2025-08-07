@@ -1,24 +1,15 @@
-using BookFlix.Core.Mappings;
-using BookFlix.Core.Repositories;
-using BookFlix.Core.Service_Interfaces;
-using BookFlix.Core.Services;
 using BookFlix.Infrastructure.Data;
-using BookFlix.Infrastructure.Repositories;
+using BookFlix.Web.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<IGenreRepository, GenreRepository>();
-builder.Services.AddScoped<IBookMappings, BookMappings>();
+Dependencies.Configure(builder.Services);
 
 
 // Add CORS service
@@ -31,16 +22,12 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+builder.Services.AddDbContext<AppDbContext>((options) =>
 {
-    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var constr = configuration.GetConnectionString("DefaultConnection");
-
-    AppDbContextConfiguration.Configure((DbContextOptionsBuilder<AppDbContext>)options, constr);
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    AppDbContextConfiguration.Configure((DbContextOptionsBuilder<AppDbContext>)options, connectionString);
 });
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -48,13 +35,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookFlix API V1"));
 }
 
-// Enable CORS middleware
-app.UseCors("AllowAll");
+// Serve PDFs from BookDirectory in appsettings.json
+var bookDirectory = builder.Configuration.GetValue<string>("BookDirectory")
+    ?? throw new InvalidOperationException("BookDirectory not configured in appsettings.json.");
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(bookDirectory),
+    RequestPath = "/books"
+});
 
 app.UseHttpsRedirection();
 

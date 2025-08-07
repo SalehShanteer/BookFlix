@@ -94,17 +94,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBookDto"
+                "$ref": "#/components/schemas/BookInputDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBookDto"
+                "$ref": "#/components/schemas/BookInputDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateBookDto"
+                "$ref": "#/components/schemas/BookInputDto"
               }
             }
           }
@@ -218,6 +218,10 @@
           "isAvailable": {
             "type": "boolean"
           },
+          "fileLocation": {
+            "type": "string",
+            "nullable": true
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -244,7 +248,7 @@
         },
         "additionalProperties": false
       },
-      "CreateBookDto": {
+      "BookInputDto": {
         "required": [
           "authorIds",
           "genreIds",

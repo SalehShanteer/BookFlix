@@ -6,39 +6,6 @@ using BookFlix.Core.Repositories;
 
 namespace BookFlix.Core.Mappings
 {
-    //    public static class BookMappings
-    //    {
-    //        public static BookDto ToBookDto(Book book)
-    //        {
-    //            BookDto bookDto = new BookDto
-    //            {
-    //                Id = book.Id,
-    //                Title = book.Title,
-    //                Description = book.Description,
-    //                ISBN = book.ISBN,
-    //                CoverImageUrl = book.CoverImageUrl,
-    //                PublicationDate = book.PublicationDate,
-    //                Publisher = book.Publisher,
-    //                PageCount = book.PageCount,
-    //                AverageRating = book.AverageRating,
-    //                IsAvailable = book.IsAvailable,
-    //                CreatedAt = book.CreatedAt,
-    //                UpdatedAt = book.UpdatedAt,
-    //                Authors = book.Authors?.Select(a => new AuthorDto
-    //                {
-    //                    Id = a.Id,
-    //                    Name = a.Name
-    //                }).ToList() ?? new List<AuthorDto>(),
-    //                Genres = book.Genres?.Select(g => new GenreDto
-    //                {
-    //                    Id = g.Id,
-    //                    Name = g.Name
-    //                }).ToList() ?? new List<GenreDto>()
-    //            };
-    //            return bookDto;
-    //        }
-    //    }
-
     public class BookMappings : IBookMappings
     {
 
@@ -83,7 +50,7 @@ namespace BookFlix.Core.Mappings
         }
 
 
-        public async Task<Book> ToBook(CreateBookDto createBookDto)
+        public async Task<Book> ToBook(BookInputDto createBookDto)
         {
             var authors = new List<Author>();
             var genres = new List<Genre>();

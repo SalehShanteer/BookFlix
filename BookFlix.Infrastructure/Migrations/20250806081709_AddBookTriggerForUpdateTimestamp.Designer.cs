@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookFlix.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250805193508_initial-migration")]
-    partial class initialmigration
+    [Migration("20250806081709_AddBookTriggerForUpdateTimestamp")]
+    partial class AddBookTriggerForUpdateTimestamp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,7 +5,7 @@ namespace BookFlix.Core.Service_Interfaces
 {
     public interface IBookService
     {
-        Task<ValidationResult> ValidateCreateBookDtoAsync(CreateBookDto createBookDto);
+        Task<ValidationResult> ValidateCreateBookDtoAsync(BookInputDto createBookDto);
 
     }
 }

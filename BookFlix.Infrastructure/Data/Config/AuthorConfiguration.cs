@@ -10,6 +10,8 @@ namespace BookFlix.Infrastructure.Data.Config
         {
             builder.ToTable("Authors");
             builder.HasKey(a => a.Id);
+            builder.HasIndex(a => a.Name)
+                .IsUnique();
 
             builder.Property(a => a.Name)
                 .IsRequired()

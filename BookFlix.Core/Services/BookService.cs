@@ -8,13 +8,10 @@ namespace BookFlix.Core.Services
     {
 
         private readonly IBookRepository _bookRepository;
-        private readonly IAuthorRepository _authorRepository;
-        private readonly IGenreRepository _genreRepository;
-        public BookService(IBookRepository bookRepository, IAuthorRepository authorRepository, IGenreRepository genreRepository)
+
+        public BookService(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
-            _genreRepository = genreRepository;
         }
 
         private async Task _ValidateISBNAsync(string? isbn, ValidationResult result)
@@ -27,10 +24,9 @@ namespace BookFlix.Core.Services
             }
         }
 
-        public async Task<ValidationResult> ValidateCreateBookDtoAsync(CreateBookDto createBookDto)
+        public async Task<ValidationResult> ValidateCreateBookDtoAsync(BookInputDto createBookDto)
         {
             var result = new ValidationResult();
-
 
             if (createBookDto.PublicationDate is not null && createBookDto.PublicationDate > DateTime.Now)
             {

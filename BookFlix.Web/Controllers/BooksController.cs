@@ -43,11 +43,20 @@ namespace BookFlix.Web.Controllers
             return Ok(bookDto);
         }
 
+        //[HttpPost("{id}/Upload")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<ActionResult<BookDto>> UploadBookAsync(int id, IFormFile file)
+        //{
+
+        //}
+
         [HttpPost("Add")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookDto>> AddBookAsync(CreateBookDto createBookDto)
+        public async Task<ActionResult<BookDto>> AddBookAsync(BookInputDto createBookDto)
         {
             if (createBookDto is null)
             {
@@ -69,7 +78,15 @@ namespace BookFlix.Web.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding book: {ex.Message}");
             }
-
         }
+
+        //[HttpPut("Update")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<ActionResult<BookDto>> UpdateBookAsync(BookInputDto createBookDto)
+        //{
+
+        //}
     }
 }

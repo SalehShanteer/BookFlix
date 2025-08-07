@@ -10,6 +10,9 @@ namespace BookFlix.Infrastructure.Data.Config
         {
             builder.ToTable("Genres");
             builder.HasKey(g => g.Id);
+            builder.HasIndex(g => g.Name)
+                .IsUnique();
+
             builder.Property(g => g.Id).ValueGeneratedNever();
             builder.Property(g => g.Name)
                 .IsRequired()

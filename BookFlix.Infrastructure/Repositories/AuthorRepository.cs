@@ -1,6 +1,7 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
 using BookFlix.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookFlix.Infrastructure.Repositories
 {
@@ -31,6 +32,9 @@ namespace BookFlix.Infrastructure.Repositories
         }
 
         public async Task<Author?> GetByIdAsync(int id) => await _context.Authors.FindAsync(id);
+
+        public async Task<Author?> GetByIdWithBooksAsync(int id)
+            => await _context.Authors.AsNoTracking().Include(a => a.Books).FirstOrDefaultAsync(a => a.Id == id);
 
         public Task UpdateAsync(Author entity)
         {

@@ -11,6 +11,11 @@ namespace BookFlix.Infrastructure.Data.Config
         {
             builder.ToTable("Users");
             builder.HasKey(u => u.Id);
+            builder.HasIndex(u => u.Username)
+                .IsUnique();
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
+
             builder.Property(u => u.Role)
                 .IsRequired()
                 .HasMaxLength(5)

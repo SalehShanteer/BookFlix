@@ -53,7 +53,7 @@
     "Parameters": [
       {
         "Name": "createBookDto",
-        "Type": "BookFlix.Core.Dtos.Book.CreateBookDto",
+        "Type": "BookFlix.Core.Dtos.Book.BookInputDto",
         "IsRequired": true
       }
     ],

@@ -13,6 +13,9 @@ namespace BookFlix.Infrastructure.Data.Config
             {
                 builder.ToTable("Books");
                 builder.HasKey(b => b.Id);
+                builder.HasIndex(b => b.ISBN)
+                    .IsUnique();
+
                 builder.Property(b => b.Title)
                     .IsRequired()
                     .HasMaxLength(150);
@@ -35,8 +38,11 @@ namespace BookFlix.Infrastructure.Data.Config
                 builder.Property(b => b.CreatedAt)
                     .IsRequired()
                     .HasDefaultValueSql("GETDATE()");
+
+                // Using trigger after update to set (UpdateAt)
                 builder.Property(b => b.UpdatedAt)
                     .IsRequired(false);
+
                 builder.Property(b => b.FileLocation)
                     .IsRequired(false)
                     .HasMaxLength(500);

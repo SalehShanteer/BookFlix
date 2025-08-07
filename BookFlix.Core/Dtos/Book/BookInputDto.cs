@@ -2,7 +2,7 @@
 
 namespace BookFlix.Core.Dtos.Book
 {
-    public class CreateBookDto
+    public class BookInputDto
     {
         [Required(ErrorMessage = "Title is required")]
         [StringLength(150, ErrorMessage = "Title cannot exceed 150 characters")]
@@ -39,4 +39,6 @@ namespace BookFlix.Core.Dtos.Book
         public string? FileLocation { get; set; }
 
     }
+
+  
 }
