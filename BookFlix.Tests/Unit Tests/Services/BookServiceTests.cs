@@ -102,7 +102,5 @@ namespace BookFlix.Tests.Unit_Tests.Services
             Assert.Empty(result.Errors);
             _bookRepositoryMock.Verify(b => b.IsExistByISBNAsync(createBookDto.ISBN), Times.Once());
         }
-
-
     }
 }
