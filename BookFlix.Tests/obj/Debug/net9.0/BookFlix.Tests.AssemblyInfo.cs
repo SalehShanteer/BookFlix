@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookFlix.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+566e2efa00fef62b2a9deeae1b3b3d35e88610ba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d52f38551352be3878e03fd47e63869be71dc0e4")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookFlix.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookFlix.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

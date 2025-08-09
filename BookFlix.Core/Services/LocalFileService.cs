@@ -1,5 +1,7 @@
 ﻿using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
+using BookFlix.Core.Services.Validation;
+using BookFlix.Core.Services.Validation.Book;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
@@ -19,9 +21,9 @@ namespace BookFlix.Core.Services
         }
 
         // only support pdf format for now
-        public async Task<ValidationResult> UploadFileAsync(int bookId, IFormFile file)
+        public async Task<UpdateBookValidationResult> UploadFileAsync(int bookId, IFormFile file)
         {
-            var result = new ValidationResult();
+            var result = new UpdateBookValidationResult();
 
             _ValidateFile(file, result);
 
@@ -33,6 +35,7 @@ namespace BookFlix.Core.Services
             if (book == null)
             {
                 result.Errors.Add($"Book with ID {bookId} not found.");
+                result.StatusCode = enStatusCode.NotFound;
                 return result;
             }
 
@@ -50,14 +53,16 @@ namespace BookFlix.Core.Services
             catch (IOException ex)
             {
                 result.Errors.Add($"Failed to save file: {ex.Message}");
+                result.StatusCode = enStatusCode.InternalServerError;
                 return result;
             }
             catch (Exception ex)
             {
                 result.Errors.Add($"An error occurred: {ex.Message}");
+                result.StatusCode = enStatusCode.InternalServerError;
                 return result;
             }
-
+            result.FileLocation = book.FileLocation;
             return result;
         }
 

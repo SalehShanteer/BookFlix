@@ -77,6 +77,13 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<Book?> GetByISBNAsync(string? isbn) => await _context.Books.AsNoTracking().Include(b => b.Authors).Include(b => b.Genres).FirstOrDefaultAsync(b => b.ISBN == isbn);
 
+        public async Task<bool> IsExistByISBNAsync(string? isbn)
+        {
+            if (string.IsNullOrEmpty(isbn)) return false;
+
+            return await _context.Books.AsNoTracking().AnyAsync(b => b.ISBN == isbn);
+        }
+
         public async Task<Book?> GetByIdForUpdateFileLocationAsync(int id)
         {
             return await _context.Books.AsNoTracking().Where(b => b.Id == id).Select(b => new Book { Id = b.Id, FileLocation = b.FileLocation }).FirstOrDefaultAsync();

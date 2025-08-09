@@ -1,6 +1,7 @@
 ﻿using BookFlix.Core.Dtos.Book;
 using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
+using BookFlix.Core.Services.Validation;
 
 namespace BookFlix.Core.Services
 {
@@ -17,22 +18,28 @@ namespace BookFlix.Core.Services
         private async Task _ValidateISBNAsync(string? isbn, ValidationResult result)
         {
             // Check if ISBN used before
-            var book = await _bookRepository.GetByISBNAsync(isbn);
-            if (book is not null)
+            bool isExist = await _bookRepository.IsExistByISBNAsync(isbn);
+            if (isExist)
             {
                 result.Errors.Add($"A book with ISBN {isbn} already exists.");
             }
         }
 
-        public async Task<ValidationResult> ValidateCreateBookDtoAsync(BookInputDto createBookDto)
+        public async Task<ValidationResult> ValidateCreateBookDtoAsync(BookInputDto? createBookDto)
         {
             var result = new ValidationResult();
 
-            if (createBookDto.PublicationDate is not null && createBookDto.PublicationDate > DateTime.Now)
+            if (createBookDto is null)
+            {
+                result.Errors.Add("Book input cannot be null.");
+                return result;
+            }
+
+            if (createBookDto?.PublicationDate is not null && createBookDto.PublicationDate > DateTime.Now)
             {
                 result.Errors.Add("The publication date should not be in the future");
             }
-            await _ValidateISBNAsync(createBookDto.ISBN, result);
+            await _ValidateISBNAsync(createBookDto?.ISBN, result);
 
             return result;
         }
