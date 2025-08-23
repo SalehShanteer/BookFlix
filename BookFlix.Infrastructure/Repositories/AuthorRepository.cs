@@ -36,9 +36,12 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<Author?> GetByIdWithBooksAsync(int id)
             => await _context.Authors.AsNoTracking().Include(a => a.Books).FirstOrDefaultAsync(a => a.Id == id);
 
-        public Task UpdateAsync(Author entity)
+        public async Task<bool> IsExistById(int id) => await _context.Authors.AsNoTracking().AnyAsync(a => a.Id == id);
+
+        public Task<Author> UpdateAsync(Author entity)
         {
             throw new NotImplementedException();
         }
     }
+
 }

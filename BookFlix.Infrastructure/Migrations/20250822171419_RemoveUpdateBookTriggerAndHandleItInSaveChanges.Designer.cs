@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookFlix.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250806081709_AddBookTriggerForUpdateTimestamp")]
-    partial class AddBookTriggerForUpdateTimestamp
+    [Migration("20250822171419_RemoveUpdateBookTriggerAndHandleItInSaveChanges")]
+    partial class RemoveUpdateBookTriggerAndHandleItInSaveChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Authors", (string)null);
 
@@ -139,6 +142,10 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique()
+                        .HasFilter("[ISBN] IS NOT NULL");
 
                     b.ToTable("Books", (string)null);
 
@@ -403,6 +410,9 @@ namespace BookFlix.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Genres", (string)null);
 
                     b.HasData(
@@ -610,6 +620,12 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
                 });

@@ -25,7 +25,13 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(User entity)
+        public Task<bool> IsExistById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<User> UpdateAsync(User entity)
         {
             throw new NotImplementedException();
         }

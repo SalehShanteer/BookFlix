@@ -41,7 +41,7 @@ namespace BookFlix.Web.Controllers
             return Ok(bookDto);
         }
 
-        [HttpPost("{id}/Upload")]
+        [HttpPut("{id}/Upload")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,17 +61,21 @@ namespace BookFlix.Web.Controllers
             return Ok(new { FileUrl = $"/books/{Path.GetFileName(validationResult.FileLocation)}" });
         }
 
+
+        /// <summary>
+        /// Adds a new book to the system.
+        /// </summary>
+        /// <param name="createBookDto">The book data to create.</param>
+        /// <returns>A <see cref="BookDto"/> representing the created book, or an error response.</returns>
+        /// <response code="201">Book created successfully.</response>
+        /// <response code="400">Invalid book data provided.</response>
+        /// <response code="500">Server error occurred.</response>
         [HttpPost("Add")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<BookDto>> AddBookAsync(BookInputDto createBookDto)
         {
-            if (createBookDto is null)
-            {
-                return BadRequest("CreateBookDto cannot be null.");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -95,13 +99,50 @@ namespace BookFlix.Web.Controllers
             }
         }
 
-        //[HttpPut("Update")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<BookDto>> UpdateBookAsync(BookInputDto createBookDto)
-        //{
+        /// <summary>
+        /// Updates an existing book by ID.
+        /// </summary>
+        /// <param name="id">The ID of the book to update.</param>
+        /// <param name="updateBookDto">The updated book data.</param>
+        /// <returns>The updated <see cref="BookDto"/> or an error response.</returns>
+        /// <response code="200">Book updated successfully.</response>
+        /// <response code="400">Invalid book data or ID provided.</response>
+        /// <response code="404">Book not found.</response>
+        /// <response code="500">Server error occurred.</response>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BookDto>> UpdateBookAsync(int id, BookInputDto updateBookDto)
+        {
+            if (id < 1) return BadRequest("ID must be greater than 0.");
 
-        //}
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bool isExists = await _bookRepository.IsExistById(id);
+
+            if (!isExists) return BadRequest($"Book with ID = {id} does not exist.");
+
+            var validationResult = await _bookService.ValidateCreateBookDtoAsync(updateBookDto);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            try
+            {
+                var book = await _bookMappings.ToBook(updateBookDto);
+                book.Id = id;
+                var updatedBook = await _bookRepository.UpdateAsync(book);
+                var bookDto = _bookMappings.ToBookDto(updatedBook);
+                return Ok(bookDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding book: {ex.Message}");
+            }
+        }
     }
 }

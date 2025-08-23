@@ -3,28 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.tests\\unit tests\\services\\localfileservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|solutionrelative:bookflix.tests\\unit tests\\services\\localfileservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\localfileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\localfileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.tests\\unit tests\\services\\bookservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|solutionrelative:bookflix.tests\\unit tests\\services\\bookservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.tests\\unit tests\\services\\localfileservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|solutionrelative:bookflix.tests\\unit tests\\services\\localfileservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\repositories\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\repositories\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\repositories\\authorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\repositories\\authorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.tests\\unit tests\\services\\bookservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{56B577F3-AAF2-4D94-9289-3FAF11509D02}|BookFlix.Tests\\BookFlix.Tests.csproj|solutionrelative:bookflix.tests\\unit tests\\services\\bookservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\data\\config\\bookconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\data\\config\\bookconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\repositories\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\repositories\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\repositories\\ibookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\repositories\\ibookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,45 +54,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 199,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LocalFileServiceTests.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
-              "RelativeDocumentMoniker": "BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
-              "RelativeToolTip": "BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "AuthorRepository.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\AuthorRepository.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Repositories\\AuthorRepository.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\AuthorRepository.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Repositories\\AuthorRepository.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-09T08:28:35.289Z",
+              "WhenOpened": "2025-08-23T19:51:22.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LocalFileService.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\LocalFileService.cs",
-              "RelativeDocumentMoniker": "BookFlix.Core\\Services\\LocalFileService.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\LocalFileService.cs",
-              "RelativeToolTip": "BookFlix.Core\\Services\\LocalFileService.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAA5wDsAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-09T08:26:43.755Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "BookServiceTests.cs",
               "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\BookServiceTests.cs",
               "RelativeDocumentMoniker": "BookFlix.Tests\\Unit Tests\\Services\\BookServiceTests.cs",
               "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\BookServiceTests.cs",
               "RelativeToolTip": "BookFlix.Tests\\Unit Tests\\Services\\BookServiceTests.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAkwDoAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAA5wG8AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-08T15:21:43.991Z",
+              "WhenOpened": "2025-08-23T19:45:12.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "BooksController.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\BooksController.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\BooksController.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\BooksController.cs",
+              "RelativeToolTip": "BookFlix.Web\\Controllers\\BooksController.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAIBCwD0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-22T17:16:47.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Data\\Config\\BookConfiguration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T19:19:27.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeToolTip": "BookFlix.Web\\Program.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T18:51:18.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IBookRepository.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Repositories\\IBookRepository.cs",
+              "RelativeDocumentMoniker": "BookFlix.Core\\Repositories\\IBookRepository.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Repositories\\IBookRepository.cs",
+              "RelativeToolTip": "BookFlix.Core\\Repositories\\IBookRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T14:44:59.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TransactionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\TransactionRepository.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Repositories\\TransactionRepository.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\TransactionRepository.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\Repositories\\TransactionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T14:43:52.354Z",
               "EditorCaption": ""
             },
             {
@@ -83,33 +155,49 @@
               "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Repositories\\BookRepository.cs",
               "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\BookRepository.cs",
               "RelativeToolTip": "BookFlix.Infrastructure\\Repositories\\BookRepository.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAAgAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-09T07:20:20.657Z"
+              "WhenOpened": "2025-08-23T09:56:52.067Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "BookService.cs",
               "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\BookService.cs",
               "RelativeDocumentMoniker": "BookFlix.Core\\Services\\BookService.cs",
               "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\BookService.cs",
               "RelativeToolTip": "BookFlix.Core\\Services\\BookService.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwB4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAswD4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-08T14:00:49.582Z"
+              "WhenOpened": "2025-08-23T09:26:14.323Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BooksController.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\BooksController.cs",
-              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\BooksController.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\BooksController.cs",
-              "RelativeToolTip": "BookFlix.Web\\Controllers\\BooksController.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAowEwAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "LocalFileServiceTests.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
+              "RelativeDocumentMoniker": "BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
+              "RelativeToolTip": "BookFlix.Tests\\Unit Tests\\Services\\LocalFileServiceTests.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAADwvxAAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-05T08:19:57.545Z"
+              "WhenOpened": "2025-08-09T08:28:35.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LocalFileService.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\LocalFileService.cs",
+              "RelativeDocumentMoniker": "BookFlix.Core\\Services\\LocalFileService.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\LocalFileService.cs",
+              "RelativeToolTip": "BookFlix.Core\\Services\\LocalFileService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAIA4wDgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-09T08:26:43.755Z",
+              "EditorCaption": ""
             }
           ]
         },

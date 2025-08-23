@@ -21,6 +21,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddLogging(logging =>
+{
+    logging.AddConsole();
+});
 
 builder.Services.AddDbContext<AppDbContext>((options) =>
 {
