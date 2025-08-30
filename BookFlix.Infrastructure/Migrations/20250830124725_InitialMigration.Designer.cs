@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookFlix.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250806081612_InitialMigration")]
+    [Migration("20250830124725_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -39,6 +39,9 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Authors", (string)null);
 
@@ -103,15 +106,15 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FileLocation")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ISBN")
                         .HasMaxLength(20)
@@ -127,8 +130,8 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Publisher")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -140,6 +143,10 @@ namespace BookFlix.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ISBN")
+                        .IsUnique()
+                        .HasFilter("[ISBN] IS NOT NULL");
+
                     b.ToTable("Books", (string)null);
 
                     b.HasData(
@@ -148,7 +155,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 1,
                             AverageRating = 4.20m,
                             CoverImageUrl = "https://example.com/great-gatsby.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A novel set in the Roaring Twenties.",
                             ISBN = "9780743273565",
                             IsAvailable = true,
@@ -162,7 +169,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 2,
                             AverageRating = 4.30m,
                             CoverImageUrl = "https://example.com/to-kill-a-mockingbird.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A novel about racial injustice in the Deep South.",
                             ISBN = "9780061120084",
                             IsAvailable = true,
@@ -176,7 +183,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 3,
                             AverageRating = 4.40m,
                             CoverImageUrl = "https://example.com/1984.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A dystopian novel about totalitarianism.",
                             ISBN = "9780451524935",
                             IsAvailable = true,
@@ -190,7 +197,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 4,
                             AverageRating = 4.25m,
                             CoverImageUrl = "https://example.com/pride-and-prejudice.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A romantic novel about love and social class.",
                             ISBN = "9780141439518",
                             IsAvailable = true,
@@ -204,7 +211,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 5,
                             AverageRating = 4.27m,
                             CoverImageUrl = "https://example.com/the-hobbit.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A fantasy adventure about Bilbo Baggins.",
                             ISBN = "9780547928227",
                             IsAvailable = true,
@@ -218,7 +225,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 6,
                             AverageRating = 4.21m,
                             CoverImageUrl = "https://example.com/dune.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A science fiction epic about a desert planet.",
                             ISBN = "9780441172719",
                             IsAvailable = true,
@@ -232,7 +239,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 7,
                             AverageRating = 4.38m,
                             CoverImageUrl = "https://example.com/sapiens.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A nonfiction exploration of human history.",
                             ISBN = "9780062316097",
                             IsAvailable = true,
@@ -246,7 +253,7 @@ namespace BookFlix.Infrastructure.Migrations
                             Id = 8,
                             AverageRating = 3.85m,
                             CoverImageUrl = "https://example.com/da-vinci-code.jpg",
-                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A thriller involving a religious conspiracy.",
                             ISBN = "9780307277671",
                             IsAvailable = true,
@@ -402,6 +409,9 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Genres", (string)null);
 
@@ -610,6 +620,12 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
                 });

@@ -1,37 +1,14 @@
-using BookFlix.Infrastructure.Data;
-using BookFlix.Web.Helpers;
-using Microsoft.EntityFrameworkCore;
+using BookFlix.Core;
+using BookFlix.Infrastructure;
+using BookFlix.Web;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
-
-Dependencies.Configure(builder.Services);
-
-
-// Add CORS service
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
-});
-
-builder.Services.AddLogging(logging =>
-{
-    logging.AddConsole();
-});
-
-builder.Services.AddDbContext<AppDbContext>((options) =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    AppDbContextConfiguration.Configure((DbContextOptionsBuilder<AppDbContext>)options, connectionString);
-});
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddCore();
+builder.Services.AddApiServices();
 
 var app = builder.Build();
 
@@ -51,6 +28,24 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(bookDirectory),
     RequestPath = "/books"
 });
+
+
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
+        if (exceptionHandlerFeature != null)
+        {
+            var error = new { message = exceptionHandlerFeature.Error.Message };
+            await context.Response.WriteAsJsonAsync(error);
+        }
+    });
+});
+
 
 app.UseHttpsRedirection();
 

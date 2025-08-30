@@ -37,13 +37,13 @@ namespace BookFlix.Infrastructure.Migrations
                     ISBN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     CoverImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     PublicationDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Publisher = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Publisher = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     PageCount = table.Column<int>(type: "int", nullable: true),
                     AverageRating = table.Column<decimal>(type: "decimal(3,2)", nullable: true),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FileLocation = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    FileLocation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,14 +178,14 @@ namespace BookFlix.Infrastructure.Migrations
                 columns: new[] { "Id", "AverageRating", "CoverImageUrl", "CreatedAt", "Description", "FileLocation", "ISBN", "IsAvailable", "PageCount", "PublicationDate", "Publisher", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 4.20m, "https://example.com/great-gatsby.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A novel set in the Roaring Twenties.", null, "9780743273565", true, 180, new DateTime(1925, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Scribner", "The Great Gatsby", null },
-                    { 2, 4.30m, "https://example.com/to-kill-a-mockingbird.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A novel about racial injustice in the Deep South.", null, "9780061120084", true, 281, new DateTime(1960, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "J.B. Lippincott & Co.", "To Kill a Mockingbird", null },
-                    { 3, 4.40m, "https://example.com/1984.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A dystopian novel about totalitarianism.", null, "9780451524935", true, 328, new DateTime(1949, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "Secker & Warburg", "1984", null },
-                    { 4, 4.25m, "https://example.com/pride-and-prejudice.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A romantic novel about love and social class.", null, "9780141439518", true, 432, new DateTime(1813, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Penguin Classics", "Pride and Prejudice", null },
-                    { 5, 4.27m, "https://example.com/the-hobbit.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A fantasy adventure about Bilbo Baggins.", null, "9780547928227", true, 310, new DateTime(1937, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Houghton Mifflin", "The Hobbit", null },
-                    { 6, 4.21m, "https://example.com/dune.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A science fiction epic about a desert planet.", null, "9780441172719", true, 412, new DateTime(1965, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ace Books", "Dune", null },
-                    { 7, 4.38m, "https://example.com/sapiens.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A nonfiction exploration of human history.", null, "9780062316097", true, 443, new DateTime(2014, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Harper", "Sapiens: A Brief History of Humankind", null },
-                    { 8, 3.85m, "https://example.com/da-vinci-code.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Local), "A thriller involving a religious conspiracy.", null, "9780307277671", true, 454, new DateTime(2003, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doubleday", "The Da Vinci Code", null }
+                    { 1, 4.20m, "https://example.com/great-gatsby.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A novel set in the Roaring Twenties.", null, "9780743273565", true, 180, new DateTime(1925, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Scribner", "The Great Gatsby", null },
+                    { 2, 4.30m, "https://example.com/to-kill-a-mockingbird.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A novel about racial injustice in the Deep South.", null, "9780061120084", true, 281, new DateTime(1960, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "J.B. Lippincott & Co.", "To Kill a Mockingbird", null },
+                    { 3, 4.40m, "https://example.com/1984.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A dystopian novel about totalitarianism.", null, "9780451524935", true, 328, new DateTime(1949, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "Secker & Warburg", "1984", null },
+                    { 4, 4.25m, "https://example.com/pride-and-prejudice.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A romantic novel about love and social class.", null, "9780141439518", true, 432, new DateTime(1813, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Penguin Classics", "Pride and Prejudice", null },
+                    { 5, 4.27m, "https://example.com/the-hobbit.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A fantasy adventure about Bilbo Baggins.", null, "9780547928227", true, 310, new DateTime(1937, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Houghton Mifflin", "The Hobbit", null },
+                    { 6, 4.21m, "https://example.com/dune.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A science fiction epic about a desert planet.", null, "9780441172719", true, 412, new DateTime(1965, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ace Books", "Dune", null },
+                    { 7, 4.38m, "https://example.com/sapiens.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A nonfiction exploration of human history.", null, "9780062316097", true, 443, new DateTime(2014, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Harper", "Sapiens: A Brief History of Humankind", null },
+                    { 8, 3.85m, "https://example.com/da-vinci-code.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A thriller involving a religious conspiracy.", null, "9780307277671", true, 454, new DateTime(2003, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doubleday", "The Da Vinci Code", null }
                 });
 
             migrationBuilder.InsertData(
@@ -255,6 +255,12 @@ namespace BookFlix.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Authors_Name",
+                table: "Authors",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookAuthors_AuthorId",
                 table: "BookAuthors",
                 column: "AuthorId");
@@ -265,6 +271,19 @@ namespace BookFlix.Infrastructure.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_ISBN",
+                table: "Books",
+                column: "ISBN",
+                unique: true,
+                filter: "[ISBN] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Genres_Name",
+                table: "Genres",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId",
                 table: "Reviews",
                 column: "BookId");
@@ -273,6 +292,18 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "IX_Reviews_UserId",
                 table: "Reviews",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />

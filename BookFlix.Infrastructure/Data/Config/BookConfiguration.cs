@@ -28,7 +28,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 builder.Property(b => b.PublicationDate)
                     .HasColumnType("datetime");
                 builder.Property(b => b.Publisher)
-                    .HasMaxLength(200);
+                    .HasMaxLength(100);
                 builder.Property(b => b.PageCount)
                     .IsRequired(false);
                 builder.Property(b => b.AverageRating)
@@ -37,15 +37,14 @@ namespace BookFlix.Infrastructure.Data.Config
                     .IsRequired();
                 builder.Property(b => b.CreatedAt)
                     .IsRequired()
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("GETUTCDATE()");
 
-                // Using trigger after update to set (UpdateAt)
                 builder.Property(b => b.UpdatedAt)
                     .IsRequired(false);
 
                 builder.Property(b => b.FileLocation)
                     .IsRequired(false)
-                    .HasMaxLength(500);
+                    .HasMaxLength(50);
 
                 // Relationships
                 builder.HasMany(b => b.Authors)
@@ -64,7 +63,7 @@ namespace BookFlix.Infrastructure.Data.Config
 
             private static IList<Book> _LoadBookData()
             {
-                var staticCreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, DateTimeKind.Local); // Hardcoded UTC timestamp
+                var staticCreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, DateTimeKind.Utc); // Hardcoded UTC timestamp
                 var books = new List<Book>
             {
                 new Book { Id = 1, Title = "The Great Gatsby", Description = "A novel set in the Roaring Twenties.", ISBN = "9780743273565", CoverImageUrl = "https://example.com/great-gatsby.jpg", PublicationDate = new DateTime(1925, 4, 10), Publisher = "Scribner", PageCount = 180, AverageRating = 4.20m, IsAvailable = true, CreatedAt = staticCreatedAt },

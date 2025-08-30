@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookFlix.Core.Dtos.Book
+namespace BookFlix.Web.Dtos.Book
 {
-    public class BookInputDto
+    public class BookCreateDto
     {
         [Required(ErrorMessage = "Title is required")]
         [StringLength(150, ErrorMessage = "Title cannot exceed 150 characters")]
@@ -35,10 +35,8 @@ namespace BookFlix.Core.Dtos.Book
         [MinLength(1, ErrorMessage = "At least one Genre is required")]
         public List<int> GenreIds { get; set; } = new List<int>();
 
-        [StringLength(500, ErrorMessage = "FileLocation cannot exceed 500 characters")]
+        [StringLength(50, ErrorMessage = "FileLocation cannot exceed 50 characters")]
         public string? FileLocation { get; set; }
 
     }
-
-  
 }

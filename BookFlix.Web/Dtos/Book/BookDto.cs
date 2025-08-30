@@ -1,7 +1,7 @@
-﻿using BookFlix.Core.Dtos.Author;
-using BookFlix.Core.Dtos.Genre;
+﻿using BookFlix.Web.Dtos.Author;
+using BookFlix.Web.Dtos.Genre;
 
-namespace BookFlix.Core.Dtos.Book
+namespace BookFlix.Web.Dtos.Book
 {
     public class BookDto
     {
@@ -21,5 +21,4 @@ namespace BookFlix.Core.Dtos.Book
         public List<AuthorDto> Authors { get; set; } = new List<AuthorDto>();
         public List<GenreDto> Genres { get; set; } = new List<GenreDto>();
     }
-
 }

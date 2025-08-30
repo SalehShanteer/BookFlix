@@ -1,4 +1,4 @@
-﻿using BookFlix.Core.Dtos.Book;
+﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
@@ -27,37 +27,25 @@ namespace BookFlix.Core.Services
             }
 
             // Check if ISBN used before
-            bool isExist = await _bookRepository.IsExistByISBNAsync(isbn);
+            bool isExist = await _bookRepository.IsExistByIsbnAsync(isbn);
             if (isExist)
             {
                 result.Errors.Add($"A book with ISBN {isbn} already exists.");
                 _logger.LogWarning("ISBN validation failed: A book with ISBN {ISBN} already exists.", isbn);
             }
-            else
-            {
-                _logger.LogInformation("ISBN {ISBN} is valid and not previously used.", isbn);
-            }
         }
 
-        public async Task<ValidationResult> ValidateCreateBookDtoAsync(BookInputDto? createBookDto)
+        private async Task<ValidationResult> ValidatBookAsync(Book book)
         {
             var result = new ValidationResult();
-            _logger.LogInformation("Starting validation for BookInputDto with ISBN {ISBN}.", createBookDto?.ISBN);
 
-            if (createBookDto is null)
-            {
-                result.Errors.Add("Book input cannot be null.");
-                _logger.LogError("BookInputDto validation failed: Input is null.");
-                return result;
-            }
-
-            if (createBookDto.PublicationDate is not null && createBookDto.PublicationDate > DateTime.Now)
+            if (book.PublicationDate is not null && book.PublicationDate > DateTime.Now)
             {
                 result.Errors.Add("The publication date should not be in the future");
-                _logger.LogWarning("Publication date validation failed: Date {PublicationDate} is in the future.", createBookDto.PublicationDate);
+                _logger.LogWarning("Publication date validation failed: Date {PublicationDate} is in the future.", book.PublicationDate);
             }
 
-            await ValidateISBNAsync(createBookDto.ISBN, result);
+            await ValidateISBNAsync(book.ISBN, result);
 
             if (result.Errors.Any())
             {
@@ -65,10 +53,63 @@ namespace BookFlix.Core.Services
             }
             else
             {
-                _logger.LogInformation("BookInputDto validation succeeded for ISBN {ISBN}.", createBookDto.ISBN);
+                _logger.LogInformation("BookInputDto validation succeeded for ISBN {ISBN}.", book.ISBN);
             }
 
             return result;
+        }
+
+        public async Task<(ValidationResult result, Book? book)> AddBookAsync(Book book)
+        {
+            var result = await ValidatBookAsync(book);
+
+            if (!result.IsValid)
+            {
+                _logger.LogWarning("Failed to add book with ISBN {ISBN}. Validation errors: {Errors}", book.ISBN, result.Errors);
+                return (result, null);
+            }
+
+            var addedBook = await _bookRepository.AddAsync(book);
+            return (result, addedBook);
+        }
+
+        public async Task<IReadOnlyCollection<Book>> GetAllBooksAsync() => await _bookRepository.GetAllAsync();
+
+        public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(int authorId) => await _bookRepository.GetByAuthorIdAsync(authorId);
+
+        public async Task<Book?> GetBookByIdAsync(int id) => await _bookRepository.GetByIdAsync(id);
+
+        public async Task<(ValidationResult result, Book? book)> UpdateBookAsync(Book book)
+        {
+            var result = await ValidatBookAsync(book);
+
+            if (!result.IsValid)
+            {
+                _logger.LogError("Book update failed for ID {BookId} with {ErrorCount} validation errors: {@Errors}",
+                    book.Id, result.Errors.Count, result.Errors);
+
+                return (result, null);
+            }
+
+            book.UpdatedAt = DateTime.UtcNow;
+            var updatedBook = await _bookRepository.UpdateAsync(book);
+            return (result, updatedBook);
+        }
+
+
+        public Task<bool> UpdateBookFileLocationAsync(int id, string fileLocation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteBookAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Book?> GetBookByIsbnAsync(string isbn)
+        {
+            throw new NotImplementedException();
         }
     }
 }

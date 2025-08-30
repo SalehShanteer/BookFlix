@@ -94,8 +94,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -103,17 +102,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookUpdateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookUpdateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookUpdateDto"
               }
             }
           }
@@ -288,7 +287,7 @@
         }
       }
     },
-    "/api/books/Add": {
+    "/api/books": {
       "post": {
         "tags": [
           "Books"
@@ -297,17 +296,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BookInputDto"
+                "$ref": "#/components/schemas/BookCreateDto"
               }
             }
           }
@@ -370,6 +369,81 @@
             "format": "int32"
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookCreateDto": {
+        "required": [
+          "authorIds",
+          "genreIds",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 150,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isbn": {
+            "pattern": "^\\d{10}|\\d{13}$",
+            "type": "string",
+            "nullable": true
+          },
+          "coverImageUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "publicationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "publisher": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "pageCount": {
+            "maximum": 10000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isAvailable": {
+            "type": "boolean"
+          },
+          "authorIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "genreIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "fileLocation": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           }
@@ -451,10 +525,11 @@
         },
         "additionalProperties": false
       },
-      "BookInputDto": {
+      "BookUpdateDto": {
         "required": [
           "authorIds",
           "genreIds",
+          "id",
           "title"
         ],
         "type": "object",
@@ -518,10 +593,14 @@
             }
           },
           "fileLocation": {
-            "maxLength": 500,
+            "maxLength": 50,
             "minLength": 0,
             "type": "string",
             "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

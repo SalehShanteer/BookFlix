@@ -1,4 +1,4 @@
-﻿namespace BookFlix.Core.Dtos.Genre
+﻿namespace BookFlix.Web.Dtos.Genre
 {
     public class GenreDto
     {

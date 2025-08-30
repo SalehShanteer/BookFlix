@@ -12,20 +12,11 @@ namespace BookFlix.Infrastructure.Data
             _dbContextTransaction = dbContextTransaction ?? throw new ArgumentNullException(nameof(dbContextTransaction));
         }
 
-        public async Task CommitAsync()
-        {
-            await _dbContextTransaction.CommitAsync();
-        }
+        public async Task CommitAsync() => await _dbContextTransaction.CommitAsync();
 
-        public async Task RollbackAsync()
-        {
-            await _dbContextTransaction.RollbackAsync();
-        }
+        public async Task RollbackAsync() => await _dbContextTransaction.RollbackAsync();
 
-        public void Dispose()
-        {
-            _dbContextTransaction.Dispose();
-        }
+        public void Dispose() => _dbContextTransaction.Dispose();
     }
 
 }

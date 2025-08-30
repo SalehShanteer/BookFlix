@@ -1,4 +1,4 @@
-﻿namespace BookFlix.Core.Dtos.Author
+﻿namespace BookFlix.Web.Dtos.Author
 {
     public class AuthorDto
     {

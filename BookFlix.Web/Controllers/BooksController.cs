@@ -1,8 +1,7 @@
-﻿using BookFlix.Core.Dtos.Book;
-using BookFlix.Core.Mappings;
-using BookFlix.Core.Repositories;
-using BookFlix.Core.Service_Interfaces;
+﻿using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
+using BookFlix.Web.Dtos.Book;
+using BookFlix.Web.Mapper_Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookFlix.Web.Controllers
@@ -12,17 +11,15 @@ namespace BookFlix.Web.Controllers
     public class BooksController : ControllerBase
     {
 
-        private readonly IBookRepository _bookRepository;
         private readonly IBookService _bookService;
-        private readonly IBookMappings _bookMappings;
         private readonly IFileService _fileService;
+        private readonly IBookMapper _bookMapper;
 
-        public BooksController(IBookRepository bookRepository, IBookService bookService, IBookMappings bookMappings, IFileService fileService)
+        public BooksController(IBookService bookService, IFileService fileService, IBookMapper bookMapper)
         {
-            _bookRepository = bookRepository;
             _bookService = bookService;
-            _bookMappings = bookMappings;
             _fileService = fileService;
+            _bookMapper = bookMapper;
         }
 
         [HttpGet("{id}")]
@@ -33,11 +30,11 @@ namespace BookFlix.Web.Controllers
         {
             if (id < 1) return BadRequest("ID must be greater than 0.");
 
-            var book = await _bookRepository.GetByIdAsync(id);
+            var book = await _bookService.GetBookByIdAsync(id);
 
             if (book is null) return NotFound($"Book with ID = {id} not found!");
 
-            BookDto bookDto = _bookMappings.ToBookDto(book);
+            BookDto bookDto = _bookMapper.ToBookDto(book);
             return Ok(bookDto);
         }
 
@@ -58,91 +55,47 @@ namespace BookFlix.Web.Controllers
                 if (validationResult.StatusCode == enStatusCode.NotFound) return NotFound(validationResult.Errors);
                 if (validationResult.StatusCode == enStatusCode.InternalServerError) return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
             }
-            return Ok(new { FileUrl = $"/books/{Path.GetFileName(validationResult.FileLocation)}" });
+            return Ok(new FileUploadResultDto { FileUrl = validationResult.FileLocation });
         }
 
-
-        /// <summary>
-        /// Adds a new book to the system.
-        /// </summary>
-        /// <param name="createBookDto">The book data to create.</param>
-        /// <returns>A <see cref="BookDto"/> representing the created book, or an error response.</returns>
-        /// <response code="201">Book created successfully.</response>
-        /// <response code="400">Invalid book data provided.</response>
-        /// <response code="500">Server error occurred.</response>
-        [HttpPost("Add")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookDto>> AddBookAsync(BookInputDto createBookDto)
+        public async Task<ActionResult<BookDto>> AddBookAsync(BookCreateDto createBookDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var validationResult = await _bookService.ValidateCreateBookDtoAsync(createBookDto);
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors);
-            }
-            try
-            {
-                var book = await _bookMappings.ToBook(createBookDto);
-                var addedBook = await _bookRepository.AddAsync(book);
-                var bookDto = _bookMappings.ToBookDto(addedBook);
-                return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding book: {ex.Message}");
-            }
+            var book = await _bookMapper.ToBook(createBookDto);
+            var validationResult = await _bookService.AddBookAsync(book);
+
+            if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
+
+            book = validationResult.book;
+            var bookDto = _bookMapper.ToBookDto(book!);
+            return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
         }
 
-        /// <summary>
-        /// Updates an existing book by ID.
-        /// </summary>
-        /// <param name="id">The ID of the book to update.</param>
-        /// <param name="updateBookDto">The updated book data.</param>
-        /// <returns>The updated <see cref="BookDto"/> or an error response.</returns>
-        /// <response code="200">Book updated successfully.</response>
-        /// <response code="400">Invalid book data or ID provided.</response>
-        /// <response code="404">Book not found.</response>
-        /// <response code="500">Server error occurred.</response>
+
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BookDto>> UpdateBookAsync(int id, BookInputDto updateBookDto)
+        public async Task<ActionResult<BookDto>> UpdateBookAsync(BookUpdateDto bookUpdateDto)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (bookUpdateDto.Id < 1) return BadRequest("ID must be greater than 0.");
 
-            bool isExists = await _bookRepository.IsExistById(id);
+            var book = await _bookMapper.ToBook(bookUpdateDto);
+            var validationResult = await _bookService.UpdateBookAsync(book);
 
-            if (!isExists) return BadRequest($"Book with ID = {id} does not exist.");
+            if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
 
-            var validationResult = await _bookService.ValidateCreateBookDtoAsync(updateBookDto);
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors);
-            }
-            try
-            {
-                var book = await _bookMappings.ToBook(updateBookDto);
-                book.Id = id;
-                var updatedBook = await _bookRepository.UpdateAsync(book);
-                var bookDto = _bookMappings.ToBookDto(updatedBook);
-                return Ok(bookDto);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding book: {ex.Message}");
-            }
+            book = validationResult.book;
+            var bookDto = _bookMapper.ToBookDto(book!);
+            return Ok(bookDto);
+
         }
     }
 }
