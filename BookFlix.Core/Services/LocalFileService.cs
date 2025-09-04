@@ -30,7 +30,7 @@ namespace BookFlix.Core.Services
             if (!result.IsValid) return result;
 
             var fileResult = await _bookRepository.GetFileLocationAsync(bookId); // (FileNameAsGuid.pdf)
-            if (!fileResult.IsExist)
+            if (!fileResult.IsBookExist)
             {
                 result.Errors.Add($"Book with ID {bookId} not found.");
                 result.StatusCode = enStatusCode.NotFound;
@@ -78,7 +78,7 @@ namespace BookFlix.Core.Services
             }
         }
 
-        private void DeleteBookFile(string? fileLocation, UploadeBookValidationResult result)
+        public void DeleteBookFile(string? fileLocation, ValidationResult result)
         {
             if (!string.IsNullOrEmpty(fileLocation))
             {

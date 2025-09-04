@@ -1,4 +1,5 @@
 ﻿using BookFlix.Core.Models;
+using BookFlix.Core.Services.Validation;
 using BookFlix.Web.Dtos.Book;
 
 namespace BookFlix.Web.Mapper_Interfaces
@@ -6,8 +7,7 @@ namespace BookFlix.Web.Mapper_Interfaces
     public interface IBookMapper
     {
         BookDto ToBookDto(Book book);
-        Task<Book> ToBook(BookCreateDto bookCreateDto);
-        Task<Book> ToBook(BookUpdateDto bookUpdateDto);
-
+        Task<(Book Book, ValidationResult Result)> ToBook(BookCreateDto bookCreateDto);
+        Task<(Book Book, ValidationResult Result)> ToBook(BookUpdateDto bookUpdateDto);
     }
 }

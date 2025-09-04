@@ -1,10 +1,10 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
+using BookFlix.Core.Services.Validation;
 using BookFlix.Web.Dtos.Author;
 using BookFlix.Web.Dtos.Book;
 using BookFlix.Web.Dtos.Genre;
 using BookFlix.Web.Mapper_Interfaces;
-
 
 namespace BookFlix.Web.Mappers
 {
@@ -20,7 +20,7 @@ namespace BookFlix.Web.Mappers
 
         }
 
-        private async Task<List<Author>> GetAuthors(List<int> authorIds)
+        private async Task<List<Author>> GetAuthors(List<int> authorIds, ValidationResult result)
         {
             var authors = new List<Author>();
             foreach (var authorId in authorIds)
@@ -28,7 +28,8 @@ namespace BookFlix.Web.Mappers
                 var author = await _authorRepository.GetByIdAsync(authorId);
                 if (author is null)
                 {
-                    throw new InvalidOperationException($"Author with ID {authorId} not found.");
+                    result.Errors.Add($"Author with ID {authorId} not found.");
+                    break;
                 }
 
                 authors.Add(author);
@@ -36,7 +37,7 @@ namespace BookFlix.Web.Mappers
             return authors;
         }
 
-        private async Task<List<Genre>> GetGenres(List<int> genreIds)
+        private async Task<List<Genre>> GetGenres(List<int> genreIds, ValidationResult result)
         {
             var genres = new List<Genre>();
 
@@ -45,7 +46,8 @@ namespace BookFlix.Web.Mappers
                 var genre = await _genreRepository.GetByIdAsync(genreId);
                 if (genre is null)
                 {
-                    throw new InvalidOperationException($"genreId with ID {genreId} not found.");
+                    result.Errors.Add($"genreId with ID {genreId} not found.");
+                    break;
                 }
                 genres.Add(genre);
             }
@@ -83,10 +85,12 @@ namespace BookFlix.Web.Mappers
             return bookDto;
         }
 
-        public async Task<Book> ToBook(BookCreateDto bookCreateDto)
+        public async Task<(Book Book, ValidationResult Result)> ToBook(BookCreateDto bookCreateDto)
         {
-            var authors = await GetAuthors(bookCreateDto.AuthorIds);
-            var genres = await GetGenres(bookCreateDto.GenreIds);
+            var result = new ValidationResult();
+
+            var authors = await GetAuthors(bookCreateDto.AuthorIds, result);
+            var genres = await GetGenres(bookCreateDto.GenreIds, result);
 
             Book book = new Book
             {
@@ -102,13 +106,15 @@ namespace BookFlix.Web.Mappers
                 Authors = authors,
                 Genres = genres
             };
-            return book;
+            return (book, result);
         }
 
-        public async Task<Book> ToBook(BookUpdateDto bookUpdateDto)
+        public async Task<(Book Book, ValidationResult Result)> ToBook(BookUpdateDto bookUpdateDto)
         {
-            var authors = await GetAuthors(bookUpdateDto.AuthorIds);
-            var genres = await GetGenres(bookUpdateDto.GenreIds);
+            var result = new ValidationResult();
+
+            var authors = await GetAuthors(bookUpdateDto.AuthorIds, result);
+            var genres = await GetGenres(bookUpdateDto.GenreIds, result);
 
             Book book = new Book
             {
@@ -125,7 +131,8 @@ namespace BookFlix.Web.Mappers
                 Authors = authors,
                 Genres = genres
             };
-            return book;
+            return (book, result);
         }
+
     }
 }

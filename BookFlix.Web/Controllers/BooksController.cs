@@ -61,18 +61,22 @@ namespace BookFlix.Web.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<BookDto>> AddBookAsync(BookCreateDto createBookDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            var bookResult = await _bookMapper.ToBook(createBookDto);
 
-            var book = await _bookMapper.ToBook(createBookDto);
-            var validationResult = await _bookService.AddBookAsync(book);
+            if (!bookResult.Result.IsValid) return NotFound(bookResult.Result.Errors);
+            var book = bookResult.Book;
 
-            if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
+            var newBookResult = await _bookService.AddBookAsync(book);
 
-            book = validationResult.book;
+            if (!newBookResult.result.IsValid) return BadRequest(newBookResult.result.Errors);
+            book = newBookResult.book;
             var bookDto = _bookMapper.ToBookDto(book!);
+
             return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
         }
 
@@ -81,13 +85,19 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BookDto>> UpdateBookAsync(BookUpdateDto bookUpdateDto)
+        public async Task<ActionResult<BookDto>> UpdateBookAsync(int id, BookUpdateDto bookUpdateDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (bookUpdateDto.Id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("ID must be greater than 0.");
 
-            var book = await _bookMapper.ToBook(bookUpdateDto);
+            bookUpdateDto.Id = id;
+
+            var bookResult = await _bookMapper.ToBook(bookUpdateDto);
+            if (!bookResult.Result.IsValid) return NotFound(bookResult.Result.Errors);
+
+            var book = bookResult.Book;
+
             var validationResult = await _bookService.UpdateBookAsync(book);
 
             if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
@@ -95,7 +105,39 @@ namespace BookFlix.Web.Controllers
             book = validationResult.book;
             var bookDto = _bookMapper.ToBookDto(book!);
             return Ok(bookDto);
-
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteBookAsync(int id)
+        {
+            if (id < 1) return BadRequest("ID must be greater than 0.");
+
+            var result = await _bookService.DeleteBookAsync(id);
+
+            if (!result.IsValid)
+            {
+                switch (result.StatusCode)
+                {
+                    case enStatusCode.InternalServerError:
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, result.Errors);
+                        }
+                    case enStatusCode.NotFound:
+                        {
+                            return NotFound(result.Errors);
+                        }
+                    default:
+                        {
+                            return BadRequest(result.Errors);
+                        }
+                }
+            }
+            return NoContent();
+        }
+
     }
 }

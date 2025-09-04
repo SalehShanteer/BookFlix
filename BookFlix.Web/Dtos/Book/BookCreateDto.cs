@@ -11,7 +11,7 @@ namespace BookFlix.Web.Dtos.Book
         [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
         public string? Description { get; set; }
 
-        [RegularExpression(@"^\d{10}|\d{13}$", ErrorMessage = "ISBN must be 10 or 13 digits")]
+        [RegularExpression(@"^(\d{10}|\d{13})$", ErrorMessage = "ISBN must be 10 or 13 digits")]
         public string? ISBN { get; set; }
 
         [Url(ErrorMessage = "CoverImageUrl must be a valid URL")]
