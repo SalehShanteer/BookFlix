@@ -106,3 +106,7 @@ C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\BCrypt.Net-Next.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\saleh\Desktop\Programming\Projects\BookFlix\BookFlix.Web\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll

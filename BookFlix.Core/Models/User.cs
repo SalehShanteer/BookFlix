@@ -15,5 +15,6 @@ namespace BookFlix.Core.Models
         public DateTime? UpdatedAt { get; set; }
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<UserLog> UserLogs { get; set; } = new List<UserLog>();
     }
 }

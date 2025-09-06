@@ -627,6 +627,40 @@ namespace BookFlix.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("BookFlix.Core.Models.UserLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Timestamp")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogs", (string)null);
+                });
+
             modelBuilder.Entity("BookFlix.Core.Models.BookAuthor", b =>
                 {
                     b.HasOne("BookFlix.Core.Models.Author", null)
@@ -676,6 +710,17 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BookFlix.Core.Models.UserLog", b =>
+                {
+                    b.HasOne("BookFlix.Core.Models.User", "User")
+                        .WithMany("UserLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BookFlix.Core.Models.Book", b =>
                 {
                     b.Navigation("Reviews");
@@ -684,6 +729,8 @@ namespace BookFlix.Infrastructure.Migrations
             modelBuilder.Entity("BookFlix.Core.Models.User", b =>
                 {
                     b.Navigation("Reviews");
+
+                    b.Navigation("UserLogs");
                 });
 #pragma warning restore 612, 618
         }

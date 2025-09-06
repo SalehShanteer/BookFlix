@@ -1,8 +1,10 @@
-﻿using BookFlix.Core.Models;
+﻿using BookFlix.Core.Helpers;
+using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using Microsoft.Extensions.Logging;
+using static BookFlix.Core.Enums.GeneralEnums;
 
 namespace BookFlix.Core.Services
 {
@@ -14,9 +16,9 @@ namespace BookFlix.Core.Services
 
         public BookService(IBookRepository bookRepository, IFileService fileService, ILogger<BookService> logger)
         {
-            _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _bookRepository = bookRepository;
+            _fileService = fileService;
+            _logger = logger;
         }
 
         private async Task ValidateISBNAsync(Book book, ValidationResult result, bool isNew)
@@ -24,8 +26,7 @@ namespace BookFlix.Core.Services
             var isbn = book.ISBN;
             if (string.IsNullOrEmpty(isbn))
             {
-                result.Errors.Add("ISBN cannot be null or empty.");
-                _logger.LogWarning("ISBN validation failed: ISBN is null or empty.");
+                _logger.LogErrorForValidation("ISBN cannot be null or empty.", result);
                 return;
             }
 
@@ -33,8 +34,7 @@ namespace BookFlix.Core.Services
             bool isExist = (isNew == true) ? await _bookRepository.IsExistByIsbnAsync(isbn) : await _bookRepository.IsExistByIsbnAsync(book.Id, isbn);
             if (isExist)
             {
-                result.Errors.Add($"A book with ISBN {isbn} already exists.");
-                _logger.LogWarning("ISBN validation failed: A book with ISBN {ISBN} already exists.", isbn);
+                _logger.LogErrorForValidation($"A book with ISBN {isbn} already exists.", result);
             }
         }
 
@@ -44,19 +44,14 @@ namespace BookFlix.Core.Services
 
             if (book.PublicationDate is not null && book.PublicationDate > DateTime.Now)
             {
-                result.Errors.Add("The publication date should not be in the future");
-                _logger.LogWarning("Publication date validation failed: Date {PublicationDate} is in the future.", book.PublicationDate);
+                _logger.LogErrorForValidation("The publication date should not be in the future", result);
             }
 
             await ValidateISBNAsync(book, result, isNew);
 
             if (result.Errors.Any())
             {
-                _logger.LogError("BookInputDto validation failed with {ErrorCount} errors.", result.Errors.Count);
-            }
-            else
-            {
-                _logger.LogInformation("BookInputDto validation succeeded for ISBN {ISBN}.", book.ISBN);
+                _logger.LogErrorForValidation($"BookInputDto validation failed with {result.Errors.Count} errors.", result);
             }
 
             return result;
@@ -89,7 +84,7 @@ namespace BookFlix.Core.Services
 
             if (!result.IsValid)
             {
-                _logger.LogWarning("Failed to add book with ISBN {ISBN}. Validation errors: {Errors}", book.ISBN, result.Errors);
+                _logger.LogErrorForValidation($"Failed to add book with ISBN {book.ISBN}. Validation errors: {@result.Errors}", result);
                 return (result, null);
             }
 
@@ -112,15 +107,17 @@ namespace BookFlix.Core.Services
             result = await ValidatBookAsync(updatedBook, false);
             if (!result.IsValid)
             {
-                _logger.LogError("Book update failed for ID = {BookId} with {ErrorCount} validation errors: {@Errors}",
-                    updatedBook.Id, result.Errors.Count, result.Errors);
+                _logger.LogErrorForValidation($"Book update failed for ID = {updatedBook.Id} with {result.Errors.Count} validation errors: {@result.Errors}",
+                    result);
+                result.StatusCode = enStatusCode.BadRequest;
                 return (result, null);
             }
 
             var existingBook = await _bookRepository.GetByIdForUpdateAsync(updatedBook.Id);
             if (existingBook is null)
             {
-                result.Errors.Add($"Book with ID {updatedBook.Id} not found.");
+                _logger.LogErrorForValidation($"Book with ID {updatedBook.Id} not found.", result);
+                result.StatusCode = enStatusCode.NotFound;
                 return (result, null);
             }
 
@@ -150,7 +147,7 @@ namespace BookFlix.Core.Services
                 if (!await _bookRepository.DeleteAsync(id))
                 {
                     result.StatusCode = enStatusCode.NotFound;
-                    result.Errors.Add($"There is no book with id = {id}.");
+                    _logger.LogErrorForValidation($"There is no book with id = {id}.", result);
                 }
 
                 await transaction.CommitAsync();
@@ -160,23 +157,19 @@ namespace BookFlix.Core.Services
             {
                 await transaction.RollbackAsync();
 
-                _logger.LogError(ex, "IO error uploading file for book ID {BookId}", id);
-                result.Errors.Add("Failed to save file due to a storage error.");
+                _logger.LogExceptionErrorForValidation(ex, $"IO error deleting file for book ID {id}", result);
                 result.StatusCode = enStatusCode.InternalServerError;
                 return result;
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                _logger.LogError(ex, "Unexpected error uploading file for book ID {BookId}", id);
-                result.Errors.Add("An unexpected error occurred while uploading the file.");
+                _logger.LogExceptionErrorForValidation(ex, $"Unexpected error deleting book ID {id}", result);
                 result.StatusCode = enStatusCode.InternalServerError;
                 return result;
             }
         }
 
         public async Task<Book?> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
-
-
     }
 }

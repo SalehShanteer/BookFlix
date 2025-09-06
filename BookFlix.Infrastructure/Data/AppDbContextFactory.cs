@@ -17,10 +17,7 @@ namespace BookFlix.Infrastructure.Data
                 .Build();
 
             var constr = configuration.GetConnectionString("DefaultConnection");
-
-
             AppDbContextConfiguration.Configure(optionsBuilder, constr);
-
 
             return new AppDbContext(optionsBuilder.Options);
         }

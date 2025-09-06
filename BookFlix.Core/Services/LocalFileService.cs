@@ -1,10 +1,12 @@
-﻿using BookFlix.Core.Repositories;
+﻿using BookFlix.Core.Helpers;
+using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using BookFlix.Core.Services.Validation.Book;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using static BookFlix.Core.Enums.GeneralEnums;
 
 namespace BookFlix.Core.Services
 {
@@ -32,7 +34,7 @@ namespace BookFlix.Core.Services
             var fileResult = await _bookRepository.GetFileLocationAsync(bookId); // (FileNameAsGuid.pdf)
             if (!fileResult.IsBookExist)
             {
-                result.Errors.Add($"Book with ID {bookId} not found.");
+                _logger.LogErrorForValidation($"Book with ID {bookId} not found.", result);
                 result.StatusCode = enStatusCode.NotFound;
                 return result;
             }
@@ -90,8 +92,7 @@ namespace BookFlix.Core.Services
                     }
                     catch (IOException ex)
                     {
-                        _logger.LogWarning(ex, "Failed to delete old file: {FilePath}", fileLocation);
-                        result.Errors.Add("Failed to delete the previous file; proceeding with upload.");
+                        _logger.LogExceptionErrorForValidation(ex, $"IO error deleting file: {fileLocation}", result);
                     }
             }
         }
@@ -100,21 +101,21 @@ namespace BookFlix.Core.Services
         {
             if (file == null || file.Length == 0)
             {
-                result.Errors.Add("File is null or empty.");
+                _logger.LogErrorForValidation("File is null or empty.", result);
                 result.StatusCode = enStatusCode.BadRequest;
                 return;
             }
 
             if (file.ContentType != "application/pdf")
             {
-                result.Errors.Add("Only PDF files are allowed.");
+                _logger.LogErrorForValidation("Only PDF files are allowed.", result);
                 result.StatusCode = enStatusCode.BadRequest;
                 return;
             }
 
             if (file.Length > 100 * 1024 * 1024)
             {
-                result.Errors.Add("File size exceeds 100MB limit.");
+                _logger.LogErrorForValidation("File size exceeds 100MB limit.", result);
                 result.StatusCode = enStatusCode.BadRequest;
                 return;
             }

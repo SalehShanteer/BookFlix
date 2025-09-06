@@ -1,5 +1,4 @@
 ﻿using BookFlix.Core.Service_Interfaces;
-using BookFlix.Core.Services.Validation;
 using BookFlix.Web.Dtos.Book;
 using BookFlix.Web.Mapper_Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +42,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<int>> UploadBookAsync(int id, IFormFile file)
+        public async Task<ActionResult<FileUploadResultDto>> UploadBookAsync(int id, IFormFile file)
         {
             if (id < 1) return BadRequest("ID must be greater than 0.");
 
@@ -51,9 +50,7 @@ namespace BookFlix.Web.Controllers
 
             if (!validationResult.IsValid)
             {
-                if (validationResult.StatusCode == enStatusCode.BadRequest) return BadRequest(validationResult.Errors);
-                if (validationResult.StatusCode == enStatusCode.NotFound) return NotFound(validationResult.Errors);
-                if (validationResult.StatusCode == enStatusCode.InternalServerError) return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
+                return validationResult.ToActionResult<FileUploadResultDto>();
             }
             return Ok(new FileUploadResultDto { FileUrl = validationResult.FileLocation });
         }
@@ -120,21 +117,7 @@ namespace BookFlix.Web.Controllers
 
             if (!result.IsValid)
             {
-                switch (result.StatusCode)
-                {
-                    case enStatusCode.InternalServerError:
-                        {
-                            return StatusCode(StatusCodes.Status500InternalServerError, result.Errors);
-                        }
-                    case enStatusCode.NotFound:
-                        {
-                            return NotFound(result.Errors);
-                        }
-                    default:
-                        {
-                            return BadRequest(result.Errors);
-                        }
-                }
+                return result.ToActionResult();
             }
             return NoContent();
         }

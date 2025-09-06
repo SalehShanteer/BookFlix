@@ -1,39 +1,61 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
+using BookFlix.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookFlix.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public Task<User> AddAsync(User entity)
+        private readonly AppDbContext _context;
+
+        public UserRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<User> AddAsync(User entity)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<IReadOnlyCollection<User>> GetAllAsync()
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return false;
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<User?> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IReadOnlyCollection<User>> GetAllAsync()
+            => await _context.Users.AsNoTracking().ToListAsync();
 
-        public Task<bool> IsExistById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User?> GetByEmailAsync(string email)
+            => await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
 
 
-        public Task<User> UpdateAsync(User entity)
+        public async Task<User?> GetByIdAsync(int id)
+            => await _context.Users.FindAsync(id);
+
+        public async Task<bool> IsEmailExist(string email)
+            => await _context.Users.AsNoTracking().AnyAsync(u => u.Email == email);
+
+        public async Task<bool> IsExistById(int id)
+            => await _context.Users.AsNoTracking().AnyAsync(u => u.Id == id);
+
+        public async Task<bool> IsUsernameExist(string username)
+            => await _context.Users.AsNoTracking().AnyAsync(u => u.Username == username);
+
+
+        public async Task<User> UpdateAsync(User entity)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }
