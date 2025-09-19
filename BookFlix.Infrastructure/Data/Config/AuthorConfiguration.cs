@@ -36,5 +36,4 @@ namespace BookFlix.Infrastructure.Data.Config
             return authors;
         }
     }
-
 }

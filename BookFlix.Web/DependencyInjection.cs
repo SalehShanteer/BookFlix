@@ -70,6 +70,7 @@ namespace BookFlix.Web
 
             services.AddScoped<IBookMapper, BookMapper>();
             services.AddScoped<IUserLogMapper, UserLogMapper>();
+            services.AddScoped<IUserMapper, UserMapper>();
 
             return services;
         }

@@ -10,13 +10,16 @@ namespace BookFlix.Core.Services
 {
     public class UserService : IUserService
     {
-
         private readonly IUserRepository _userRepository;
         private readonly ILogger<UserService> _logger;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _refreshTokenRepository = refreshTokenRepository;
+            _jwtService = jwtService;
             _logger = logger;
         }
 
@@ -94,9 +97,16 @@ namespace BookFlix.Core.Services
 
         private (ValidationResult Result, User? User) ReturnBadRequest(ValidationResult validationResult)
         {
-            _logger.LogErrorForValidation("Bad request.", validationResult);
             validationResult.StatusCode = enStatusCode.BadRequest;
             return (validationResult, null);
+        }
+
+        private (ValidationResult Result, string? AccessToken, string? RefreshToken) UnauthorizedRequest(string message)
+        {
+            var validationResult = new ValidationResult();
+            _logger.LogErrorForValidation(message, validationResult);
+            validationResult.StatusCode = enStatusCode.Unauthorized;
+            return (validationResult, null, null);
         }
 
         public async Task<(ValidationResult Result, User? User)> AddUserAsync(User user)
@@ -115,7 +125,7 @@ namespace BookFlix.Core.Services
             return (validationResult, userToAdd);
         }
 
-        public async Task<(ValidationResult Result, User? User)> AddUserAsAdmin(User user)
+        public async Task<(ValidationResult Result, User? User)> AddUserAsAdminAsync(User user)
         {
             user.Role = "Admin";
             return await AddUserAsync(user);
@@ -124,17 +134,37 @@ namespace BookFlix.Core.Services
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
             => await _userRepository.GetAllAsync();
 
-
         public async Task<User?> GetUserByIdAsync(int id)
             => await _userRepository.GetByIdAsync(id);
 
-        public async Task<(ValidationResult Result, User? User)> UpdateUserPasswordAsync(User user)
+        public async Task<User?> GetUserByRefreshToken(string token)
+        {
+            var refreshToken = await _refreshTokenRepository.GetByTokenAsync(token);
+            if (refreshToken is null || !refreshToken.IsActive) return null;
+
+            return await _userRepository.GetByIdWithRelationsAsync(refreshToken.UserId);
+        }
+
+        public async Task<(ValidationResult Result, User? User)> UpdateUserPasswordAsync(User user, string oldPassword)
         {
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
 
             if (existingUser is null) return ReturnUserNotFound(user.Id, validationResult);
-            ValidatePassword(user.PasswordHash ?? string.Empty, validationResult);
+
+            if (!PasswordHelper.VerifyPassword(oldPassword, existingUser.PasswordHash ?? string.Empty))
+            {
+                _logger.LogErrorForValidation("Old password is incorrect.", validationResult);
+            }
+            else if (oldPassword == user.PasswordHash)
+            {
+                _logger.LogErrorForValidation("New password cannot be the same as the old password.", validationResult);
+            }
+            else
+            {
+                ValidatePassword(user.PasswordHash ?? string.Empty, validationResult);
+            }
+
             if (!validationResult.IsValid) ReturnBadRequest(validationResult);
 
             existingUser.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash!);
@@ -171,6 +201,28 @@ namespace BookFlix.Core.Services
             existingUser.UpdatedAt = DateTime.UtcNow;
             var updatedUser = await _userRepository.UpdateAsync(existingUser);
             return (validationResult, updatedUser);
+        }
+
+        public async Task<(ValidationResult Result, string? AccessToken, string? RefreshToken)> UpdateUserRefreshToken(string refreshToken)
+        {
+            var user = await GetUserByRefreshToken(refreshToken);
+            if (user is null) return UnauthorizedRequest("Invalid refresh token.");
+
+            var storedToken = user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken);
+            if (storedToken is null || !storedToken.IsActive)
+                return UnauthorizedRequest("Refresh token is expired or revoked.");
+
+            // Issue new tokens
+            var newAccessToken = _jwtService.GenerateJwtToken(user);
+            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id);
+
+            // Revoke old token
+            storedToken.RevokedAt = DateTime.UtcNow;
+            user.RefreshTokens.Add(newRefreshToken);
+
+            await _userRepository.UpdateAsync(user);
+
+            return (new ValidationResult(), newAccessToken, newRefreshToken.Token);
         }
     }
 }

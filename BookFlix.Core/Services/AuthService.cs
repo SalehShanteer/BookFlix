@@ -12,12 +12,14 @@ namespace BookFlix.Core.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserLogRepository _userLogRepository;
+        private readonly IJwtService _jwtService;
         private readonly ILogger<AuthService> _logger;
-        public AuthService(IUserRepository userRepository, IUserLogRepository userLogRepository, ILogger<AuthService> logger)
+        public AuthService(IUserRepository userRepository, IUserLogRepository userLogRepository, ILogger<AuthService> logger, IJwtService jwtService)
         {
             _userRepository = userRepository;
             _userLogRepository = userLogRepository;
             _logger = logger;
+            _jwtService = jwtService;
         }
 
         private void LogLoginAttempt(int userId, bool isSuccess, string ipAddress)
@@ -32,7 +34,18 @@ namespace BookFlix.Core.Services
             _userLogRepository.AddAsync(log);
         }
 
-        public async Task<(User? User, ValidationResult Result)> LoginAsync(string email, string password, string ipAddress)
+        private (ValidationResult Result, string? AccessToken, string? RefreshToken) ReturnTokens(User user, ValidationResult result)
+        {
+            string accessToken = _jwtService.GenerateJwtToken(user);
+            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            user.RefreshTokens.Add(refreshToken);
+            _userRepository.UpdateAsync(user);
+
+            return (result, accessToken, refreshToken.Token);
+        }
+
+        public async Task<(ValidationResult Result, string? AccessToken, string? RefreshToken)>
+            LoginAsync(string email, string password, string ipAddress)
         {
             var result = new ValidationResult();
 
@@ -40,7 +53,7 @@ namespace BookFlix.Core.Services
             {
                 _logger.LogErrorForValidation("Email is empty or whitespace", result);
                 result.StatusCode = enStatusCode.BadRequest;
-                return (null, result);
+                return (result, null, null);
             }
 
             var user = await _userRepository.GetByEmailAsync(email);
@@ -49,7 +62,7 @@ namespace BookFlix.Core.Services
             {
                 _logger.LogErrorForValidation("User not found", result);
                 result.StatusCode = enStatusCode.NotFound;
-                return (null, result);
+                return (result, null, null);
             }
 
             if (!PasswordHelper.VerifyPassword(password, user.PasswordHash!))
@@ -58,12 +71,14 @@ namespace BookFlix.Core.Services
                 result.StatusCode = enStatusCode.Unauthorized;
                 LogLoginAttempt(user.Id, false, ipAddress);
 
-                return (null, result);
+                return (result, null, null);
             }
 
             LogLoginAttempt(user.Id, true, ipAddress);
-            return (user, result);
+            return ReturnTokens(user, result);
         }
+
+
 
     }
 }

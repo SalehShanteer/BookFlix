@@ -35,7 +35,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 .IsRequired();
             builder.Property(b => b.CreatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("GETUTCDATE()");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
 
             builder.Property(b => b.UpdatedAt)
                 .IsRequired(false);

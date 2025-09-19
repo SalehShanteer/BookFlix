@@ -5,6 +5,6 @@ namespace BookFlix.Web.Mapper_Interfaces
 {
     public interface IUserLogMapper
     {
-        List<UserLogDto> ToUserLogDtos(IReadOnlyCollection<UserLog> userLogs);
+        IList<UserLogDto> ToUserLogDtos(IReadOnlyCollection<UserLog> userLogs);
     }
 }

@@ -5,6 +5,7 @@ namespace BookFlix.Core.Service_Interfaces
     public interface IJwtService
     {
         string GenerateJwtToken(User user);
+        RefreshToken GenerateRefreshToken(int userId);
     }
 
 }

@@ -37,6 +37,16 @@ namespace BookFlix.Web.Controllers
             return Ok(bookDto);
         }
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetAllBooksAsync()
+        {
+            var books = await _bookService.GetAllBooksAsync();
+            var bookDtos = _bookMapper.ToBookDtos(books.ToList());
+            return Ok(bookDtos);
+        }
+
         [HttpPut("{id}/Upload")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

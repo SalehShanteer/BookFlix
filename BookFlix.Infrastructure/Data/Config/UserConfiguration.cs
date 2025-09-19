@@ -31,7 +31,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 .HasMaxLength(100);
             builder.Property(u => u.CreatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
             builder.Property(u => u.UpdatedAt)
                 .IsRequired(false);
 
@@ -39,6 +39,10 @@ namespace BookFlix.Infrastructure.Data.Config
             builder.HasMany(u => u.Reviews)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
+
+            builder.HasMany(u => u.RefreshTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId);
         }
     }
 }

@@ -16,5 +16,6 @@ namespace BookFlix.Core.Models
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<UserLog> UserLogs { get; set; } = new List<UserLog>();
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

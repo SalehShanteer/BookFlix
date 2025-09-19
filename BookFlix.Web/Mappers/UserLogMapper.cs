@@ -6,7 +6,7 @@ namespace BookFlix.Web.Mappers
 {
     public class UserLogMapper : IUserLogMapper
     {
-        public List<UserLogDto> ToUserLogDtos(IReadOnlyCollection<UserLog> userLogs)
+        public IList<UserLogDto> ToUserLogDtos(IReadOnlyCollection<UserLog> userLogs)
         {
             var userLogDtos = userLogs.Select(log => new UserLogDto
             {

@@ -11,6 +11,8 @@ namespace BookFlix.Core
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IFileService, LocalFileService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserLogService, UserLogService>();
             services.AddScoped<IJwtService, JwtService>();
 
             return services;

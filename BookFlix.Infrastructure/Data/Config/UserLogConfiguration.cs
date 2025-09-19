@@ -15,7 +15,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 .IsRequired();
             builder.Property(ul => ul.Timestamp)
                 .IsRequired()
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
             builder.Property(ul => ul.IpAddress)
                 .HasMaxLength(45)
                 .IsRequired(); // Max length for IPv6

@@ -134,5 +134,9 @@ namespace BookFlix.Web.Mappers
             return (book, result);
         }
 
+        public IList<BookDto> ToBookDtos(IList<Book> books)
+        {
+            return books.Select(b => ToBookDto(b)).ToList();
+        }
     }
 }

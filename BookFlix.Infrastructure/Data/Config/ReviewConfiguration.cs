@@ -15,7 +15,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 .HasMaxLength(255);
             builder.Property(r => r.CreatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
             builder.Property(r => r.UpdatedAt)
                 .IsRequired(false);
             builder.Property(r => r.Rating)

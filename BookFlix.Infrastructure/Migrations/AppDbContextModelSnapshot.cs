@@ -103,7 +103,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -540,6 +540,40 @@ namespace BookFlix.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookFlix.Core.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
             modelBuilder.Entity("BookFlix.Core.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -558,7 +592,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte>("Rating")
                         .HasColumnType("tinyint");
@@ -589,7 +623,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -649,7 +683,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime>("Timestamp")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -691,6 +725,17 @@ namespace BookFlix.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BookFlix.Core.Models.RefreshToken", b =>
+                {
+                    b.HasOne("BookFlix.Core.Models.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BookFlix.Core.Models.Review", b =>
                 {
                     b.HasOne("BookFlix.Core.Models.Book", "Book")
@@ -728,6 +773,8 @@ namespace BookFlix.Infrastructure.Migrations
 
             modelBuilder.Entity("BookFlix.Core.Models.User", b =>
                 {
+                    b.Navigation("RefreshTokens");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("UserLogs");
