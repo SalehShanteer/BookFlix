@@ -3,20 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\dtos\\auth\\tokensdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\dtos\\auth\\tokensdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\dtos\\user\\usercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\dtos\\user\\usercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|solutionrelative:bookflix.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.core\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E4CF944-BE93-43FD-BE1C-1557CD7B4A53}|BookFlix.Core\\BookFlix.Core.csproj|solutionrelative:bookflix.core\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.web\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{485E282B-BDF6-4CC8-BA84-6372DCF26C2A}|BookFlix.Web\\BookFlix.Web.csproj|solutionrelative:bookflix.web\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DEAD61E2-59C8-4724-833B-8AF9D61263B2}|BookFlix.Infrastructure\\BookFlix.Infrastructure.csproj|c:\\users\\saleh\\desktop\\programming\\projects\\bookflix\\bookflix.infrastructure\\repositories\\refreshtokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,49 +50,75 @@
       "DocumentGroups": [
         {
           "DockedWidth": 199,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TokensDto.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Dtos\\Auth\\TokensDto.cs",
-              "RelativeDocumentMoniker": "BookFlix.Web\\Dtos\\Auth\\TokensDto.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Dtos\\Auth\\TokensDto.cs",
-              "RelativeToolTip": "BookFlix.Web\\Dtos\\Auth\\TokensDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T18:01:26.909Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "BookFlix.Web\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAUwCMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T17:29:10.785Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "BookFlix.Web\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAiwCgAAABsAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "BookFlix.Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "BookFlix.Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T15:58:54.437Z",
+              "WhenOpened": "2025-10-27T03:51:47.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\DependencyInjection.cs",
+              "RelativeToolTip": "BookFlix.Web\\DependencyInjection.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAIA0wF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T03:41:33.77Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Program.cs",
+              "RelativeToolTip": "BookFlix.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T03:41:22.305Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "BookFlix.Core\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\AuthService.cs",
+              "RelativeToolTip": "BookFlix.Core\\Services\\AuthService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAUwBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T03:15:39.816Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserCreateDto.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Dtos\\User\\UserCreateDto.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Dtos\\User\\UserCreateDto.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Dtos\\User\\UserCreateDto.cs",
+              "RelativeToolTip": "BookFlix.Web\\Dtos\\User\\UserCreateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-04T08:04:10.127Z",
               "EditorCaption": ""
             },
             {
@@ -83,20 +129,56 @@
               "RelativeDocumentMoniker": "BookFlix.Core\\Services\\UserService.cs",
               "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\UserService.cs",
               "RelativeToolTip": "BookFlix.Core\\Services\\UserService.cs",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAxwN4AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAM0AAABgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T14:56:57.851Z",
+              "WhenOpened": "2025-09-20T12:37:52.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\JwtService.cs",
+              "RelativeDocumentMoniker": "BookFlix.Core\\Services\\JwtService.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Core\\Services\\JwtService.cs",
+              "RelativeToolTip": "BookFlix.Core\\Services\\JwtService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAIA8wDEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T12:33:44.493Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "BookFlix.Web\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-19T17:29:10.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "BookFlix.Web\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Web\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "BookFlix.Web\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAIBBwBwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T15:58:54.437Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "RefreshTokenRepository.cs",
               "DocumentMoniker": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\RefreshTokenRepository.cs",
               "RelativeDocumentMoniker": "BookFlix.Infrastructure\\Repositories\\RefreshTokenRepository.cs",
               "ToolTip": "C:\\Users\\saleh\\Desktop\\Programming\\Projects\\BookFlix\\BookFlix.Infrastructure\\Repositories\\RefreshTokenRepository.cs",
               "RelativeToolTip": "BookFlix.Infrastructure\\Repositories\\RefreshTokenRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T14:24:53.502Z"
             }
