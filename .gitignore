@@ -1,0 +1,17 @@
+# Angular specific
+node_modules/
+dist/
+tmp/
+
+# Visual Studio specific
+.vs/
+*.user
+*.suo
+*.obj
+bin/
+obj/
+FileContentIndex
+*.cache
+
+# Environment files
+.env
