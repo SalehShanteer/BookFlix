@@ -45,6 +45,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/books"
 });
 
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 

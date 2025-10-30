@@ -58,6 +58,18 @@ namespace BookFlix.Core.Services
             };
             return refreshToken;
         }
+
+        public RefreshToken GenerateRefreshToken(int userId, DateTime expireDate)
+        {
+            var jwtSettings = _configuration.GetSection("Jwt");
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                ExpiresAt = expireDate,
+                UserId = userId
+            };
+            return refreshToken;
+        }
     }
 
 }

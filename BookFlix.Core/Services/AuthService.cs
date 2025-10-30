@@ -78,7 +78,5 @@ namespace BookFlix.Core.Services
             return ReturnTokens(user, result);
         }
 
-
-
     }
 }

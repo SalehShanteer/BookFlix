@@ -2,13 +2,13 @@
 using BookFlix.Web.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace BookFlix.Web
 {
     public static class DependencyInjection
     {
-
 
         private static byte[] GetJwtKey(IConfigurationSection jwtSettings)
         {
@@ -45,9 +45,42 @@ namespace BookFlix.Web
             });
         }
 
-        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
+        private static void SwaggerConfiguration(IServiceCollection services)
         {
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new() { Title = "BookFlix API", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter: Bearer {your token}"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+        }
+
+        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
+        {
             JwtConfiguration(services, configuration);
 
             // Add CORS service
@@ -59,6 +92,7 @@ namespace BookFlix.Web
                 });
             });
 
+
             services.AddLogging(logging =>
             {
                 logging.AddConsole();
@@ -66,7 +100,7 @@ namespace BookFlix.Web
 
             services.AddAuthorization();
             services.AddControllers();
-            services.AddSwaggerGen();
+            SwaggerConfiguration(services);
 
             services.AddScoped<IBookMapper, BookMapper>();
             services.AddScoped<IUserLogMapper, UserLogMapper>();

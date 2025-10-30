@@ -214,7 +214,7 @@ namespace BookFlix.Core.Services
 
             // Issue new tokens
             var newAccessToken = _jwtService.GenerateJwtToken(user);
-            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id, storedToken.ExpiresAt);
 
             // Revoke old token
             storedToken.RevokedAt = DateTime.UtcNow;

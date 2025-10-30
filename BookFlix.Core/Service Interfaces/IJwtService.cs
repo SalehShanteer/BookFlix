@@ -6,6 +6,7 @@ namespace BookFlix.Core.Service_Interfaces
     {
         string GenerateJwtToken(User user);
         RefreshToken GenerateRefreshToken(int userId);
+        RefreshToken GenerateRefreshToken(int userId, DateTime expireDate);
     }
 
 }

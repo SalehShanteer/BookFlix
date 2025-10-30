@@ -1,7 +1,6 @@
 ﻿using BookFlix.Core.Service_Interfaces;
 using BookFlix.Web.Dtos.User;
 using BookFlix.Web.Mapper_Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookFlix.Web.Controllers
@@ -32,22 +31,6 @@ namespace BookFlix.Web.Controllers
             if (user is null) return NotFound($"User with ID = {id} not found!");
             UserDto userDto = _userMapper.ToUserDto(user);
             return Ok(userDto);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost("admin")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDto>> AddAdminUserAsync(UserCreateDto userCreateDto)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var user = _userMapper.ToUser(userCreateDto);
-            var (result, createdUser) = await _userService.AddUserAsAdminAsync(user);
-            if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(createdUser!);
-
-            return CreatedAtAction("GetUserById", new { id = userDto.Id }, userDto);
         }
 
         [HttpPut("{id}/password")]
