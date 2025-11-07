@@ -4,7 +4,7 @@ namespace BookFlix.Web.Dtos.User
 {
     public class UserUpdateEmailDto
     {
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        [EmailAddress(ErrorMessage = "InvalidEmail")]
         public string NewEmail { get; set; } = null!;
     }
 

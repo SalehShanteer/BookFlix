@@ -4,7 +4,7 @@ namespace BookFlix.Web.Dtos.User
 {
     public class UserUpdateUsernameDto
     {
-        [MinLength(4, ErrorMessage = "Username length should be at least 4 characters.")]
+        [MinLength(4, ErrorMessage = "UsernameLengthTooShort")]
         public string NewUsername { get; set; } = null!;
     }
 

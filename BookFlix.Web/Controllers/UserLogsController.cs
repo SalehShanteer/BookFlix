@@ -24,7 +24,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IReadOnlyCollection<UserLogDto>>> GetUserLogs(int userId)
         {
-            if (userId < 1) return BadRequest("User ID must be greater than 0.");
+            if (userId < 1) return BadRequest("InvalidID");
             var userLogs = await _userLogService.GetLogsByUserIdAsync(userId);
 
             if (userLogs is null || !userLogs.Any()) return Ok(new List<UserLogDto>());

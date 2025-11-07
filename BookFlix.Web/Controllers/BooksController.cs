@@ -27,11 +27,11 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BookDto>> GetBookByIdAsync(int id)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
 
             var book = await _bookService.GetBookByIdAsync(id);
 
-            if (book is null) return NotFound($"Book with ID = {id} not found!");
+            if (book is null) return NotFound("BookNotFound");
 
             BookDto bookDto = _bookMapper.ToBookDto(book);
             return Ok(bookDto);
@@ -54,7 +54,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<FileUploadResultDto>> UploadBookAsync(int id, IFormFile file)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
 
             var validationResult = await _fileService.UploadFileAsync(id, file);
 
@@ -96,7 +96,7 @@ namespace BookFlix.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
 
             bookUpdateDto.Id = id;
 
@@ -121,7 +121,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteBookAsync(int id)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
 
             var result = await _bookService.DeleteBookAsync(id);
 

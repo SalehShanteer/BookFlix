@@ -17,7 +17,7 @@ namespace BookFlix.Web
                 return Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
             }
 
-            throw new Exception("Error: JWT key not found");
+            throw new Exception("JWTNotFound");
         }
 
         private static void JwtConfiguration(IServiceCollection services, IConfiguration configuration)

@@ -26,9 +26,9 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> GetUserByIdAsync(int id)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
             var user = await _userService.GetUserByIdAsync(id);
-            if (user is null) return NotFound($"User with ID = {id} not found!");
+            if (user is null) return NotFound($"UserNotFound");
             UserDto userDto = _userMapper.ToUserDto(user);
             return Ok(userDto);
         }
@@ -40,7 +40,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> UpdateUserPasswordAsync(int id, UserUpdatePasswordDto userUpdatePasswordDto)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = _userMapper.ToUser(userUpdatePasswordDto);
             user.Id = id;
@@ -57,7 +57,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> UpdateUserUsernameAsync(int id, UserUpdateUsernameDto userUpdateUsernameDto)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = _userMapper.ToUser(userUpdateUsernameDto);
             user.Id = id;
@@ -74,7 +74,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> UpdateUserEmailAsync(int id, UserUpdateEmailDto userUpdateEmailDto)
         {
-            if (id < 1) return BadRequest("ID must be greater than 0.");
+            if (id < 1) return BadRequest("InvalidID");
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = _userMapper.ToUser(userUpdateEmailDto);
             user.Id = id;

@@ -67,7 +67,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
         {
-            if (loginDto is null) return BadRequest("Login data cannot be null.");
+            if (loginDto is null) return BadRequest("NullLoginRequest");
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

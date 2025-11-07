@@ -22,7 +22,6 @@ export class Login {
 
   onLogin() {
     const loginRequest: ILogin = this.loginForm.value;
-    console.log('login');
     this.authService.login(loginRequest).subscribe({
       next: (res) => {
         console.log('Login successful:', res);

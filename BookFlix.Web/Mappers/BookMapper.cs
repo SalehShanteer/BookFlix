@@ -28,7 +28,7 @@ namespace BookFlix.Web.Mappers
                 var author = await _authorRepository.GetByIdAsync(authorId);
                 if (author is null)
                 {
-                    result.Errors.Add($"Author with ID {authorId} not found.");
+                    result.Errors.Add($"AuthorNotFound");
                     break;
                 }
 
@@ -46,7 +46,7 @@ namespace BookFlix.Web.Mappers
                 var genre = await _genreRepository.GetByIdAsync(genreId);
                 if (genre is null)
                 {
-                    result.Errors.Add($"genreId with ID {genreId} not found.");
+                    result.Errors.Add($"GenreNotFound");
                     break;
                 }
                 genres.Add(genre);

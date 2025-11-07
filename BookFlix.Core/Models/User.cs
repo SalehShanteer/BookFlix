@@ -5,9 +5,9 @@ namespace BookFlix.Core.Models
 {
     public class User : Entity
     {
-        [MinLength(4, ErrorMessage = "Username length should be at least 4 characters.")]
+        [MinLength(4, ErrorMessage = "UsernameLengthTooShort")]
         public string? Username { get; set; }
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        [EmailAddress(ErrorMessage = "InvalidEmail")]
         public string? Email { get; set; }
         public string? PasswordHash { get; set; } // Using BCrypt
         public string Role { get; set; } = "User";

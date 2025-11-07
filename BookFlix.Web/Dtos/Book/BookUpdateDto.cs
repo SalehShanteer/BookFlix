@@ -4,8 +4,7 @@ namespace BookFlix.Web.Dtos.Book
 {
     public class BookUpdateDto : BookCreateDto
     {
-        [Required(ErrorMessage = "Id is required")]
-
+        [Required(ErrorMessage = "IdRequired")]
         public int Id { get; set; }
     }
 }
