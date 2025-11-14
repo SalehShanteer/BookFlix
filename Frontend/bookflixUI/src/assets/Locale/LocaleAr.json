@@ -1,0 +1,12 @@
+{
+  "ConfirmPassword": "تأكيد كلمة المرور",
+  "CreateAccount": "إنشاء حساب",
+  "EmailUsed": "البريد الإلكتروني مستخدم من قبل",
+  "EnterEmail": "أدخل البريد الإلكتروني",
+  "EnterPassword": "أدخل كلمة المرور",
+  "EnterUsername": "أدخل اسم المستخدم",
+  "RegisterCardMessage": "انضم إلينا وابدأ تجربتك الآن!",
+  "PasswordWeak": "كلمة المرور ضعيفة جدًا",
+  "SignIn": "تسجيل الدخول",
+  "UsernameUsed": "اسم المستخدم مستخدم من قبل"
+}

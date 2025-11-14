@@ -33,15 +33,15 @@ namespace BookFlix.Core.Services
         {
             if (string.IsNullOrWhiteSpace(username))
             {
-                _logger.LogErrorForValidation("User name is empty.", validationResult);
+                _logger.LogErrorForValidation("UserEmpty", validationResult);
             }
             else if (username.Length < 4)
             {
-                _logger.LogErrorForValidation("Username length should be at least 4 characters.", validationResult);
+                _logger.LogErrorForValidation("UsernameLengthTooShort", validationResult);
             }
             else if (await IsUsernameUsedBefore(username))
             {
-                _logger.LogErrorForValidation("Username is already in use.", validationResult);
+                _logger.LogErrorForValidation("UsernameUsed", validationResult);
             }
         }
 
@@ -49,19 +49,11 @@ namespace BookFlix.Core.Services
         {
             if (string.IsNullOrWhiteSpace(password))
             {
-                _logger.LogErrorForValidation("Password is empty.", validationResult);
-            }
-            else if (password.Length < 8)
-            {
-                _logger.LogErrorForValidation("Password length should be at least 8 characters.", validationResult);
-            }
-            else if (password.Length > 60)
-            {
-                _logger.LogErrorForValidation("Password length should not exceed 60 characters.", validationResult);
+                _logger.LogErrorForValidation("PasswordEmpty", validationResult);
             }
             else if (!PasswordHelper.IsStrongPassword(password))
             {
-                _logger.LogErrorForValidation("Password is not strong enough. It should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.", validationResult);
+                _logger.LogErrorForValidation("PasswordWeak", validationResult);
             }
         }
 
@@ -69,11 +61,11 @@ namespace BookFlix.Core.Services
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                _logger.LogErrorForValidation("Email is empty.", validationResult);
+                _logger.LogErrorForValidation("EmailEmpty", validationResult);
             }
             else if (await IsEmailUsedBefore(email))
             {
-                _logger.LogErrorForValidation("Email is already in use.", validationResult);
+                _logger.LogErrorForValidation("EmailUsed", validationResult);
             }
         }
 
@@ -88,9 +80,9 @@ namespace BookFlix.Core.Services
             return validationResult;
         }
 
-        private (ValidationResult Result, User? User) ReturnUserNotFound(int userId, ValidationResult validationResult)
+        private (ValidationResult Result, User? User) ReturnUserNotFound(ValidationResult validationResult)
         {
-            _logger.LogErrorForValidation($"User with ID {userId} not found.", validationResult);
+            _logger.LogErrorForValidation($"UserNotFound", validationResult);
             validationResult.StatusCode = enStatusCode.NotFound;
             return (validationResult, null);
         }
@@ -150,7 +142,7 @@ namespace BookFlix.Core.Services
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
 
-            if (existingUser is null) return ReturnUserNotFound(user.Id, validationResult);
+            if (existingUser is null) return ReturnUserNotFound(validationResult);
 
             if (!PasswordHelper.VerifyPassword(oldPassword, existingUser.PasswordHash ?? string.Empty))
             {
@@ -178,7 +170,7 @@ namespace BookFlix.Core.Services
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
 
-            if (existingUser is null) return ReturnUserNotFound(user.Id, validationResult);
+            if (existingUser is null) return ReturnUserNotFound(validationResult);
             if (existingUser.Username != user.Username) await ValidateUsername(user.Username ?? string.Empty, validationResult);
             if (!validationResult.IsValid) ReturnBadRequest(validationResult);
 
@@ -193,7 +185,7 @@ namespace BookFlix.Core.Services
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
 
-            if (existingUser is null) return ReturnUserNotFound(user.Id, validationResult);
+            if (existingUser is null) return ReturnUserNotFound(validationResult);
             if (existingUser.Email != user.Email) await ValidateEmail(user.Email ?? string.Empty, validationResult);
             if (!validationResult.IsValid) ReturnBadRequest(validationResult);
 
@@ -206,11 +198,11 @@ namespace BookFlix.Core.Services
         public async Task<(ValidationResult Result, string? AccessToken, string? RefreshToken)> UpdateUserRefreshToken(string refreshToken)
         {
             var user = await GetUserByRefreshToken(refreshToken);
-            if (user is null) return UnauthorizedRequest("Invalid refresh token.");
+            if (user is null) return UnauthorizedRequest("InvalidRefreshToken");
 
             var storedToken = user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken);
             if (storedToken is null || !storedToken.IsActive)
-                return UnauthorizedRequest("Refresh token is expired or revoked.");
+                return UnauthorizedRequest("RefreshTokenExpiredOrRevoked");
 
             // Issue new tokens
             var newAccessToken = _jwtService.GenerateJwtToken(user);

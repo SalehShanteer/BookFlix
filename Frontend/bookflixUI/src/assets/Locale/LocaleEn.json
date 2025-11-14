@@ -1,0 +1,12 @@
+{
+  "ConfirmPassword": "Confirm Password",
+  "CreateAccount": "Create Account",
+  "EmailUsed": "Email is already used",
+  "EnterEmail": "Enter Email",
+  "EnterPassword": "Enter Password",
+  "EnterUsername": "Enter Username",
+  "RegisterCardMessage": "Join us and start your experience now!",
+  "PasswordWeak": "Password is too weak",
+  "SignIn": "SignIn",
+  "UsernameUsed": "Username used before"
+}

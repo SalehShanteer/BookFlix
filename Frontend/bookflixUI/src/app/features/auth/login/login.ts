@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin } from '../../../core/models/auth/login.model';
-import { AuthService } from '../../../core/services/auth';
+import { AuthService } from '../../../core/services/auth-service';
 
 @Component({
   selector: 'app-login',
