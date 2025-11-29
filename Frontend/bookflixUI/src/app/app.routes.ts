@@ -5,6 +5,7 @@ import { Login } from './features/auth/login/login';
 import { UserDashboard } from './features/users/user-dashboard/user-dashboard';
 import { Home } from './features/home/home';
 import { Register } from './features/auth/register/register';
+import { ServerError } from './shared/components/server-error/server-error';
 
 export const routes: Routes = [
   {
@@ -22,5 +23,9 @@ export const routes: Routes = [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
     ],
+  },
+  {
+    path: 'server-error',
+    component: ServerError,
   },
 ];

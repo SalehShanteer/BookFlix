@@ -14,7 +14,7 @@
           placeholder="{{ 'EnterUsername' | locale }}"
         />
         @if (usernameHasError){
-        <p>{{ usernameError }}</p>
+        <p class="error-text">{{ usernameError }}</p>
         }
       </div>
       <div class="mb-3">
@@ -26,28 +26,24 @@
           placeholder="{{ 'EnterEmail' | locale }}"
         />
         @if (emailHasError){
-        <p>{{ emailError }}</p>
+        <p class="error-text">{{ emailError }}</p>
         }
       </div>
       <div class="mb-3">
-        <input
+        <app-password-field
           id="newPassword"
-          class="form-control"
-          type="password"
           formControlName="newPassword"
-          placeholder="{{ 'EnterPassword' | locale }}"
+          placeholder="EnterPassword"
         />
         @if (passwordHasError){
-        <p>{{ passwordError }}</p>
+        <p class="error-text">{{ passwordError }}</p>
         }
       </div>
       <div class="mb-3">
-        <input
+        <app-password-field
           id="confirmPassword"
-          class="form-control"
-          type="password"
           formControlName="confirmPassword"
-          placeholder="{{ 'ConfirmPassword' | locale }}"
+          placeholder="ConfirmPassword"
         />
       </div>
       <button class="btn btn-primary w-100 py-2" [disabled]="registerForm.invalid">

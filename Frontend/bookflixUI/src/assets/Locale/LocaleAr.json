@@ -8,5 +8,13 @@
   "RegisterCardMessage": "انضم إلينا وابدأ تجربتك الآن!",
   "PasswordWeak": "كلمة المرور ضعيفة جدًا",
   "SignIn": "تسجيل الدخول",
-  "UsernameUsed": "اسم المستخدم مستخدم من قبل"
+  "UsernameUsed": "اسم المستخدم مستخدم من قبل",
+  "ServerErrorTitle": "خطأ في الخادم",
+  "ServerErrorMessage": "حدث خطأ في الخادم. يرجى المحاولة لاحقًا.",
+  "GoHome": "العودة إلى الصفحة الرئيسية",
+  "GoBack": "العودة",
+  "WelcomeBack": "مرحبًا بعودتك",
+  "EmailAddress": "البريد الإلكتروني",
+  "RegisterNow": "ليس لديك حساب؟ سجّل الآن",
+  "SignInToAccount": "سجّل الدخول إلى حسابك"
 }

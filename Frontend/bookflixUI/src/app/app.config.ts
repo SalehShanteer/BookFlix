@@ -8,16 +8,17 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
-import { LocaleService} from './core/services/locale-service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { LocaleService } from './core/services/locale-service';
+import { serverErrorInterceptor } from './core/interceptors/server-error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
-    provideAppInitializer(() =>{
+    provideHttpClient(withInterceptors([serverErrorInterceptor])),
+    provideAppInitializer(() => {
       const localeService = inject(LocaleService);
       return localeService.loadLanguage();
     }),

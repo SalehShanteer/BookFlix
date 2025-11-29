@@ -8,10 +8,12 @@ import { LocaleService } from '../../../core/services/locale-service';
 import { LocalePipe } from '../../../shared/pipes/locale-pipe';
 import { BaseComponent } from '../../../shared/base/base-component';
 import { ErrorHelper } from '../../../shared/helpers/error-helper';
+import { PasswordHelper } from '../../../shared/helpers/password-helper';
+import { PasswordField } from "../../../shared/components/password-field/password-field";
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, LocalePipe],
+  imports: [ReactiveFormsModule, LocalePipe, PasswordField],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -50,6 +52,22 @@ export class Register extends BaseComponent {
     this.loadErrorMessages();
   }
 
+  private validatePassword(): boolean {
+    const password = this.registerForm.get('newPassword')?.value;
+    const result = PasswordHelper.IsStrongPassword(password);
+    if (!result) {
+      this.passwordHasError = true;
+    }
+    return result;
+  }
+
+  private validateSignUp(): boolean {
+    let isValid: boolean = true;
+    isValid &&= this.validatePassword();
+
+    return isValid;
+  }
+
   private resetErrors() {
     this.usernameHasError = false;
     this.emailHasError = false;
@@ -76,6 +94,7 @@ export class Register extends BaseComponent {
   onSignUp() {
     this.resetErrors();
 
+    if (!this.validateSignUp()) return;
     const { username, email, newPassword } = this.registerForm.value;
     const registerRequest: ISignup = {
       username,

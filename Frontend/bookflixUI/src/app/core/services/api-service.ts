@@ -30,8 +30,8 @@ export class ApiService {
     });
   }
 
-  private handleError(error: any) {
-    console.error('API Error:', error);
-    return throwError(() => error);
+  private handleError(err: any) {
+    console.error('API Error:', err);
+    return throwError(() => err);
   }
 }

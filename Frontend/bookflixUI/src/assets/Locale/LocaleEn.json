@@ -8,5 +8,13 @@
   "RegisterCardMessage": "Join us and start your experience now!",
   "PasswordWeak": "Password is too weak",
   "SignIn": "SignIn",
-  "UsernameUsed": "Username used before"
+  "UsernameUsed": "Username used before",
+  "ServerErrorTitle": "Server Error",
+  "ServerErrorMessage": "Something went wrong on our side. Please try again later.",
+  "GoHome": "Go to Home",
+  "GoBack": "Go Back",
+  "WelcomeBack": "Welcome Back",
+  "EmailAddress": "Email Address",
+  "RegisterNow": "Don't have an account? Register Now",
+  "SignInToAccount": "Sign in to your account"
 }

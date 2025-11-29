@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ILogin } from '../../../core/models/auth/login.model';
 import { AuthService } from '../../../core/services/auth-service';
+import { PasswordField } from '../../../shared/components/password-field/password-field';
+import { LocalePipe } from '../../../shared/pipes/locale-pipe';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, PasswordField, LocalePipe],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

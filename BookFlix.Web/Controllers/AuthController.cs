@@ -36,7 +36,6 @@ namespace BookFlix.Web.Controllers
 
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
             var authResult = await _authService.LoginAsync(userCreateDto.Email, userCreateDto.Password, ipAddress);
-
             return Ok(new TokensDto { AccessToken = authResult.AccessToken, RefreshToken = authResult.RefreshToken });
         }
 
