@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api-service';
 import { ISignup } from '../models/auth/signup.model';
 import { IToken } from '../models/auth/token.model';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { TokenHelper } from '../../shared/helpers/token-helper';
 import { ILogin } from '../models/auth/login.model';
 
@@ -11,6 +11,15 @@ import { ILogin } from '../models/auth/login.model';
 })
 export class AuthService {
   constructor(private api: ApiService) {}
+
+  isAuthenticated(): Observable<Boolean> {
+    var accessToken = TokenHelper.getAccessToken();
+    var refreshToken = TokenHelper.getRefreshToken();
+    if (!accessToken || !refreshToken) {
+      return of(false);
+    }
+    return this.api.post<Boolean>('/auth/is-authenticated', { token: refreshToken });
+  }
 
   login(loginModel: ILogin): Observable<IToken> {
     return this.api.post<IToken>('/auth/login', loginModel).pipe(

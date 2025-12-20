@@ -6,11 +6,13 @@ import { UserDashboard } from './features/users/user-dashboard/user-dashboard';
 import { Home } from './features/home/home';
 import { Register } from './features/auth/register/register';
 import { ServerError } from './shared/components/server-error/server-error';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authGuard],
     children: [
       { path: '', component: Home },
       { path: 'dashboard', component: UserDashboard },

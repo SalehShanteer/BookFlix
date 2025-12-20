@@ -77,6 +77,5 @@ namespace BookFlix.Core.Services
             LogLoginAttempt(user.Id, true, ipAddress);
             return ReturnTokens(user, result);
         }
-
     }
 }

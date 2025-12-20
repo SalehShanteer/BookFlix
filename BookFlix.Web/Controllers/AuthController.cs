@@ -14,12 +14,14 @@ namespace BookFlix.Web.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly IUserMapper _userMapper;
+        private readonly IJwtService _jwtService;
 
-        public AuthController(IAuthService authService, IUserService userService, IUserMapper userMapper)
+        public AuthController(IAuthService authService, IUserService userService, IUserMapper userMapper, IJwtService jwtService)
         {
             _authService = authService;
             _userService = userService;
             _userMapper = userMapper;
+            _jwtService = jwtService;
         }
 
         [HttpPost("signup")]
@@ -79,9 +81,13 @@ namespace BookFlix.Web.Controllers
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshAsync([FromBody] string refreshToken)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> RefreshAsync([FromBody] RefreshTokenDto refreshToken)
         {
-            var (result, newAccessToken, newRefreshToken) = await _userService.UpdateUserRefreshToken(refreshToken);
+            if (refreshToken is null || refreshToken.Token is null) return BadRequest("RefreshTokenIsNull");
+            var (result, newAccessToken, newRefreshToken) = await _userService.UpdateUserRefreshToken(refreshToken.Token);
 
             if (!result.IsValid) return result.ToActionResult();
 
@@ -92,6 +98,16 @@ namespace BookFlix.Web.Controllers
             });
         }
 
+        [HttpPost("is-authenticated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> IsAuthenticatedAsync([FromBody] RefreshTokenDto refreshToken)
+        {
+            if (refreshToken is null || refreshToken.Token is null) return BadRequest("RefreshTokenIsNull");
+            var isAuthenticated = await _jwtService.IsValidRefreshToken(refreshToken.Token);
+
+            return Ok(isAuthenticated);
+        }
 
     }
 }

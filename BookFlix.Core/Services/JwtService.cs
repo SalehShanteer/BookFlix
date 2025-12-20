@@ -1,4 +1,5 @@
 ﻿using BookFlix.Core.Models;
+using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,10 +13,12 @@ namespace BookFlix.Core.Services
     public class JwtService : IJwtService
     {
         IConfiguration _configuration;
+        IRefreshTokenRepository _refreshTokenRepository;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository)
         {
             _configuration = configuration;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public string GenerateJwtToken(User user)
@@ -69,6 +72,13 @@ namespace BookFlix.Core.Services
                 UserId = userId
             };
             return refreshToken;
+        }
+
+        public async Task<bool> IsValidRefreshToken(string token)
+        {
+            var refreshToken = await _refreshTokenRepository.GetByTokenAsync(token);
+
+            return refreshToken is not null && refreshToken.IsActive;
         }
     }
 

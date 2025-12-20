@@ -92,7 +92,6 @@ namespace BookFlix.Web
                 });
             });
 
-
             services.AddLogging(logging =>
             {
                 logging.AddConsole();
