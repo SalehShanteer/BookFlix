@@ -45,7 +45,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/books"
 });
 
-app.UseCors("AllowAll");
+app.UseCors("BookFlixApiCorsPolicy");
 
 app.UseHttpsRedirection();
 

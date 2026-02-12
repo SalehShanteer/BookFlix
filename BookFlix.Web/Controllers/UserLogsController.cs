@@ -1,10 +1,12 @@
 ﻿using BookFlix.Core.Service_Interfaces;
 using BookFlix.Web.Dtos.UserLog;
 using BookFlix.Web.Mapper_Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookFlix.Web.Controllers
 {
+    [Authorize]
     [Route("api/userlogs")]
     [ApiController]
     public class UserLogsController : ControllerBase

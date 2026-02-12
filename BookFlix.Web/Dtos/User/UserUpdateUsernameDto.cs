@@ -5,7 +5,7 @@ namespace BookFlix.Web.Dtos.User
     public class UserUpdateUsernameDto
     {
         [MinLength(4, ErrorMessage = "UsernameLengthTooShort")]
-        public string NewUsername { get; set; } = null!;
+        public string NewUsername { get; set; }
     }
 
 }

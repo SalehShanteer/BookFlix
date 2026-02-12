@@ -18,7 +18,7 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Genre?> GetByIdAsync(int id)
+        public async Task<Genre> GetByIdAsync(int id)
         {
             return await _context.Genres.FindAsync(id);
         }

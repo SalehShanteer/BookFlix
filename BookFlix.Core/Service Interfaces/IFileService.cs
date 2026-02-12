@@ -7,7 +7,7 @@ namespace BookFlix.Core.Service_Interfaces
     public interface IFileService
     {
         Task<UploadeBookValidationResult> UploadFileAsync(int bookId, IFormFile file);
-        void DeleteBookFile(string? fileLocation, ValidationResult result);
+        void DeleteBookFile(string fileLocation, ValidationResult result);
     }
 
 }

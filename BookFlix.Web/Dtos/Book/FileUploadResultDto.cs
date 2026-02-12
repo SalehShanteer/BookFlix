@@ -2,6 +2,6 @@
 {
     public class FileUploadResultDto
     {
-        public string FileUrl { get; set; } = default!;
+        public string FileUrl { get; set; }
     }
 }

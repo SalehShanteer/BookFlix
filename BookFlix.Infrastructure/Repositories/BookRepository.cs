@@ -35,7 +35,7 @@ namespace BookFlix.Infrastructure.Repositories
                 .Where(b => b.Authors.Any(a => a.Id == authorId))
                 .ToListAsync();
 
-        public async Task<Book?> GetByIdAsync(int id)
+        public async Task<Book> GetByIdAsync(int id)
         => await _context.Books
                 .AsSplitQuery()
                 .AsNoTracking()
@@ -43,7 +43,7 @@ namespace BookFlix.Infrastructure.Repositories
                 .Include(b => b.Genres)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-        public async Task<Book?> GetByIdForUpdateAsync(int id)
+        public async Task<Book> GetByIdForUpdateAsync(int id)
              => await _context.Books
                 .AsSplitQuery()
                 .Include(b => b.Authors)
@@ -78,7 +78,7 @@ namespace BookFlix.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<Book?> GetByISBNAsync(string isbn)
+        public async Task<Book> GetByISBNAsync(string isbn)
         => await _context.Books
                 .AsSplitQuery()
                 .AsNoTracking()
@@ -93,7 +93,7 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<bool> IsExistById(int id) => await _context.Books.AsNoTracking().AnyAsync(b => b.Id == id);
 
-        public async Task<(string? FileLocation, bool IsBookExist)> GetFileLocationAsync(int id)
+        public async Task<(string FileLocation, bool IsBookExist)> GetFileLocationAsync(int id)
         {
             var result = await _context.Books
                 .AsNoTracking()

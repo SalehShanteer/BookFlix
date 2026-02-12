@@ -14,7 +14,7 @@ namespace BookFlix.Web
         {
             if (jwtSettings is not null && jwtSettings["Key"] is not null)
             {
-                return Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+                return Encoding.UTF8.GetBytes(jwtSettings["Key"]);
             }
 
             throw new Exception("JWTNotFound");
@@ -86,9 +86,9 @@ namespace BookFlix.Web
             // Add CORS service
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", builder =>
+                options.AddPolicy("BookFlixApiCorsPolicy", policy =>
                 {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    policy.WithOrigins("https://localhost:7217", "http://localhost:5215").AllowAnyMethod().AllowAnyHeader();
                 });
             });
 

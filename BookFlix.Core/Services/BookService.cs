@@ -78,7 +78,7 @@ namespace BookFlix.Core.Services
                 existingBook.Genres.Add(genre);
         }
 
-        public async Task<(ValidationResult result, Book? book)> AddBookAsync(Book book)
+        public async Task<(ValidationResult result, Book book)> AddBookAsync(Book book)
         {
             var result = await ValidatBookAsync(book);
 
@@ -96,11 +96,11 @@ namespace BookFlix.Core.Services
 
         public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(int authorId) => await _bookRepository.GetByAuthorIdAsync(authorId);
 
-        public async Task<Book?> GetBookByIdAsync(int id) => await _bookRepository.GetByIdAsync(id);
+        public async Task<Book> GetBookByIdAsync(int id) => await _bookRepository.GetByIdAsync(id);
 
-        public async Task<Book?> GetBookByIdForUpdateAsync(int id) => await _bookRepository.GetByIdForUpdateAsync(id);
+        public async Task<Book> GetBookByIdForUpdateAsync(int id) => await _bookRepository.GetByIdForUpdateAsync(id);
 
-        public async Task<(ValidationResult result, Book? book)> UpdateBookAsync(Book updatedBook)
+        public async Task<(ValidationResult result, Book book)> UpdateBookAsync(Book updatedBook)
         {
             var result = new ValidationResult();
 
@@ -170,6 +170,6 @@ namespace BookFlix.Core.Services
             }
         }
 
-        public async Task<Book?> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
+        public async Task<Book> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
     }
 }

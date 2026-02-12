@@ -1,10 +1,12 @@
 ﻿using BookFlix.Core.Service_Interfaces;
 using BookFlix.Web.Dtos.Book;
 using BookFlix.Web.Mapper_Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookFlix.Web.Controllers
 {
+    [Authorize]
     [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -82,7 +84,7 @@ namespace BookFlix.Web.Controllers
 
             if (!newBookResult.result.IsValid) return BadRequest(newBookResult.result.Errors);
             book = newBookResult.book;
-            var bookDto = _bookMapper.ToBookDto(book!);
+            var bookDto = _bookMapper.ToBookDto(book);
 
             return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
         }
@@ -110,7 +112,7 @@ namespace BookFlix.Web.Controllers
             if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
 
             book = validationResult.book;
-            var bookDto = _bookMapper.ToBookDto(book!);
+            var bookDto = _bookMapper.ToBookDto(book);
             return Ok(bookDto);
         }
 

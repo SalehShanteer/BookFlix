@@ -80,7 +80,7 @@ namespace BookFlix.Core.Services
             }
         }
 
-        public void DeleteBookFile(string? fileLocation, ValidationResult result)
+        public void DeleteBookFile(string fileLocation, ValidationResult result)
         {
             if (!string.IsNullOrEmpty(fileLocation))
             {
@@ -97,7 +97,7 @@ namespace BookFlix.Core.Services
             }
         }
 
-        private void ValidateFile(IFormFile? file, UploadeBookValidationResult result)
+        private void ValidateFile(IFormFile file, UploadeBookValidationResult result)
         {
             if (file == null || file.Length == 0)
             {

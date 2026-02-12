@@ -34,7 +34,7 @@ namespace BookFlix.Core.Services
             _userLogRepository.AddAsync(log);
         }
 
-        private (ValidationResult Result, string? AccessToken, string? RefreshToken) ReturnTokens(User user, ValidationResult result)
+        private (ValidationResult Result, string AccessToken, string RefreshToken) ReturnTokens(User user, ValidationResult result)
         {
             string accessToken = _jwtService.GenerateJwtToken(user);
             var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
@@ -44,7 +44,7 @@ namespace BookFlix.Core.Services
             return (result, accessToken, refreshToken.Token);
         }
 
-        public async Task<(ValidationResult Result, string? AccessToken, string? RefreshToken)>
+        public async Task<(ValidationResult Result, string AccessToken, string RefreshToken)>
             LoginAsync(string email, string password, string ipAddress)
         {
             var result = new ValidationResult();
@@ -65,7 +65,7 @@ namespace BookFlix.Core.Services
                 return (result, null, null);
             }
 
-            if (!PasswordHelper.VerifyPassword(password, user.PasswordHash!))
+            if (!PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
                 _logger.LogErrorForValidation("Invalid password", result);
                 result.StatusCode = enStatusCode.Unauthorized;

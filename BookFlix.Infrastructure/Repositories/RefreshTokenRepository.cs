@@ -20,7 +20,7 @@ namespace BookFlix.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<RefreshToken?> GetByTokenAsync(string token)
+        public async Task<RefreshToken> GetByTokenAsync(string token)
             => await _context.RefreshTokens.SingleOrDefaultAsync(rt => rt.Token == token);
 
     }

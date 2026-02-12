@@ -20,7 +20,7 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Review?> GetByIdAsync(int id)
+        public Task<Review> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

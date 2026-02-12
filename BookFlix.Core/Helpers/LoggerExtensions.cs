@@ -11,7 +11,7 @@ namespace BookFlix.Core.Helpers
             logger.LogError(message);
         }
 
-        public static void LogExceptionErrorForValidation(this ILogger logger, Exception? ex, string message, ValidationResult result)
+        public static void LogExceptionErrorForValidation(this ILogger logger, Exception ex, string message, ValidationResult result)
         {
             result.Errors.Add(message);
             logger.LogError(ex, message);

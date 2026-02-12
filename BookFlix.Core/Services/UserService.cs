@@ -80,20 +80,20 @@ namespace BookFlix.Core.Services
             return validationResult;
         }
 
-        private (ValidationResult Result, User? User) ReturnUserNotFound(ValidationResult validationResult)
+        private (ValidationResult Result, User User) ReturnUserNotFound(ValidationResult validationResult)
         {
             _logger.LogErrorForValidation($"UserNotFound", validationResult);
             validationResult.StatusCode = enStatusCode.NotFound;
             return (validationResult, null);
         }
 
-        private (ValidationResult Result, User? User) ReturnBadRequest(ValidationResult validationResult)
+        private (ValidationResult Result, User User) ReturnBadRequest(ValidationResult validationResult)
         {
             validationResult.StatusCode = enStatusCode.BadRequest;
             return (validationResult, null);
         }
 
-        private (ValidationResult Result, string? AccessToken, string? RefreshToken) UnauthorizedRequest(string message)
+        private (ValidationResult Result, string AccessToken, string RefreshToken) UnauthorizedRequest(string message)
         {
             var validationResult = new ValidationResult();
             _logger.LogErrorForValidation(message, validationResult);
@@ -101,7 +101,7 @@ namespace BookFlix.Core.Services
             return (validationResult, null, null);
         }
 
-        public async Task<(ValidationResult Result, User? User)> AddUserAsync(User user)
+        public async Task<(ValidationResult Result, User User)> AddUserAsync(User user)
         {
             var validationResult = await ValidateUser(user);
 
@@ -111,13 +111,13 @@ namespace BookFlix.Core.Services
                 return (validationResult, null);
             }
 
-            user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash!);
+            user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
             var userToAdd = await _userRepository.AddAsync(user);
 
             return (validationResult, userToAdd);
         }
 
-        public async Task<(ValidationResult Result, User? User)> AddUserAsAdminAsync(User user)
+        public async Task<(ValidationResult Result, User User)> AddUserAsAdminAsync(User user)
         {
             user.Role = "Admin";
             return await AddUserAsync(user);
@@ -126,10 +126,10 @@ namespace BookFlix.Core.Services
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
             => await _userRepository.GetAllAsync();
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
             => await _userRepository.GetByIdAsync(id);
 
-        public async Task<User?> GetUserByRefreshToken(string token)
+        public async Task<User> GetUserByRefreshToken(string token)
         {
             var refreshToken = await _refreshTokenRepository.GetByTokenAsync(token);
             if (refreshToken is null || !refreshToken.IsActive) return null;
@@ -137,7 +137,7 @@ namespace BookFlix.Core.Services
             return await _userRepository.GetByIdWithRelationsAsync(refreshToken.UserId);
         }
 
-        public async Task<(ValidationResult Result, User? User)> UpdateUserPasswordAsync(User user, string oldPassword)
+        public async Task<(ValidationResult Result, User User)> UpdateUserPasswordAsync(User user, string oldPassword)
         {
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
@@ -159,13 +159,13 @@ namespace BookFlix.Core.Services
 
             if (!validationResult.IsValid) ReturnBadRequest(validationResult);
 
-            existingUser.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash!);
+            existingUser.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
             existingUser.UpdatedAt = DateTime.UtcNow;
             var updatedUser = await _userRepository.UpdateAsync(existingUser);
             return (validationResult, updatedUser);
         }
 
-        public async Task<(ValidationResult Result, User? User)> UpdateUserUsernameAsync(User user)
+        public async Task<(ValidationResult Result, User User)> UpdateUserUsernameAsync(User user)
         {
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
@@ -180,7 +180,7 @@ namespace BookFlix.Core.Services
             return (validationResult, updatedUser);
         }
 
-        public async Task<(ValidationResult Result, User? User)> UpdateUserEmailAsync(User user)
+        public async Task<(ValidationResult Result, User User)> UpdateUserEmailAsync(User user)
         {
             var existingUser = await _userRepository.GetByIdAsync(user.Id);
             var validationResult = new ValidationResult();
@@ -195,7 +195,7 @@ namespace BookFlix.Core.Services
             return (validationResult, updatedUser);
         }
 
-        public async Task<(ValidationResult Result, string? AccessToken, string? RefreshToken)> UpdateUserRefreshToken(string refreshToken)
+        public async Task<(ValidationResult Result, string AccessToken, string RefreshToken)> UpdateUserRefreshToken(string refreshToken)
         {
             var user = await GetUserByRefreshToken(refreshToken);
             if (user is null) return UnauthorizedRequest("InvalidRefreshToken");

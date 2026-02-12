@@ -6,10 +6,10 @@ namespace BookFlix.Web.Dtos.Auth
     {
         [Required(ErrorMessage = "EmailRequired")]
         [EmailAddress(ErrorMessage = "InvalidEmail")]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "PasswordRequired")]
-        public string Password { get; set; } = null!;
+        public string Password { get; set; }
     }
 
 }

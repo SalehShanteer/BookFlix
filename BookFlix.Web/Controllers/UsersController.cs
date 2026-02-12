@@ -1,10 +1,13 @@
 ﻿using BookFlix.Core.Service_Interfaces;
 using BookFlix.Web.Dtos.User;
 using BookFlix.Web.Mapper_Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 
 namespace BookFlix.Web.Controllers
 {
+    [Authorize]
     [Route("api/Users")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -46,7 +49,7 @@ namespace BookFlix.Web.Controllers
             user.Id = id;
             var (result, updatedUser) = await _userService.UpdateUserPasswordAsync(user, userUpdatePasswordDto.OldPassword);
             if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser!);
+            var userDto = _userMapper.ToUserDto(updatedUser);
             return Ok(userDto);
         }
 
@@ -63,7 +66,7 @@ namespace BookFlix.Web.Controllers
             user.Id = id;
             var (result, updatedUser) = await _userService.UpdateUserUsernameAsync(user);
             if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser!);
+            var userDto = _userMapper.ToUserDto(updatedUser);
             return Ok(userDto);
         }
 
@@ -80,10 +83,8 @@ namespace BookFlix.Web.Controllers
             user.Id = id;
             var (result, updatedUser) = await _userService.UpdateUserEmailAsync(user);
             if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser!);
+            var userDto = _userMapper.ToUserDto(updatedUser);
             return Ok(userDto);
         }
-
-
     }
 }

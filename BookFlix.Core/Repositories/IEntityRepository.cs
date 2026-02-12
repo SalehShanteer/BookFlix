@@ -2,7 +2,7 @@
 {
     public interface IEntityRepository<T> where T : class
     {
-        Task<T?> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
         Task<IReadOnlyCollection<T>> GetAllAsync();
         Task<bool> IsExistById(int id);

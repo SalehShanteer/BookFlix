@@ -8,7 +8,7 @@ namespace BookFlix.Web.Dtos.UserLog
         public int UserId { get; set; }
         public enEventType EventType { get; set; } = enEventType.Login; // 0 => Logout, 1 => Login
         public DateTime Timestamp { get; set; }
-        public string? IpAddress { get; set; }
+        public string IpAddress { get; set; }
         public bool Success { get; set; }
     }
 }
