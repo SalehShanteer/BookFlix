@@ -25,7 +25,7 @@ namespace BookFlix.Core.Models
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public string FileLocation { get; set; }
 

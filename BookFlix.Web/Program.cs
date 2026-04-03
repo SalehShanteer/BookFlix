@@ -2,10 +2,7 @@ using BookFlix.Core;
 using BookFlix.Infrastructure;
 using BookFlix.Web;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
-
-[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
 var builder = WebApplication.CreateBuilder(args);
 

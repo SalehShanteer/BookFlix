@@ -3,7 +3,6 @@ using BookFlix.Web.Dtos.User;
 using BookFlix.Web.Mapper_Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
 
 namespace BookFlix.Web.Controllers
 {
@@ -39,7 +38,6 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> UpdateUserPasswordAsync(int id, UserUpdatePasswordDto userUpdatePasswordDto)
         {
             if (id < 1) return BadRequest("InvalidID");
