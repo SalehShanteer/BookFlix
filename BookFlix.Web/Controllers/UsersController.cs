@@ -12,7 +12,6 @@ namespace BookFlix.Web.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-
         public readonly IUserMapper _userMapper;
         public readonly IUserService _userService;
 

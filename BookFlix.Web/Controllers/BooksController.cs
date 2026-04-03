@@ -23,6 +23,7 @@ namespace BookFlix.Web.Controllers
             _bookMapper = bookMapper;
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -39,6 +40,7 @@ namespace BookFlix.Web.Controllers
             return Ok(bookDto);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -49,6 +51,7 @@ namespace BookFlix.Web.Controllers
             return Ok(bookDtos);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/Upload")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +70,7 @@ namespace BookFlix.Web.Controllers
             return Ok(new FileUploadResultDto { FileUrl = validationResult.FileLocation });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,7 +81,7 @@ namespace BookFlix.Web.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var bookResult = await _bookMapper.ToBook(createBookDto);
 
-            if (!bookResult.Result.IsValid) return NotFound(bookResult.Result.Errors);
+            if (!bookResult.Result.IsValid) return BadRequest(bookResult.Result.Errors);
             var book = bookResult.Book;
 
             var newBookResult = await _bookService.AddBookAsync(book);

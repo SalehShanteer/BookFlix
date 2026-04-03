@@ -11,5 +11,4 @@ namespace BookFlix.Web.Dtos.Auth
         [Required(ErrorMessage = "PasswordRequired")]
         public string Password { get; set; }
     }
-
 }

@@ -7,7 +7,7 @@ namespace BookFlix.Core.Services.Validation
 
     public class ValidationResult
     {
-        public bool IsValid => !Errors.Any();
+        public bool IsValid => Errors.Any();
         public enStatusCode StatusCode { get; set; } = enStatusCode.Ok;
         public List<string> Errors { get; set; } = new List<string>();
 

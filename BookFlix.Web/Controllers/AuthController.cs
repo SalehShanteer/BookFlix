@@ -108,6 +108,5 @@ namespace BookFlix.Web.Controllers
 
             return Ok(isAuthenticated);
         }
-
     }
 }

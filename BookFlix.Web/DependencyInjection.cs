@@ -9,7 +9,6 @@ namespace BookFlix.Web
 {
     public static class DependencyInjection
     {
-
         private static byte[] GetJwtKey(IConfigurationSection jwtSettings)
         {
             if (jwtSettings is not null && jwtSettings["Key"] is not null)
@@ -23,7 +22,6 @@ namespace BookFlix.Web
         private static void JwtConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("Jwt");
-
             byte[] key = GetJwtKey(jwtSettings);
 
             services.AddAuthentication(options =>
@@ -47,19 +45,17 @@ namespace BookFlix.Web
 
         private static void SwaggerConfiguration(IServiceCollection services)
         {
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new() { Title = "BookFlix API", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "Enter: Bearer {your token}"
+                    // Updated description so you don't accidentally type "Bearer" twice in the UI
+                    Description = "Enter your JWT token below. Swagger automatically adds the 'Bearer' prefix."
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -88,7 +84,9 @@ namespace BookFlix.Web
             {
                 options.AddPolicy("BookFlixApiCorsPolicy", policy =>
                 {
-                    policy.WithOrigins("https://localhost:7217", "http://localhost:5215").AllowAnyMethod().AllowAnyHeader();
+                    policy.WithOrigins("https://localhost:7217", "http://localhost:5215")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
                 });
             });
 

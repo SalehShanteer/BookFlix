@@ -17,7 +17,7 @@ namespace BookFlix.Core.Models
 
         public string Publisher { get; set; }
 
-        public int PageCount { get; set; }
+        public int? PageCount { get; set; }
 
         public decimal AverageRating { get; set; }
 
