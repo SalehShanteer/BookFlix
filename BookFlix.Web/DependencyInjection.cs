@@ -9,11 +9,11 @@ namespace BookFlix.Web
 {
     public static class DependencyInjection
     {
-        private static byte[] GetJwtKey(IConfigurationSection jwtSettings)
+        private static byte[] GetJwtKey(string jwtKey)
         {
-            if (jwtSettings is not null && jwtSettings["Key"] is not null)
+            if (jwtKey is not null)
             {
-                return Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+                return Encoding.UTF8.GetBytes(jwtKey);
             }
 
             throw new Exception("JWTNotFound");
@@ -21,8 +21,9 @@ namespace BookFlix.Web
 
         private static void JwtConfiguration(IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("Jwt");
-            byte[] key = GetJwtKey(jwtSettings);
+            var jwtSettings = configuration.GetSection("Jwt:Key");
+            var jwtKey = configuration["Jwt:Key"];
+            byte[] jwtKeyBytes = GetJwtKey(jwtKey);
 
             services.AddAuthentication(options =>
             {
@@ -38,7 +39,7 @@ namespace BookFlix.Web
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings["Issuer"],
                     ValidAudience = jwtSettings["Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtKeyBytes)
                 };
             });
         }
