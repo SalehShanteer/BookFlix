@@ -9,7 +9,7 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ToTable("RefreshTokens");
-            builder.HasKey(rt => rt.Id);
+            builder.HasKey(rt => rt.ID);
             builder.Property(rt => rt.Token)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -24,7 +24,7 @@ namespace BookFlix.Infrastructure.Data.Config
             // Relationships
             builder.HasOne(rt => rt.User)
                 .WithMany(u => u.RefreshTokens)
-                .HasForeignKey(rt => rt.UserId);
+                .HasForeignKey(rt => rt.UserID);
         }
     }
 }

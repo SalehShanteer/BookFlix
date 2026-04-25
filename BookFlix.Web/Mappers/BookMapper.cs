@@ -22,7 +22,7 @@ namespace BookFlix.Web.Mappers
         {
             return new BookDto
             {
-                Id = book.Id,
+                ID = book.ID,
                 Title = book.Title,
                 Description = book.Description,
                 ISBN = book.ISBN,
@@ -36,12 +36,12 @@ namespace BookFlix.Web.Mappers
                 UpdatedAt = book.UpdatedAt,
                 Authors = book.Authors?.Select(a => new AuthorDto
                 {
-                    Id = a.Id,
+                    ID = a.ID,
                     Name = a.Name
                 }).ToList() ?? new List<AuthorDto>(),
                 Genres = book.Genres?.Select(g => new GenreDto
                 {
-                    Id = g.Id,
+                    ID = g.ID,
                     Name = g.Name
                 }).ToList() ?? new List<GenreDto>()
             };
@@ -49,8 +49,8 @@ namespace BookFlix.Web.Mappers
 
         public async Task<Book> ToBook(BookCreateDto dto)
         {
-            var authors = await GetAuthors(dto.AuthorIds);
-            var genres = await GetGenres(dto.GenreIds);
+            var authors = await GetAuthors(dto.AuthorIDs);
+            var genres = await GetGenres(dto.GenreIDs);
 
             return new Book
             {
@@ -69,12 +69,12 @@ namespace BookFlix.Web.Mappers
 
         public async Task<Book> ToBook(BookUpdateDto dto)
         {
-            var authors = await GetAuthors(dto.AuthorIds);
-            var genres = await GetGenres(dto.GenreIds);
+            var authors = await GetAuthors(dto.AuthorIDs);
+            var genres = await GetGenres(dto.GenreIDs);
 
             return new Book
             {
-                Id = dto.Id,
+                ID = dto.ID,
                 Title = dto.Title,
                 Description = dto.Description,
                 ISBN = dto.ISBN,
@@ -93,24 +93,24 @@ namespace BookFlix.Web.Mappers
             return books.Select(ToBookDto).ToList();
         }
 
-        private async Task<List<Author>> GetAuthors(List<Guid> authorIds)
+        private async Task<List<Author>> GetAuthors(List<Guid> authorIDs)
         {
             var authors = new List<Author>();
-            foreach (var id in authorIds)
+            foreach (var id in authorIDs)
             {
-                var author = await _authorRepository.GetByIdAsync(id);
+                var author = await _authorRepository.GetByIDAsync(id);
                 if (author is null) throw new KeyNotFoundException("AuthorNotFound");
                 authors.Add(author);
             }
             return authors;
         }
 
-        private async Task<List<Genre>> GetGenres(List<int> genreIds)
+        private async Task<List<Genre>> GetGenres(List<int> genreIDs)
         {
             var genres = new List<Genre>();
-            foreach (var id in genreIds)
+            foreach (var id in genreIDs)
             {
-                var genre = await _genreRepository.GetByIdAsync(id);
+                var genre = await _genreRepository.GetByIDAsync(id);
                 if (genre is null) throw new KeyNotFoundException("GenreNotFound");
                 genres.Add(genre);
             }

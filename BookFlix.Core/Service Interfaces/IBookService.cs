@@ -7,9 +7,9 @@ namespace BookFlix.Core.Service_Interfaces
     {
         Task<Result<Book>> AddBookAsync(Book book);
         Task<IReadOnlyCollection<Book>> GetAllBooksAsync();
-        Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorId);
-        Task<Book> GetBookByIdAsync(Guid id);
-        Task<Book> GetBookByIdForUpdateAsync(Guid id);
+        Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorID);
+        Task<Book> GetBookByIDAsync(Guid id);
+        Task<Book> GetBookByIDForUpdateAsync(Guid id);
         Task<Result<Book>> UpdateBookAsync(Book book);
         Task<Result> DeleteBookAsync(Guid id);
         Task<Book> GetBookByIsbnAsync(string isbn);

@@ -1,8 +1,6 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
-using BookFlix.Core.Services.Validation;
 using BookFlix.Infrastructure.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookFlix.Infrastructure.Repositories
@@ -31,33 +29,26 @@ namespace BookFlix.Infrastructure.Repositories
                 .AsNoTracking()
                 .ToListAsync();
 
-        public async Task<IReadOnlyCollection<Book>> GetByAuthorIdAsync(Guid authorId)
+        public async Task<IReadOnlyCollection<Book>> GetByAuthorIDAsync(Guid authorID)
         => await _context.Books
                 .AsNoTracking()
-                .Where(b => b.Authors.Any(a => a.Id == authorId))
+                .Where(b => b.Authors.Any(a => a.ID == authorID))
                 .ToListAsync();
 
-        public async Task<Book> GetByIdAsync(Guid id)
+        public async Task<Book> GetByIDAsync(Guid id)
         => await _context.Books
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(b => b.Authors)
                 .Include(b => b.Genres)
-                .FirstOrDefaultAsync(b => b.Id == id);
+                .FirstOrDefaultAsync(b => b.ID == id);
 
-        public async Task<Book> GetByIdForUpdateAsync(Guid id)
+        public async Task<Book> GetByIDForUpdateAsync(Guid id)
              => await _context.Books
                 .AsSplitQuery()
                 .Include(b => b.Authors)
                 .Include(b => b.Genres)
-                .FirstOrDefaultAsync(b => b.Id == id);
-
-        public async Task<Book> UpdateAsync(Book entity)
-        {
-            _context.Books.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
+                .FirstOrDefaultAsync(b => b.ID == id);
 
         public async Task<bool> UpdateFileLocationAsync(Guid id, string fileLocation)
         {
@@ -90,22 +81,22 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<bool> IsExistByIsbnAsync(string isbn) => await _context.Books.AsNoTracking().AnyAsync(b => b.ISBN == isbn);
 
-        public async Task<bool> IsExistByIsbnAsync(Guid id, string isbn) => await _context.Books.AsNoTracking().AnyAsync(b => b.ISBN == isbn && b.Id != id);
+        public async Task<bool> IsExistByIsbnAsync(Guid id, string isbn) => await _context.Books.AsNoTracking().AnyAsync(b => b.ISBN == isbn && b.ID != id);
 
-
-        public async Task<bool> IsExistById(Guid id) => await _context.Books.AsNoTracking().AnyAsync(b => b.Id == id);
+        public async Task<bool> IsExistByIDAsync(Guid id) => await _context.Books.AsNoTracking().AnyAsync(b => b.ID == id);
 
         public async Task<string> GetFileLocationAsync(Guid id)
         {
             var result = await _context.Books
                 .AsNoTracking()
-                .Where(b => b.Id == id)
-                .Select(b => new { FileLocation = b.FileLocation })
+                .Where(b => b.ID == id)
+                .Select(b => new { b.FileLocation })
                 .FirstOrDefaultAsync();
 
             if (result is null) return null;
 
             return result.FileLocation;
         }
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

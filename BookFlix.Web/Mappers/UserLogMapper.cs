@@ -10,8 +10,8 @@ namespace BookFlix.Web.Mappers
         {
             var userLogDtos = userLogs.Select(log => new UserLogDto
             {
-                Id = log.Id,
-                UserId = log.UserId,
+                ID = log.ID,
+                UserID = log.UserID,
                 EventType = log.EventType,
                 Timestamp = log.Timestamp,
                 IpAddress = log.IpAddress,

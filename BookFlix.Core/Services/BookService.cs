@@ -33,17 +33,17 @@ namespace BookFlix.Core.Services
             var validationResult = await ValidateBookAsync(updatedBook, false);
             if (validationResult.IsFailure) return Result.Failure<Book>(validationResult.Error);
 
-            var existingBook = await _bookRepository.GetByIdForUpdateAsync(updatedBook.Id);
+            var existingBook = await _bookRepository.GetByIDForUpdateAsync(updatedBook.ID);
             if (existingBook is null)
             {
-                _logger.LogWarning("Update failed: Book {BookId} not found.", updatedBook.Id);
+                _logger.LogWarning("Update failed: Book {BookID} not found.", updatedBook.ID);
                 return Result.Failure<Book>(Error.NotFound("BookNotFound"));
             }
 
             UpdateBookProperties(existingBook, updatedBook);
-            var saved = await _bookRepository.UpdateAsync(existingBook);
+            await _bookRepository.SaveChangesAsync();
 
-            return Result.Success(saved);
+            return Result.Success(existingBook);
         }
 
         public async Task<Result> DeleteBookAsync(Guid id)
@@ -51,7 +51,7 @@ namespace BookFlix.Core.Services
             using var transaction = await _bookRepository.BeginTransactionAsync();
             try
             {
-                var book = await _bookRepository.GetByIdAsync(id);
+                var book = await _bookRepository.GetByIDAsync(id);
                 if (book is null)
                 {
                     return Result.Failure(Error.NotFound("BookNotFound"));
@@ -65,19 +65,19 @@ namespace BookFlix.Core.Services
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                _logger.LogError(ex, "An unexpected error occurred while deleting book {BookId}", id);
+                _logger.LogError(ex, "An unexpected error occurred while deleting book {BookID}", id);
                 return Result.Failure(Error.Failure("BookDeleteError"));
             }
         }
 
         public async Task<IReadOnlyCollection<Book>> GetAllBooksAsync() => await _bookRepository.GetAllAsync();
-        public async Task<Book> GetBookByIdAsync(Guid id) => await _bookRepository.GetByIdAsync(id);
+        public async Task<Book> GetBookByIDAsync(Guid id) => await _bookRepository.GetByIDAsync(id);
 
         public async Task<Book> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
 
-        public async Task<Book> GetBookByIdForUpdateAsync(Guid id) => await _bookRepository.GetByIdForUpdateAsync(id);
+        public async Task<Book> GetBookByIDForUpdateAsync(Guid id) => await _bookRepository.GetByIDForUpdateAsync(id);
 
-        public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorId) => await _bookRepository.GetByAuthorIdAsync(authorId);
+        public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorID) => await _bookRepository.GetByAuthorIDAsync(authorID);
 
         private async Task<Result> ValidateBookAsync(Book book, bool isNew)
         {
@@ -94,7 +94,7 @@ namespace BookFlix.Core.Services
 
             bool isExist = isNew
                 ? await _bookRepository.IsExistByIsbnAsync(book.ISBN)
-                : await _bookRepository.IsExistByIsbnAsync(book.Id, book.ISBN);
+                : await _bookRepository.IsExistByIsbnAsync(book.ID, book.ISBN);
 
             if (isExist)
             {

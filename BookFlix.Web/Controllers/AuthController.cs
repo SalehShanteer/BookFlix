@@ -29,7 +29,7 @@ namespace BookFlix.Web.Controllers
         public async Task<IActionResult> SignupAsync(UserCreateDto userCreateDto)
         {
             var user = _userMapper.ToUser(userCreateDto);
-            var result = await _userService.AddUserAsync(user);
+            var result = await _userService.AddUserAsUserAsync(user);
 
             if (result.IsFailure) return HandleFailure(result);
 

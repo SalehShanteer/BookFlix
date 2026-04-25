@@ -9,7 +9,7 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.ToTable("Books");
-            builder.HasKey(b => b.Id);
+            builder.HasKey(b => b.ID);
             builder.HasIndex(b => b.ISBN)
                 .IsUnique();
 
@@ -46,13 +46,17 @@ namespace BookFlix.Infrastructure.Data.Config
             // Relationships
             builder.HasMany(b => b.Authors)
                 .WithMany(a => a.Books)
-                .UsingEntity<BookAuthor>();
+                .UsingEntity<BookAuthor>()
+                .HasKey(ba => new { ba.BookID, ba.AuthorID });
+
             builder.HasMany(b => b.Reviews)
                 .WithOne(r => r.Book)
-                .HasForeignKey(r => r.BookId);
+                .HasForeignKey(r => r.BookID);
+
             builder.HasMany(b => b.Genres)
                 .WithMany(g => g.Books)
-                .UsingEntity<BookGenre>();
+                .UsingEntity<BookGenre>()
+                .HasKey(bg => new { bg.BookID, bg.GenreID });
 
             // Seed data
             builder.HasData(SeedData.LoadBookData());

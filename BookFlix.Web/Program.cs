@@ -2,7 +2,6 @@ using BookFlix.Core;
 using BookFlix.Infrastructure;
 using BookFlix.Web;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 

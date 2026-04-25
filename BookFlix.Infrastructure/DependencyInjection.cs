@@ -23,6 +23,7 @@ namespace BookFlix.Infrastructure
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserLogRepository, UserLogRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 

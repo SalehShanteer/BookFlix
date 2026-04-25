@@ -9,11 +9,11 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
             builder.ToTable("Genres");
-            builder.HasKey(g => g.Id);
+            builder.HasKey(g => g.ID);
             builder.HasIndex(g => g.Name)
                 .IsUnique();
 
-            builder.Property(g => g.Id).ValueGeneratedNever();
+            builder.Property(g => g.ID).ValueGeneratedNever();
             builder.Property(g => g.Name)
                 .IsRequired()
                 .HasMaxLength(50);

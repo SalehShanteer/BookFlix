@@ -24,7 +24,7 @@ namespace BookFlix.Infrastructure.Migrations
 
             modelBuilder.Entity("BookFlix.Core.Models.Author", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -33,7 +33,7 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -43,49 +43,49 @@ namespace BookFlix.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000001"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000001"),
                             Name = "F. Scott Fitzgerald"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000002"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000002"),
                             Name = "Harper Lee"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000003"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000003"),
                             Name = "George Orwell"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000004"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000004"),
                             Name = "Jane Austen"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000005"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000005"),
                             Name = "J.R.R. Tolkien"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000006"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000006"),
                             Name = "Frank Herbert"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000007"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000007"),
                             Name = "Yuval Noah Harari"
                         },
                         new
                         {
-                            Id = new Guid("a0000000-0000-0000-0000-000000000008"),
+                            ID = new Guid("a0000000-0000-0000-0000-000000000008"),
                             Name = "Dan Brown"
                         });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.Book", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -134,7 +134,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("ISBN")
                         .IsUnique()
@@ -145,7 +145,7 @@ namespace BookFlix.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000001"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000001"),
                             AverageRating = 4.20m,
                             CoverImageUrl = "https://example.com/great-gatsby.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -159,7 +159,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000002"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000002"),
                             AverageRating = 4.30m,
                             CoverImageUrl = "https://example.com/to-kill-a-mockingbird.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -173,7 +173,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000003"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000003"),
                             AverageRating = 4.40m,
                             CoverImageUrl = "https://example.com/1984.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -187,7 +187,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000004"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000004"),
                             AverageRating = 4.25m,
                             CoverImageUrl = "https://example.com/pride-and-prejudice.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -201,7 +201,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000005"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000005"),
                             AverageRating = 4.27m,
                             CoverImageUrl = "https://example.com/the-hobbit.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -215,7 +215,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000006"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000006"),
                             AverageRating = 4.21m,
                             CoverImageUrl = "https://example.com/dune.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -229,7 +229,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000007"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000007"),
                             AverageRating = 4.38m,
                             CoverImageUrl = "https://example.com/sapiens.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -243,7 +243,7 @@ namespace BookFlix.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0000000-0000-0000-0000-000000000008"),
+                            ID = new Guid("b0000000-0000-0000-0000-000000000008"),
                             AverageRating = 3.85m,
                             CoverImageUrl = "https://example.com/da-vinci-code.jpg",
                             CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -259,141 +259,141 @@ namespace BookFlix.Infrastructure.Migrations
 
             modelBuilder.Entity("BookFlix.Core.Models.BookAuthor", b =>
                 {
-                    b.Property<Guid>("BookId")
+                    b.Property<Guid>("BookID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
+                    b.Property<Guid>("AuthorID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("BookId", "AuthorId");
+                    b.HasKey("BookID", "AuthorID");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorID");
 
                     b.ToTable("BookAuthors", (string)null);
 
                     b.HasData(
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000001"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000001")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000001"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000002"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000002")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000002"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000002")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000003"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000003")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000003"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000003")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000004"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000004")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000004"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000004")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000005"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000005")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000005"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000005")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000006"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000006")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000006"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000006")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000007"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000007")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000007"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000007")
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000008"),
-                            AuthorId = new Guid("a0000000-0000-0000-0000-000000000008")
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000008"),
+                            AuthorID = new Guid("a0000000-0000-0000-0000-000000000008")
                         });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.BookGenre", b =>
                 {
-                    b.Property<Guid>("BookId")
+                    b.Property<Guid>("BookID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int>("GenreID")
                         .HasColumnType("int");
 
-                    b.HasKey("BookId", "GenreId");
+                    b.HasKey("BookID", "GenreID");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("GenreID");
 
                     b.ToTable("BookGenres", (string)null);
 
                     b.HasData(
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000001"),
-                            GenreId = 1
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000001"),
+                            GenreID = 1
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000002"),
-                            GenreId = 1
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000002"),
+                            GenreID = 1
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000003"),
-                            GenreId = 3
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000003"),
+                            GenreID = 3
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000004"),
-                            GenreId = 7
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000004"),
+                            GenreID = 7
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000004"),
-                            GenreId = 8
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000004"),
+                            GenreID = 8
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000005"),
-                            GenreId = 4
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000005"),
+                            GenreID = 4
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000005"),
-                            GenreId = 19
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000005"),
+                            GenreID = 19
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000006"),
-                            GenreId = 3
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000006"),
+                            GenreID = 3
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000007"),
-                            GenreId = 2
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000007"),
+                            GenreID = 2
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000007"),
-                            GenreId = 14
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000007"),
+                            GenreID = 14
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000008"),
-                            GenreId = 6
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000008"),
+                            GenreID = 6
                         },
                         new
                         {
-                            BookId = new Guid("b0000000-0000-0000-0000-000000000008"),
-                            GenreId = 5
+                            BookID = new Guid("b0000000-0000-0000-0000-000000000008"),
+                            GenreID = 5
                         });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.Genre", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -401,7 +401,7 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -411,134 +411,134 @@ namespace BookFlix.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            ID = 1,
                             Name = "Fiction"
                         },
                         new
                         {
-                            Id = 2,
+                            ID = 2,
                             Name = "Nonfiction"
                         },
                         new
                         {
-                            Id = 3,
+                            ID = 3,
                             Name = "Science Fiction"
                         },
                         new
                         {
-                            Id = 4,
+                            ID = 4,
                             Name = "Fantasy"
                         },
                         new
                         {
-                            Id = 5,
+                            ID = 5,
                             Name = "Mystery"
                         },
                         new
                         {
-                            Id = 6,
+                            ID = 6,
                             Name = "Thriller"
                         },
                         new
                         {
-                            Id = 7,
+                            ID = 7,
                             Name = "Romance"
                         },
                         new
                         {
-                            Id = 8,
+                            ID = 8,
                             Name = "Historical Fiction"
                         },
                         new
                         {
-                            Id = 9,
+                            ID = 9,
                             Name = "Biography"
                         },
                         new
                         {
-                            Id = 10,
+                            ID = 10,
                             Name = "Autobiography"
                         },
                         new
                         {
-                            Id = 11,
+                            ID = 11,
                             Name = "Self-Help"
                         },
                         new
                         {
-                            Id = 12,
+                            ID = 12,
                             Name = "Business"
                         },
                         new
                         {
-                            Id = 13,
+                            ID = 13,
                             Name = "Science"
                         },
                         new
                         {
-                            Id = 14,
+                            ID = 14,
                             Name = "History"
                         },
                         new
                         {
-                            Id = 15,
+                            ID = 15,
                             Name = "Young Adult"
                         },
                         new
                         {
-                            Id = 16,
+                            ID = 16,
                             Name = "Children"
                         },
                         new
                         {
-                            Id = 17,
+                            ID = 17,
                             Name = "Poetry"
                         },
                         new
                         {
-                            Id = 18,
+                            ID = 18,
                             Name = "Horror"
                         },
                         new
                         {
-                            Id = 19,
+                            ID = 19,
                             Name = "Adventure"
                         },
                         new
                         {
-                            Id = 20,
+                            ID = 20,
                             Name = "Crime"
                         },
                         new
                         {
-                            Id = 21,
+                            ID = 21,
                             Name = "Literary Criticism"
                         },
                         new
                         {
-                            Id = 22,
+                            ID = 22,
                             Name = "Cooking"
                         },
                         new
                         {
-                            Id = 23,
+                            ID = 23,
                             Name = "Travel"
                         },
                         new
                         {
-                            Id = 24,
+                            ID = 24,
                             Name = "Philosophy"
                         },
                         new
                         {
-                            Id = 25,
+                            ID = 25,
                             Name = "Religion"
                         });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.RefreshToken", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -558,23 +558,23 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.Review", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BookId")
+                    b.Property<Guid>("BookID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -592,21 +592,52 @@ namespace BookFlix.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Reviews", (string)null);
                 });
 
+            modelBuilder.Entity("BookFlix.Core.Models.Role", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("32684285-5ff9-486d-a2a4-de00bdea2d20"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            ID = new Guid("2abd05f3-fc73-4a5f-a3b5-01291030851f"),
+                            Name = "User"
+                        });
+                });
+
             modelBuilder.Entity("BookFlix.Core.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -625,13 +656,6 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)")
-                        .HasDefaultValue("User");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -640,7 +664,7 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -649,11 +673,21 @@ namespace BookFlix.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("3dba3903-21a6-413d-a479-eb807eb5e6ed"),
+                            CreatedAt = new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@example.com",
+                            PasswordHash = "$2a$11$IAzmX9gT.qkqm45lMnyh/uE0PZ793GOyIKEEn3dNdbAC1cfxcbFVa",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.UserLog", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -673,27 +707,49 @@ namespace BookFlix.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("UserLogs", (string)null);
+                });
+
+            modelBuilder.Entity("BookFlix.Core.Models.UserRole", b =>
+                {
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserID", "RoleID");
+
+                    b.HasIndex("RoleID");
+
+                    b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = new Guid("3dba3903-21a6-413d-a479-eb807eb5e6ed"),
+                            RoleID = new Guid("32684285-5ff9-486d-a2a4-de00bdea2d20")
+                        });
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.BookAuthor", b =>
                 {
                     b.HasOne("BookFlix.Core.Models.Author", null)
                         .WithMany()
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookFlix.Core.Models.Book", null)
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -702,13 +758,13 @@ namespace BookFlix.Infrastructure.Migrations
                 {
                     b.HasOne("BookFlix.Core.Models.Book", null)
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookFlix.Core.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("GenreId")
+                        .HasForeignKey("GenreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -717,7 +773,7 @@ namespace BookFlix.Infrastructure.Migrations
                 {
                     b.HasOne("BookFlix.Core.Models.User", "User")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -728,13 +784,13 @@ namespace BookFlix.Infrastructure.Migrations
                 {
                     b.HasOne("BookFlix.Core.Models.Book", "Book")
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookFlix.Core.Models.User", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -747,11 +803,26 @@ namespace BookFlix.Infrastructure.Migrations
                 {
                     b.HasOne("BookFlix.Core.Models.User", "User")
                         .WithMany("UserLogs")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookFlix.Core.Models.UserRole", b =>
+                {
+                    b.HasOne("BookFlix.Core.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookFlix.Core.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookFlix.Core.Models.Book", b =>

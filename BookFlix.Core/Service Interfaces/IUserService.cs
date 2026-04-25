@@ -5,9 +5,9 @@ namespace BookFlix.Core.Service_Interfaces
 {
     public interface IUserService
     {
-        Task<Result<User>> AddUserAsync(User user);
+        Task<Result<User>> AddUserAsUserAsync(User user);
         Task<Result<User>> AddUserAsAdminAsync(User user);
-        Task<Result<User>> GetUserByIdAsync(Guid id);
+        Task<Result<User>> GetUserByIDAsync(Guid id);
         Task<User> GetUserByRefreshToken(string token);
         Task<Result> UpdateUserPasswordAsync(Guid userID, string oldPassword, string newPassword);
         Task<Result<User>> UpdateUserUsernameAsync(Guid id, string username);

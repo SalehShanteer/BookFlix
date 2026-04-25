@@ -13,8 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.17.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+    <PackageReference Include="Microsoft.IDentityModel.JsonWebTokens" Version="8.17.0" />
+    <PackageReference Include="System.IDentityModel.Tokens.Jwt" Version="8.17.0" />
 	 <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 

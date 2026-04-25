@@ -4,7 +4,7 @@ namespace BookFlix.Core.Repositories
 {
     public interface IGenreRepository
     {
-        Task<Genre> GetByIdAsync(int id);
+        Task<Genre> GetByIDAsync(int id);
         Task<IReadOnlyCollection<Genre>> GetAllAsync();
     }
 }

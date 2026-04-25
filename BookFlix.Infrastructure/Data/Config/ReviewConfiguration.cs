@@ -9,7 +9,7 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Review> builder)
         {
             builder.ToTable("Reviews");
-            builder.HasKey(r => r.Id);
+            builder.HasKey(r => r.ID);
             builder.Property(r => r.Content)
                 .IsRequired(false)
                 .HasMaxLength(255);

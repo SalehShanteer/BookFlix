@@ -5,8 +5,8 @@ namespace BookFlix.Core.Repositories
     public interface IUserRepository : IEntityRepository<User>
     {
         Task<User> GetByEmailAsync(string email);
-        Task<User> GetByIdWithRelationsAsync(Guid id);
-        Task<bool> IsEmailExist(string email);
-        Task<bool> IsUsernameExist(string username);
+        Task<User> GetByIDWithRelationsAsync(Guid id);
+        Task<bool> IsEmailExistAsync(string email);
+        Task<bool> IsUsernameExistAsync(string username);
     }
 }

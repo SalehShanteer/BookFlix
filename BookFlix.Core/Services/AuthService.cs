@@ -41,20 +41,20 @@ namespace BookFlix.Core.Services
             if (!PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
                 _logger.LogError("Invalid password");
-                LogLoginAttempt(user.Id, false, ipAddress);
+                LogLoginAttempt(user.ID, false, ipAddress);
 
                 return Result.Failure<(string, string)>(Error.Validation("InvalidPassword"));
             }
 
-            LogLoginAttempt(user.Id, true, ipAddress);
+            LogLoginAttempt(user.ID, true, ipAddress);
             return ReturnTokens(user);
         }
 
-        private void LogLoginAttempt(Guid userId, bool isSuccess, string ipAddress)
+        private void LogLoginAttempt(Guid userID, bool isSuccess, string ipAddress)
         {
             var log = new UserLog
             {
-                UserId = userId,
+                UserID = userID,
                 EventType = EventType.Login,
                 Success = isSuccess,
                 IpAddress = ipAddress,
@@ -65,9 +65,9 @@ namespace BookFlix.Core.Services
         private Result<(string AccessToken, string RefreshToken)> ReturnTokens(User user)
         {
             string accessToken = _jwtService.GenerateJwtToken(user);
-            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            var refreshToken = _jwtService.GenerateRefreshToken(user.ID);
             user.RefreshTokens.Add(refreshToken);
-            _userRepository.UpdateAsync(user);
+            _userRepository.SaveChangesAsync();
 
             return Result.Success((accessToken, refreshToken.Token));
         }

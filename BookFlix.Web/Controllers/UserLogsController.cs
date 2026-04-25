@@ -21,13 +21,13 @@ namespace BookFlix.Web.Controllers
             _userLogMapper = userLogMapper;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetUserLogs(Guid userId)
+        public async Task<IActionResult> GetUserLogs(Guid userID)
         {
-            var userLogs = await _userLogService.GetLogsByUserIdAsync(userId);
+            var userLogs = await _userLogService.GetLogsByUserIDAsync(userID);
 
             if (userLogs.IsEmpty()) return Ok(new List<UserLogDto>());
             var userLogDtos = _userLogMapper.ToUserLogDtos(userLogs);

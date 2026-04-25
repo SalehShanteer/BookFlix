@@ -20,12 +20,22 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Review> GetByIdAsync(Guid id)
+        public Task<Review> GetByIDAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsExistById(Guid id)
+        public Task<Review> GetByIDForUpdateAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsExistByIDAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
         {
             throw new NotImplementedException();
         }

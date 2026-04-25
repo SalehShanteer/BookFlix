@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookFlix.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,19 +17,19 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authors", x => x.Id);
+                    table.PrimaryKey("PK_Authors", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     ISBN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
@@ -45,59 +45,70 @@ namespace BookFlix.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.PrimaryKey("PK_Genres", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false, defaultValue: "User"),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BookAuthors",
                 columns: table => new
                 {
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BookID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookAuthors", x => new { x.BookId, x.AuthorId });
+                    table.PrimaryKey("PK_BookAuthors", x => new { x.BookID, x.AuthorID });
                     table.ForeignKey(
-                        name: "FK_BookAuthors_Authors_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_BookAuthors_Authors_AuthorID",
+                        column: x => x.AuthorID,
                         principalTable: "Authors",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookAuthors_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_BookAuthors_Books_BookID",
+                        column: x => x.BookID,
                         principalTable: "Books",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -105,23 +116,23 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "BookGenres",
                 columns: table => new
                 {
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    BookID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GenreID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookGenres", x => new { x.BookId, x.GenreId });
+                    table.PrimaryKey("PK_BookGenres", x => new { x.BookID, x.GenreID });
                     table.ForeignKey(
-                        name: "FK_BookGenres_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_BookGenres_Books_BookID",
+                        column: x => x.BookID,
                         principalTable: "Books",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookGenres_Genres_GenreId",
-                        column: x => x.GenreId,
+                        name: "FK_BookGenres_Genres_GenreID",
+                        column: x => x.GenreID,
                         principalTable: "Genres",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -129,21 +140,21 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "RefreshTokens",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     RevokedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.PrimaryKey("PK_RefreshTokens", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_RefreshTokens_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_RefreshTokens_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -151,28 +162,28 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Rating = table.Column<byte>(type: "tinyint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BookID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Reviews_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_Reviews_Books_BookID",
+                        column: x => x.BookID,
                         principalTable: "Books",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Reviews_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -180,8 +191,8 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "UserLogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventType = table.Column<int>(type: "int", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     IpAddress = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
@@ -189,18 +200,42 @@ namespace BookFlix.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogs", x => x.Id);
+                    table.PrimaryKey("PK_UserLogs", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_UserLogs_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserLogs_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserID, x.RoleID });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Roles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Authors",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "ID", "Name" },
                 values: new object[,]
                 {
                     { new Guid("a0000000-0000-0000-0000-000000000001"), "F. Scott Fitzgerald" },
@@ -215,7 +250,7 @@ namespace BookFlix.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "AverageRating", "CoverImageUrl", "CreatedAt", "Description", "FileLocation", "ISBN", "IsAvailable", "PageCount", "PublicationDate", "Publisher", "Title", "UpdatedAt" },
+                columns: new[] { "ID", "AverageRating", "CoverImageUrl", "CreatedAt", "Description", "FileLocation", "ISBN", "IsAvailable", "PageCount", "PublicationDate", "Publisher", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
                     { new Guid("b0000000-0000-0000-0000-000000000001"), 4.20m, "https://example.com/great-gatsby.jpg", new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "A novel set in the Roaring Twenties.", null, "9780743273565", true, 180, new DateTime(1925, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Scribner", "The Great Gatsby", null },
@@ -230,7 +265,7 @@ namespace BookFlix.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "ID", "Name" },
                 values: new object[,]
                 {
                     { 1, "Fiction" },
@@ -261,8 +296,22 @@ namespace BookFlix.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "ID", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("2abd05f3-fc73-4a5f-a3b5-01291030851f"), "User" },
+                    { new Guid("32684285-5ff9-486d-a2a4-de00bdea2d20"), "Admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "ID", "CreatedAt", "Email", "PasswordHash", "UpdatedAt", "Username" },
+                values: new object[] { new Guid("3dba3903-21a6-413d-a479-eb807eb5e6ed"), new DateTime(2025, 8, 5, 10, 0, 0, 0, DateTimeKind.Utc), "admin@example.com", "$2a$11$IAzmX9gT.qkqm45lMnyh/uE0PZ793GOyIKEEn3dNdbAC1cfxcbFVa", null, "admin" });
+
+            migrationBuilder.InsertData(
                 table: "BookAuthors",
-                columns: new[] { "AuthorId", "BookId" },
+                columns: new[] { "AuthorID", "BookID" },
                 values: new object[,]
                 {
                     { new Guid("a0000000-0000-0000-0000-000000000001"), new Guid("b0000000-0000-0000-0000-000000000001") },
@@ -277,7 +326,7 @@ namespace BookFlix.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "BookGenres",
-                columns: new[] { "BookId", "GenreId" },
+                columns: new[] { "BookID", "GenreID" },
                 values: new object[,]
                 {
                     { new Guid("b0000000-0000-0000-0000-000000000001"), 1 },
@@ -294,6 +343,11 @@ namespace BookFlix.Infrastructure.Migrations
                     { new Guid("b0000000-0000-0000-0000-000000000008"), 6 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleID", "UserID" },
+                values: new object[] { new Guid("32684285-5ff9-486d-a2a4-de00bdea2d20"), new Guid("3dba3903-21a6-413d-a479-eb807eb5e6ed") });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Authors_Name",
                 table: "Authors",
@@ -301,14 +355,14 @@ namespace BookFlix.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookAuthors_AuthorId",
+                name: "IX_BookAuthors_AuthorID",
                 table: "BookAuthors",
-                column: "AuthorId");
+                column: "AuthorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookGenres_GenreId",
+                name: "IX_BookGenres_GenreID",
                 table: "BookGenres",
-                column: "GenreId");
+                column: "GenreID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_ISBN",
@@ -324,24 +378,35 @@ namespace BookFlix.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshTokens_UserId",
+                name: "IX_RefreshTokens_UserID",
                 table: "RefreshTokens",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_BookId",
+                name: "IX_Reviews_BookID",
                 table: "Reviews",
-                column: "BookId");
+                column: "BookID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserId",
+                name: "IX_Reviews_UserID",
                 table: "Reviews",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLogs_UserId",
+                name: "IX_Roles_Name",
+                table: "Roles",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogs_UserID",
                 table: "UserLogs",
-                column: "UserId");
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleID",
+                table: "UserRoles",
+                column: "RoleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -375,6 +440,9 @@ namespace BookFlix.Infrastructure.Migrations
                 name: "UserLogs");
 
             migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
@@ -382,6 +450,9 @@ namespace BookFlix.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -9,7 +9,7 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<BookGenre> builder)
         {
             builder.ToTable("BookGenres");
-            builder.HasKey(bg => new { bg.BookId, bg.GenreId });
+            builder.HasKey(bg => new { bg.BookID, bg.GenreID });
 
             builder.HasData(SeedData.LoadBookGenresData());
         }

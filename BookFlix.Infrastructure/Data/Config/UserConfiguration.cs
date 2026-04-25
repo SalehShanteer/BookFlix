@@ -9,16 +9,12 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(u => u.Id);
+            builder.HasKey(u => u.ID);
             builder.HasIndex(u => u.Username)
                 .IsUnique();
             builder.HasIndex(u => u.Email)
                 .IsUnique();
 
-            builder.Property(u => u.Role)
-                .IsRequired()
-                .HasMaxLength(5)
-                .HasDefaultValue("User");
             builder.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(30);
@@ -35,13 +31,20 @@ namespace BookFlix.Infrastructure.Data.Config
                 .IsRequired(false);
 
             // Relationships
+            builder.HasMany(u => u.Roles)
+                .WithMany(r => r.Users)
+                .UsingEntity<UserRole>()
+                .HasKey(ur => new { ur.UserID, ur.RoleID });
+
             builder.HasMany(u => u.Reviews)
                 .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId);
+                .HasForeignKey(r => r.UserID);
 
             builder.HasMany(u => u.RefreshTokens)
                 .WithOne(rt => rt.User)
-                .HasForeignKey(rt => rt.UserId);
+                .HasForeignKey(rt => rt.UserID);
+
+            builder.HasData(SeedData.LoadUsersData());
         }
     }
 }

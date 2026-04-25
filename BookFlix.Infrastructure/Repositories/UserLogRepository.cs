@@ -19,9 +19,9 @@ namespace BookFlix.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(Guid userId)
+        public async Task<IReadOnlyCollection<UserLog>> GetLogsByUserIDAsync(Guid userID)
             => await _context.UserLogs.AsNoTracking()
-                                      .Where(ul => ul.UserId == userId)
+                                      .Where(ul => ul.UserID == userID)
                                       .OrderByDescending(ul => ul.Timestamp)
                                       .ToListAsync();
     }

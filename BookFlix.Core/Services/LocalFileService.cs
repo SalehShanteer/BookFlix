@@ -20,15 +20,15 @@ namespace BookFlix.Core.Services
             _logger = logger;
         }
 
-        public async Task<Result<string>> UploadFileAsync(Guid bookId, IFormFile file)
+        public async Task<Result<string>> UploadFileAsync(Guid bookID, IFormFile file)
         {
             var result= ValidateFile(file);
             if (!result.IsFailure) return Result.Failure<string>(result.Error);
 
-            var filePath = await _bookRepository.GetFileLocationAsync(bookId); // (FileNameAsGuid.pdf)
+            var filePath = await _bookRepository.GetFileLocationAsync(bookID); // (FileNameAsGuid.pdf)
             if (filePath is null)
             {
-                _logger.LogError($"Book with ID {bookId} not found.");
+                _logger.LogError($"Book with ID {bookID} not found.");
                 return Result.Failure<string>(Error.NotFound("BookNotFound"));
             }
             using var transaction = await _bookRepository.BeginTransactionAsync();
@@ -41,7 +41,7 @@ namespace BookFlix.Core.Services
                 await SaveFileToDirectory(file, filePath);
 
                 var fileNameAsFileLocation = Path.GetFileName(filePath);
-                await _bookRepository.UpdateFileLocationAsync(bookId, fileNameAsFileLocation);
+                await _bookRepository.UpdateFileLocationAsync(bookID, fileNameAsFileLocation);
                 await transaction.CommitAsync();
 
                 return Result.Success(fileNameAsFileLocation);
@@ -52,13 +52,13 @@ namespace BookFlix.Core.Services
 
                 result = DeleteBookFile(filePath);
 
-                _logger.LogError(ex, "IO error uploading file for book ID {BookId}", bookId);
+                _logger.LogError(ex, "IO error uploading file for book ID {BookID}", bookID);
                 return Result.Failure<string>(Error.Failure("FileSaveStorageError"));
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                _logger.LogError(ex, "Unexpected error uploading file for book ID {BookId}", bookId);
+                _logger.LogError(ex, "Unexpected error uploading file for book ID {BookID}", bookID);
                 return Result.Failure<string>(Error.Failure("FileUnexpectedUploadError"));
             }
         }

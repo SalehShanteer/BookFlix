@@ -4,6 +4,6 @@ namespace BookFlix.Core.Repositories
 {
     public interface IAuthorRepository : IEntityRepository<Author>
     {
-        Task<Author> GetByIdWithBooksAsync(Guid id);
+        Task<Author> GetByIDWithBooksAsync(Guid id);
     }
 }

@@ -4,6 +4,6 @@ namespace BookFlix.Core.Service_Interfaces
 {
     public interface IUserLogService
     {
-        Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(Guid userId);
+        Task<IReadOnlyCollection<UserLog>> GetLogsByUserIDAsync(Guid userID);
     }
 }

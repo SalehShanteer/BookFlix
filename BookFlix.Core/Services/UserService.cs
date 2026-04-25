@@ -10,19 +10,21 @@ namespace BookFlix.Core.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly ILogger<UserService> _logger;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IJwtService _jwtService;
 
-        public UserService(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
             _refreshTokenRepository = refreshTokenRepository;
             _jwtService = jwtService;
             _logger = logger;
         }
 
-        public async Task<Result<User>> AddUserAsync(User user)
+        private async Task<Result<User>> AddUserAsync(User user)
         {
             var result = await ValidateUser(user);
 
@@ -34,17 +36,25 @@ namespace BookFlix.Core.Services
             return Result.Success(userToAdd);
         }
 
+        public async Task<Result<User>> AddUserAsUserAsync(User user)
+        {
+            var authorRole = await _roleRepository.GetByIDAsync(Guid.Parse("2abd05f3-fc73-4a5f-a3b5-01291030851f"));
+            user.Roles.Add(authorRole);
+            return await AddUserAsync(user);
+        }
+
         public async Task<Result<User>> AddUserAsAdminAsync(User user)
         {
-            user.Role = "Admin";
+            var adminRole = await _roleRepository.GetByIDAsync(Guid.Parse("32684285-5ff9-486d-a2a4-de00bdea2d20"));
+            user.Roles.Add(adminRole);
             return await AddUserAsync(user);
         }
 
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync() => await _userRepository.GetAllAsync();
 
-        public async Task<Result<User>> GetUserByIdAsync(Guid id)
+        public async Task<Result<User>> GetUserByIDAsync(Guid id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIDAsync(id);
             if (user is null) return Result.Failure<User>(Error.NotFound("UserNotFound"));
             return Result.Success(user);
         } 
@@ -54,12 +64,12 @@ namespace BookFlix.Core.Services
             var refreshToken = await _refreshTokenRepository.GetByTokenAsync(token);
             if (refreshToken is null || !refreshToken.IsActive) return null;
 
-            return await _userRepository.GetByIdWithRelationsAsync(refreshToken.UserId);
+            return await _userRepository.GetByIDWithRelationsAsync(refreshToken.UserID);
         }
 
         public async Task<Result> UpdateUserPasswordAsync(Guid userID, string oldPassword, string newPassword)
         {
-            var existingUser = await _userRepository.GetByIdAsync(userID);
+            var existingUser = await _userRepository.GetByIDAsync(userID);
 
             if (existingUser is null) return ReturnUserNotFound();
 
@@ -82,14 +92,14 @@ namespace BookFlix.Core.Services
             existingUser.PasswordHash = PasswordHelper.HashPassword(newPassword);
             existingUser.UpdatedAt = DateTime.UtcNow;
 
-            await _userRepository.UpdateAsync(existingUser);
+            await _userRepository.SaveChangesAsync();
 
             return Result.Success();
         }
 
         public async Task<Result<User>> UpdateUserUsernameAsync(Guid id, string username)
         {
-            var existingUser = await _userRepository.GetByIdAsync(id);
+            var existingUser = await _userRepository.GetByIDAsync(id);
 
             if (existingUser is null) return ReturnUserNotFound();
             if (existingUser.Username != username)
@@ -100,13 +110,13 @@ namespace BookFlix.Core.Services
 
             existingUser.Username = username;
             existingUser.UpdatedAt = DateTime.UtcNow;
-            var updatedUser = await _userRepository.UpdateAsync(existingUser);
-            return Result.Success(updatedUser);
+            await _userRepository.SaveChangesAsync();
+            return Result.Success(existingUser);
         }
 
         public async Task<Result<User>> UpdateUserEmailAsync(Guid id, string email)
         {
-            var existingUser = await _userRepository.GetByIdAsync(id);
+            var existingUser = await _userRepository.GetByIDAsync(id);
 
             if (existingUser is null) return ReturnUserNotFound();
 
@@ -118,9 +128,9 @@ namespace BookFlix.Core.Services
 
             existingUser.Email = email;
             existingUser.UpdatedAt = DateTime.UtcNow;
-            var updatedUser = await _userRepository.UpdateAsync(existingUser);
+            await _userRepository.SaveChangesAsync();
 
-            return Result.Success(updatedUser);
+            return Result.Success(existingUser);
         }
 
         public async Task<Result<(string AccessToken, string RefreshToken)>> UpdateUserRefreshToken(string refreshToken)
@@ -134,20 +144,20 @@ namespace BookFlix.Core.Services
 
             // Issue new tokens
             var newAccessToken = _jwtService.GenerateJwtToken(user);
-            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id, storedToken.ExpiresAt);
+            var newRefreshToken = _jwtService.GenerateRefreshToken(user.ID, storedToken.ExpiresAt);
 
             // Revoke old token
             storedToken.RevokedAt = DateTime.UtcNow;
             user.RefreshTokens.Add(newRefreshToken);
 
-            await _userRepository.UpdateAsync(user);
+            await _userRepository.SaveChangesAsync();
 
             return Result.Success((newAccessToken, newRefreshToken.Token));
         }
 
-        private async Task<bool> IsUsernameUsedBefore(string username) => await _userRepository.IsUsernameExist(username);
+        private async Task<bool> IsUsernameUsedBefore(string username) => await _userRepository.IsUsernameExistAsync(username);
 
-        private async Task<bool> IsEmailUsedBefore(string email) => await _userRepository.IsEmailExist(email);
+        private async Task<bool> IsEmailUsedBefore(string email) => await _userRepository.IsEmailExistAsync(email);
 
         private async Task<Result> ValidateUsername(string username)
         {

@@ -9,7 +9,7 @@ namespace BookFlix.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<UserLog> builder)
         {
             builder.ToTable("UserLogs");
-            builder.HasKey(ul => ul.Id);
+            builder.HasKey(ul => ul.ID);
 
             builder.Property(ul => ul.EventType)
                 .IsRequired();
@@ -21,13 +21,13 @@ namespace BookFlix.Infrastructure.Data.Config
                 .IsRequired(); // Max length for IPv6
             builder.Property(ul => ul.Success)
                 .IsRequired();
-            builder.Property(ul => ul.UserId)
+            builder.Property(ul => ul.UserID)
                 .IsRequired();
 
             // Relationships
             builder.HasOne(ul => ul.User)
                 .WithMany(u => u.UserLogs)
-                .HasForeignKey(ul => ul.UserId);
+                .HasForeignKey(ul => ul.UserID);
         }
     }
 }

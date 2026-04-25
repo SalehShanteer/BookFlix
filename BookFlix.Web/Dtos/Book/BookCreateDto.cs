@@ -27,11 +27,11 @@ namespace BookFlix.Web.Dtos.Book
 
         public bool IsAvailable { get; set; } = true;
 
-        public List<Guid> AuthorIds { get; set; }
+        public List<Guid> AuthorIDs { get; set; }
 
         [Required(ErrorMessage = "At least one Genre is required")]
         [MinLength(1, ErrorMessage = "At least one Genre is required")]
-        public List<int> GenreIds { get; set; }
+        public List<int> GenreIDs { get; set; }
 
         [StringLength(50, ErrorMessage = "FileLocationLengthExceed")]
         public string FileLocation { get; set; }

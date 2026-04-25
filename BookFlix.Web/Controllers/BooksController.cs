@@ -26,9 +26,9 @@ namespace BookFlix.Web.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBookByIdAsync(Guid id)
+        public async Task<IActionResult> GetBookByIDAsync(Guid id)
         {
-            var book = await _bookService.GetBookByIdAsync(id);
+            var book = await _bookService.GetBookByIDAsync(id);
 
             if (book is null) return HandleFailure(Result.Failure(Error.NotFound("BookNotFound")));
          
@@ -60,7 +60,7 @@ namespace BookFlix.Web.Controllers
 
             var bookDto = _bookMapper.ToBookDto(result.Value);
 
-            return CreatedAtAction(nameof(GetBookByIdAsync), new { id = bookDto.Id }, bookDto);
+            return CreatedAtAction(nameof(GetBookByIDAsync), new { id = bookDto.ID }, bookDto);
         }
 
         [Authorize(Roles = "Admin")]
@@ -71,7 +71,7 @@ namespace BookFlix.Web.Controllers
         public async Task<IActionResult> UpdateBookAsync(Guid id, BookUpdateDto bookUpdateDto)
         {
             var book = await _bookMapper.ToBook(bookUpdateDto);
-            book.Id = id;
+            book.ID = id;
 
             var result = await _bookService.UpdateBookAsync(book);
 

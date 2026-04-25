@@ -9,8 +9,10 @@ namespace BookFlix.Web
 {
     public static class DependencyInjection
     {
-        private static byte[] GetJwtKey(string jwtKey)
+        private static byte[] GetJwtKey(IConfiguration configuration)
         {
+            var jwtKey = configuration["Jwt:Key"];
+
             if (jwtKey is not null)
             {
                 return Encoding.UTF8.GetBytes(jwtKey);
@@ -22,8 +24,7 @@ namespace BookFlix.Web
         private static void JwtConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("Jwt:Key");
-            var jwtKey = configuration["Jwt:Key"];
-            byte[] jwtKeyBytes = GetJwtKey(jwtKey);
+            byte[] jwtKeyBytes = GetJwtKey(configuration);
 
             services.AddAuthentication(options =>
             {

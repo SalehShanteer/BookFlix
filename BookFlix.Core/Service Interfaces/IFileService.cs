@@ -5,6 +5,6 @@ namespace BookFlix.Core.Service_Interfaces
 {
     public interface IFileService
     {
-        Task<Result<string>> UploadFileAsync(Guid bookId, IFormFile file);
+        Task<Result<string>> UploadFileAsync(Guid bookID, IFormFile file);
     }
 }

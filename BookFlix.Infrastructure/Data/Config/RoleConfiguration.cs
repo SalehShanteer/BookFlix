@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookFlix.Infrastructure.Data.Config
 {
-    public class AuthorConfiguration : IEntityTypeConfiguration<Author>
+    public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<Author> builder)
+        public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("Authors");
+            builder.ToTable("Roles");
             builder.HasKey(a => a.ID);
             builder.HasIndex(a => a.Name)
                 .IsUnique();
@@ -17,7 +17,7 @@ namespace BookFlix.Infrastructure.Data.Config
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasData(SeedData.LoadAuthorsData());
+            builder.HasData(SeedData.LoadRolesData());
         }
     }
 }

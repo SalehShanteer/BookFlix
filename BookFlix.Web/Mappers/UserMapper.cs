@@ -45,14 +45,15 @@ namespace BookFlix.Web.Mappers
         {
             return new UserDto
             {
-                Id = user.Id,
+                ID = user.ID,
                 Username = user.Username,
                 Email = user.Email,
-                Role = user.Role
+                Roles = user.Roles.Select(r => new RoleDto
+                {
+                    ID = r.ID,
+                    Name = r.Name
+                }).ToList()
             };
-
         }
-
-
     }
 }

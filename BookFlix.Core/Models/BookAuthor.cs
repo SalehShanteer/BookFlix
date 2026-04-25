@@ -1,9 +1,8 @@
-﻿
-namespace BookFlix.Core.Models
+﻿namespace BookFlix.Core.Models
 {
     public class BookAuthor
     {
-        public Guid BookId { get; set; }
-        public Guid AuthorId { get; set; }
+        public Guid BookID { get; set; }
+        public Guid AuthorID { get; set; }
     }
 }

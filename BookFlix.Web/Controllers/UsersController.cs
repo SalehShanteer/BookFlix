@@ -22,9 +22,9 @@ namespace BookFlix.Web.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserByIdAsync(Guid id)
+        public async Task<IActionResult> GetUserByIDAsync(Guid id)
         {
-            var result = await _userService.GetUserByIdAsync(id);
+            var result = await _userService.GetUserByIDAsync(id);
             if (result.IsFailure) return HandleFailure(result);
             UserDto userDto = _userMapper.ToUserDto(result.Value);
             return Ok(userDto);

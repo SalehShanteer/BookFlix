@@ -35,31 +35,37 @@ namespace BookFlix.Infrastructure.Repositories
             => await _context.Users.AsNoTracking().ToListAsync();
 
         public async Task<User> GetByEmailAsync(string email)
-            => await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+            => await _context.Users
+                .Include(u => u.Roles)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
 
-        public async Task<User> GetByIdAsync(Guid id)
+        public async Task<User> GetByIDAsync(Guid id)
+            => await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.ID == id);
+
+        public async Task<User> GetByIDForUpdateAsync(Guid id)
             => await _context.Users.FindAsync(id);
 
-        public async Task<User> GetByIdWithRelationsAsync(Guid id)
+        public async Task<User> GetByIDWithRelationsAsync(Guid id)
             => await _context.Users
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(u => u.RefreshTokens)
                 .Include(u => u.Reviews)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(u => u.ID == id);
 
-        public async Task<bool> IsEmailExist(string email)
+        public async Task<bool> IsEmailExistAsync(string email)
             => await _context.Users.AsNoTracking().AnyAsync(u => u.Email == email);
 
-        public async Task<bool> IsExistById(Guid id)
-            => await _context.Users.AsNoTracking().AnyAsync(u => u.Id == id);
+        public async Task<bool> IsExistByIDAsync(Guid id)
+            => await _context.Users.AsNoTracking().AnyAsync(u => u.ID == id);
 
-        public async Task<bool> IsUsernameExist(string username)
+        public async Task<bool> IsUsernameExistAsync(string username)
             => await _context.Users.AsNoTracking().AnyAsync(u => u.Username == username);
 
-        public async Task<User> UpdateAsync(User entity)
-        {
-            _context.Users.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }
