@@ -22,6 +22,5 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<RefreshToken> GetByTokenAsync(string token)
             => await _context.RefreshTokens.SingleOrDefaultAsync(rt => rt.Token == token);
-
     }
 }

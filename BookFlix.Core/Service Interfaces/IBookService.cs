@@ -5,13 +5,13 @@ namespace BookFlix.Core.Service_Interfaces
 {
     public interface IBookService
     {
-        Task<(ValidationResult result, Book book)> AddBookAsync(Book book);
+        Task<Result<Book>> AddBookAsync(Book book);
         Task<IReadOnlyCollection<Book>> GetAllBooksAsync();
-        Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(int authorId);
-        Task<Book> GetBookByIdAsync(int id);
-        Task<Book> GetBookByIdForUpdateAsync(int id);
-        Task<(ValidationResult result, Book book)> UpdateBookAsync(Book book);
-        Task<ValidationResult> DeleteBookAsync(int id);
+        Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorId);
+        Task<Book> GetBookByIdAsync(Guid id);
+        Task<Book> GetBookByIdForUpdateAsync(Guid id);
+        Task<Result<Book>> UpdateBookAsync(Book book);
+        Task<Result> DeleteBookAsync(Guid id);
         Task<Book> GetBookByIsbnAsync(string isbn);
         //Task<bool> IsBookExistAsync(int id);
         //Task<bool> IsBookExistAsync(string isbn);

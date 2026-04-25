@@ -1,4 +1,5 @@
 ﻿using BookFlix.Core.Service_Interfaces;
+using BookFlix.Core.Services.Validation;
 using BookFlix.Web.Dtos.Book;
 using BookFlix.Web.Mapper_Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -8,10 +9,8 @@ namespace BookFlix.Web.Controllers
 {
     [Authorize]
     [Route("api/books")]
-    [ApiController]
-    public class BooksController : ControllerBase
+    public class BooksController : ApiController
     {
-
         private readonly IBookService _bookService;
         private readonly IFileService _fileService;
         private readonly IBookMapper _bookMapper;
@@ -26,117 +25,85 @@ namespace BookFlix.Web.Controllers
         [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BookDto>> GetBookByIdAsync(int id)
+        public async Task<IActionResult> GetBookByIdAsync(Guid id)
         {
-            if (id < 1) return BadRequest("InvalidID");
-
             var book = await _bookService.GetBookByIdAsync(id);
 
-            if (book is null) return NotFound("BookNotFound");
-
-            BookDto bookDto = _bookMapper.ToBookDto(book);
-            return Ok(bookDto);
+            if (book is null) return HandleFailure(Result.Failure(Error.NotFound("BookNotFound")));
+         
+            return Ok(_bookMapper.ToBookDto(book));
         }
 
         [AllowAnonymous]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetAllBooksAsync()
+        [ProducesResponseType(typeof(IEnumerable<BookDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllBooksAsync()
         {
             var books = await _bookService.GetAllBooksAsync();
-            var bookDtos = _bookMapper.ToBookDtos(books.ToList());
-            return Ok(bookDtos);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}/Upload")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<FileUploadResultDto>> UploadBookAsync(int id, IFormFile file)
-        {
-            if (id < 1) return BadRequest("InvalidID");
-
-            var validationResult = await _fileService.UploadFileAsync(id, file);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToActionResult<FileUploadResultDto>();
-            }
-            return Ok(new FileUploadResultDto { FileUrl = validationResult.FileLocation });
+            return Ok(_bookMapper.ToBookDtos(books.ToList()));
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BookDto>> AddBookAsync(BookCreateDto createBookDto)
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> AddBookAsync(BookCreateDto createBookDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var bookResult = await _bookMapper.ToBook(createBookDto);
+           var book = await _bookMapper.ToBook(createBookDto);
 
-            if (!bookResult.Result.IsValid) return BadRequest(bookResult.Result.Errors);
-            var book = bookResult.Book;
+            var result = await _bookService.AddBookAsync(book);
 
-            var newBookResult = await _bookService.AddBookAsync(book);
+            if (result.IsFailure) return HandleFailure(result);
 
-            if (!newBookResult.result.IsValid) return BadRequest(newBookResult.result.Errors);
-            book = newBookResult.book;
-            var bookDto = _bookMapper.ToBookDto(book);
 
-            return CreatedAtAction("GetBookById", new { id = bookDto.Id }, bookDto);
+            var bookDto = _bookMapper.ToBookDto(result.Value);
+
+            return CreatedAtAction(nameof(GetBookByIdAsync), new { id = bookDto.Id }, bookDto);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BookDto>> UpdateBookAsync(int id, BookUpdateDto bookUpdateDto)
+        public async Task<IActionResult> UpdateBookAsync(Guid id, BookUpdateDto bookUpdateDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var book = await _bookMapper.ToBook(bookUpdateDto);
+            book.Id = id;
 
-            if (id < 1) return BadRequest("InvalidID");
+            var result = await _bookService.UpdateBookAsync(book);
 
-            bookUpdateDto.Id = id;
+            if (result.IsFailure) return HandleFailure(result);
 
-            var bookResult = await _bookMapper.ToBook(bookUpdateDto);
-            if (!bookResult.Result.IsValid) return NotFound(bookResult.Result.Errors);
-
-            var book = bookResult.Book;
-
-            var validationResult = await _bookService.UpdateBookAsync(book);
-
-            if (!validationResult.result.IsValid) return BadRequest(validationResult.result.Errors);
-
-            book = validationResult.book;
-            var bookDto = _bookMapper.ToBookDto(book);
-            return Ok(bookDto);
+            return Ok(_bookMapper.ToBookDto(result.Value));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteBookAsync(int id)
+        public async Task<IActionResult> DeleteBookAsync(Guid id)
         {
-            if (id < 1) return BadRequest("InvalidID");
-
             var result = await _bookService.DeleteBookAsync(id);
 
-            if (!result.IsValid)
-            {
-                return result.ToActionResult();
-            }
+            if (result.IsFailure) return HandleFailure(result);
+
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/Upload")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UploadBookAsync(Guid id, IFormFile file)
+        {
+            var result = await _fileService.UploadFileAsync(id, file);
+
+            if (result.IsFailure) return HandleFailure(result);
+
+            return Ok(new FileUploadResultDto { FileUrl = result.Value });
+        }
     }
 }

@@ -6,6 +6,5 @@ namespace BookFlix.Core.Repositories
     {
         Task<Genre> GetByIdAsync(int id);
         Task<IReadOnlyCollection<Genre>> GetAllAsync();
-
     }
 }

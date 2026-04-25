@@ -2,10 +2,10 @@
 
 namespace BookFlix.Core.Models
 {
-    public class UserLog : Entity
+    public class UserLog : BaseEntity
     {
-        public int UserId { get; set; }
-        public enEventType EventType { get; set; } = enEventType.Login; // 0 => Logout, 1 => Login
+        public Guid UserId { get; set; }
+        public EventType EventType { get; set; } = EventType.Login; // 0 => Logout, 1 => Login
         public DateTime Timestamp { get; set; }
         public string IpAddress { get; set; }
         public bool Success { get; set; }

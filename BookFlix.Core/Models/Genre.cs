@@ -1,10 +1,8 @@
 ﻿
 namespace BookFlix.Core.Models
 {
-    public class Genre
+    public class Genre : LookupEntity
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public List<Book> Books { get; set; } = new List<Book>();
+        public List<Book> Books { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -20,17 +20,17 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Review> GetByIdAsync(int id)
+        public Task<Review> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsExistById(int id)
+        public Task<bool> IsExistById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        Task<Review> IEntityRepository<Review>.UpdateAsync(Review entity)
+        public Task<Review> UpdateAsync(Review entity)
         {
             throw new NotImplementedException();
         }

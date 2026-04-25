@@ -21,7 +21,7 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace BookFlix.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Author> GetByIdAsync(int id) => await _context.Authors.FindAsync(id);
+        public async Task<Author> GetByIdAsync(Guid id) => await _context.Authors.FindAsync(id);
 
-        public async Task<Author> GetByIdWithBooksAsync(int id)
+        public async Task<Author> GetByIdWithBooksAsync(Guid id)
             => await _context.Authors.AsNoTracking().Include(a => a.Books).FirstOrDefaultAsync(a => a.Id == id);
 
-        public async Task<bool> IsExistById(int id) => await _context.Authors.AsNoTracking().AnyAsync(a => a.Id == id);
+        public async Task<bool> IsExistById(Guid id) => await _context.Authors.AsNoTracking().AnyAsync(a => a.Id == id);
 
         public Task<Author> UpdateAsync(Author entity)
         {

@@ -4,7 +4,6 @@ using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using Microsoft.Extensions.Logging;
-using static BookFlix.Core.Enums.GeneralEnums;
 
 namespace BookFlix.Core.Services
 {
@@ -23,111 +22,32 @@ namespace BookFlix.Core.Services
             _logger = logger;
         }
 
-        private async Task<bool> IsUsernameUsedBefore(string username)
-            => await _userRepository.IsUsernameExist(username);
-
-        private async Task<bool> IsEmailUsedBefore(string email)
-            => await _userRepository.IsEmailExist(email);
-
-        private async Task ValidateUsername(string username, ValidationResult validationResult)
+        public async Task<Result<User>> AddUserAsync(User user)
         {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                _logger.LogErrorForValidation("UserEmpty", validationResult);
-            }
-            else if (username.Length < 4)
-            {
-                _logger.LogErrorForValidation("UsernameLengthTooShort", validationResult);
-            }
-            else if (await IsUsernameUsedBefore(username))
-            {
-                _logger.LogErrorForValidation("UsernameUsed", validationResult);
-            }
-        }
+            var result = await ValidateUser(user);
 
-        private void ValidatePassword(string password, ValidationResult validationResult)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                _logger.LogErrorForValidation("PasswordEmpty", validationResult);
-            }
-            else if (!PasswordHelper.IsStrongPassword(password))
-            {
-                _logger.LogErrorForValidation("PasswordWeak", validationResult);
-            }
-        }
-
-        private async Task ValidateEmail(string email, ValidationResult validationResult)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                _logger.LogErrorForValidation("EmailEmpty", validationResult);
-            }
-            else if (await IsEmailUsedBefore(email))
-            {
-                _logger.LogErrorForValidation("EmailUsed", validationResult);
-            }
-        }
-
-        private async Task<ValidationResult> ValidateUser(User user)
-        {
-            var validationResult = new ValidationResult();
-
-            await ValidateUsername(user.Username ?? string.Empty, validationResult);
-            await ValidateEmail(user.Email ?? string.Empty, validationResult);
-            ValidatePassword(user.PasswordHash ?? string.Empty, validationResult);
-
-            return validationResult;
-        }
-
-        private (ValidationResult Result, User User) ReturnUserNotFound(ValidationResult validationResult)
-        {
-            _logger.LogErrorForValidation($"UserNotFound", validationResult);
-            validationResult.StatusCode = enStatusCode.NotFound;
-            return (validationResult, null);
-        }
-
-        private (ValidationResult Result, User User) ReturnBadRequest(ValidationResult validationResult)
-        {
-            validationResult.StatusCode = enStatusCode.BadRequest;
-            return (validationResult, null);
-        }
-
-        private (ValidationResult Result, string AccessToken, string RefreshToken) UnauthorizedRequest(string message)
-        {
-            var validationResult = new ValidationResult();
-            _logger.LogErrorForValidation(message, validationResult);
-            validationResult.StatusCode = enStatusCode.Unauthorized;
-            return (validationResult, null, null);
-        }
-
-        public async Task<(ValidationResult Result, User User)> AddUserAsync(User user)
-        {
-            var validationResult = await ValidateUser(user);
-
-            if (!validationResult.IsValid)
-            {
-                validationResult.StatusCode = enStatusCode.BadRequest;
-                return (validationResult, null);
-            }
+            if (result.IsFailure) return Result.Failure<User>(result.Error);
 
             user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
             var userToAdd = await _userRepository.AddAsync(user);
 
-            return (validationResult, userToAdd);
+            return Result.Success(userToAdd);
         }
 
-        public async Task<(ValidationResult Result, User User)> AddUserAsAdminAsync(User user)
+        public async Task<Result<User>> AddUserAsAdminAsync(User user)
         {
             user.Role = "Admin";
             return await AddUserAsync(user);
         }
 
-        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
-            => await _userRepository.GetAllAsync();
+        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync() => await _userRepository.GetAllAsync();
 
-        public async Task<User> GetUserByIdAsync(int id)
-            => await _userRepository.GetByIdAsync(id);
+        public async Task<Result<User>> GetUserByIdAsync(Guid id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user is null) return Result.Failure<User>(Error.NotFound("UserNotFound"));
+            return Result.Success(user);
+        } 
 
         public async Task<User> GetUserByRefreshToken(string token)
         {
@@ -137,65 +57,73 @@ namespace BookFlix.Core.Services
             return await _userRepository.GetByIdWithRelationsAsync(refreshToken.UserId);
         }
 
-        public async Task<(ValidationResult Result, User User)> UpdateUserPasswordAsync(User user, string oldPassword)
+        public async Task<Result> UpdateUserPasswordAsync(Guid userID, string oldPassword, string newPassword)
         {
-            var existingUser = await _userRepository.GetByIdAsync(user.Id);
-            var validationResult = new ValidationResult();
+            var existingUser = await _userRepository.GetByIdAsync(userID);
 
-            if (existingUser is null) return ReturnUserNotFound(validationResult);
+            if (existingUser is null) return ReturnUserNotFound();
 
-            if (!PasswordHelper.VerifyPassword(oldPassword, existingUser.PasswordHash ?? string.Empty))
+            if (!PasswordHelper.VerifyPassword(oldPassword, existingUser.PasswordHash))
             {
-                _logger.LogErrorForValidation("Old password is incorrect.", validationResult);
+                _logger.LogWarning("Old password is incorrect.");
+                return Result.Failure(Error.Validation("OldPasswordIncorrect"));
             }
-            else if (oldPassword == user.PasswordHash)
+            else if (oldPassword == newPassword)
             {
-                _logger.LogErrorForValidation("New password cannot be the same as the old password.", validationResult);
+                _logger.LogWarning("New password cannot be the same as the old password.");
+                return Result.Failure<User>(Error.Validation("NewPasswordEqualsOldPassword"));
             }
             else
             {
-                ValidatePassword(user.PasswordHash ?? string.Empty, validationResult);
+                var passwordResult = ValidatePassword(newPassword);
+                if (passwordResult.IsFailure) return passwordResult;
             }
 
-            if (!validationResult.IsValid) ReturnBadRequest(validationResult);
-
-            existingUser.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
+            existingUser.PasswordHash = PasswordHelper.HashPassword(newPassword);
             existingUser.UpdatedAt = DateTime.UtcNow;
-            var updatedUser = await _userRepository.UpdateAsync(existingUser);
-            return (validationResult, updatedUser);
+
+            await _userRepository.UpdateAsync(existingUser);
+
+            return Result.Success();
         }
 
-        public async Task<(ValidationResult Result, User User)> UpdateUserUsernameAsync(User user)
+        public async Task<Result<User>> UpdateUserUsernameAsync(Guid id, string username)
         {
-            var existingUser = await _userRepository.GetByIdAsync(user.Id);
-            var validationResult = new ValidationResult();
+            var existingUser = await _userRepository.GetByIdAsync(id);
 
-            if (existingUser is null) return ReturnUserNotFound(validationResult);
-            if (existingUser.Username != user.Username) await ValidateUsername(user.Username ?? string.Empty, validationResult);
-            if (!validationResult.IsValid) ReturnBadRequest(validationResult);
+            if (existingUser is null) return ReturnUserNotFound();
+            if (existingUser.Username != username)
+            {
+                var usernameResult = await ValidateUsername(username);
+                if (usernameResult.IsFailure) return Result.Failure<User>(Error.Validation(usernameResult.Error.Key));
+            }
 
-            existingUser.Username = user.Username ?? existingUser.Username;
+            existingUser.Username = username;
             existingUser.UpdatedAt = DateTime.UtcNow;
             var updatedUser = await _userRepository.UpdateAsync(existingUser);
-            return (validationResult, updatedUser);
+            return Result.Success(updatedUser);
         }
 
-        public async Task<(ValidationResult Result, User User)> UpdateUserEmailAsync(User user)
+        public async Task<Result<User>> UpdateUserEmailAsync(Guid id, string email)
         {
-            var existingUser = await _userRepository.GetByIdAsync(user.Id);
-            var validationResult = new ValidationResult();
+            var existingUser = await _userRepository.GetByIdAsync(id);
 
-            if (existingUser is null) return ReturnUserNotFound(validationResult);
-            if (existingUser.Email != user.Email) await ValidateEmail(user.Email ?? string.Empty, validationResult);
-            if (!validationResult.IsValid) ReturnBadRequest(validationResult);
+            if (existingUser is null) return ReturnUserNotFound();
 
-            existingUser.Email = user.Email ?? existingUser.Email;
+            if (existingUser.Email != email)
+            {
+                var emailResult = await ValidateEmail(email);
+                if (emailResult.IsFailure) return Result.Failure<User>(Error.Validation(emailResult.Error.Key));
+            }
+
+            existingUser.Email = email;
             existingUser.UpdatedAt = DateTime.UtcNow;
             var updatedUser = await _userRepository.UpdateAsync(existingUser);
-            return (validationResult, updatedUser);
+
+            return Result.Success(updatedUser);
         }
 
-        public async Task<(ValidationResult Result, string AccessToken, string RefreshToken)> UpdateUserRefreshToken(string refreshToken)
+        public async Task<Result<(string AccessToken, string RefreshToken)>> UpdateUserRefreshToken(string refreshToken)
         {
             var user = await GetUserByRefreshToken(refreshToken);
             if (user is null) return UnauthorizedRequest("InvalidRefreshToken");
@@ -214,7 +142,94 @@ namespace BookFlix.Core.Services
 
             await _userRepository.UpdateAsync(user);
 
-            return (new ValidationResult(), newAccessToken, newRefreshToken.Token);
+            return Result.Success((newAccessToken, newRefreshToken.Token));
+        }
+
+        private async Task<bool> IsUsernameUsedBefore(string username) => await _userRepository.IsUsernameExist(username);
+
+        private async Task<bool> IsEmailUsedBefore(string email) => await _userRepository.IsEmailExist(email);
+
+        private async Task<Result> ValidateUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                _logger.LogWarning("Validation failed: The username provided is empty.");
+                return Result.Failure(Error.Validation("UsernameIsEmpty"));
+            }
+
+            if (username.Length < 4)
+            {
+                _logger.LogWarning("Validation failed: The provided username '{Username}' is too short.", username);
+                return Result.Failure(Error.Validation("UsernameLengthTooShort"));
+            }
+
+            if (await IsUsernameUsedBefore(username))
+            {
+                _logger.LogWarning("Validation failed: The requested username '{Username}' is already taken.", username);
+                return Result.Failure(Error.Conflict("UsernameUsed"));
+            }
+
+            return Result.Success();
+        }
+
+        private async Task<Result> ValidateEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                _logger.LogWarning("Validation failed: The email address provided is empty.");
+                return Result.Failure(Error.Validation("EmailEmpty"));
+            }
+
+            if (await IsEmailUsedBefore(email))
+            {
+                _logger.LogWarning("Validation failed: The provided email address '{Email}' is already registered.", email);
+                return Result.Failure(Error.Conflict("EmailUsed"));
+            }
+
+            return Result.Success();
+        }
+
+        private Result ValidatePassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                _logger.LogWarning("Validation failed: The password provided is empty or contains only whitespace.");
+                return Result.Failure(Error.Validation("PasswordEmpty"));
+            }
+
+            if (!PasswordHelper.IsStrongPassword(password))
+            {
+                _logger.LogWarning("Validation failed: The provided password does not meet the minimum security requirements.");
+                return Result.Failure(Error.Validation("PasswordWeak"));
+            }
+
+            return Result.Success();
+        }
+        private async Task<Result> ValidateUser(User user)
+        {
+            var usernameResult = await ValidateUsername(user.Username);
+            if (usernameResult.IsFailure) return usernameResult;
+
+            var emailResult = await ValidateEmail(user.Email);
+            if (emailResult.IsFailure) return emailResult;
+
+            var passwordResult = ValidatePassword(user.PasswordHash);
+            if (passwordResult.IsFailure) return passwordResult;
+
+            return Result.Success();
+        }
+
+        private Result<User> ReturnUserNotFound()
+        {
+            _logger.LogWarning("The user is not found");
+
+            return Result.Failure<User>(Error.NotFound("UserNotFound"));
+        }
+
+        private Result<(string AccessToken, string RefreshToken)> UnauthorizedRequest(string message)
+        {
+            _logger.LogWarning(message);
+            return Result.Failure<(string, string)>(Error.Unauthorized(message));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace BookFlix.Core.Services
             _userLogRepository = userLogRepository;
         }
 
-        public Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(int userId)
+        public Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(Guid userId)
             => _userLogRepository.GetLogsByUserIdAsync(userId);
     }
 }

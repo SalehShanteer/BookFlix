@@ -1,10 +1,8 @@
-﻿using BookFlix.Core.Helpers;
-using BookFlix.Core.Models;
+﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using Microsoft.Extensions.Logging;
-using static BookFlix.Core.Enums.GeneralEnums;
 
 namespace BookFlix.Core.Services
 {
@@ -21,40 +19,90 @@ namespace BookFlix.Core.Services
             _logger = logger;
         }
 
-        private async Task ValidateISBNAsync(Book book, ValidationResult result, bool isNew)
+        public async Task<Result<Book>> AddBookAsync(Book book)
         {
-            var isbn = book.ISBN;
-            if (string.IsNullOrEmpty(isbn))
+            var validationResult = await ValidateBookAsync(book, true);
+            if (validationResult.IsFailure) return Result.Failure<Book>(validationResult.Error);
+
+            var addedBook = await _bookRepository.AddAsync(book);
+            return Result.Success(addedBook);
+        }
+
+        public async Task<Result<Book>> UpdateBookAsync(Book updatedBook)
+        {
+            var validationResult = await ValidateBookAsync(updatedBook, false);
+            if (validationResult.IsFailure) return Result.Failure<Book>(validationResult.Error);
+
+            var existingBook = await _bookRepository.GetByIdForUpdateAsync(updatedBook.Id);
+            if (existingBook is null)
             {
-                _logger.LogErrorForValidation("ISBN cannot be null or empty.", result);
-                return;
+                _logger.LogWarning("Update failed: Book {BookId} not found.", updatedBook.Id);
+                return Result.Failure<Book>(Error.NotFound("BookNotFound"));
             }
 
-            // Check if ISBN used before
-            bool isExist = (isNew == true) ? await _bookRepository.IsExistByIsbnAsync(isbn) : await _bookRepository.IsExistByIsbnAsync(book.Id, isbn);
-            if (isExist)
+            UpdateBookProperties(existingBook, updatedBook);
+            var saved = await _bookRepository.UpdateAsync(existingBook);
+
+            return Result.Success(saved);
+        }
+
+        public async Task<Result> DeleteBookAsync(Guid id)
+        {
+            using var transaction = await _bookRepository.BeginTransactionAsync();
+            try
             {
-                _logger.LogErrorForValidation($"A book with ISBN {isbn} already exists.", result);
+                var book = await _bookRepository.GetByIdAsync(id);
+                if (book is null)
+                {
+                    return Result.Failure(Error.NotFound("BookNotFound"));
+                }
+
+                await _bookRepository.DeleteAsync(id);
+                await transaction.CommitAsync();
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "An unexpected error occurred while deleting book {BookId}", id);
+                return Result.Failure(Error.Failure("BookDeleteError"));
             }
         }
 
-        private async Task<ValidationResult> ValidatBookAsync(Book book, bool isNew = true)
+        public async Task<IReadOnlyCollection<Book>> GetAllBooksAsync() => await _bookRepository.GetAllAsync();
+        public async Task<Book> GetBookByIdAsync(Guid id) => await _bookRepository.GetByIdAsync(id);
+
+        public async Task<Book> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
+
+        public async Task<Book> GetBookByIdForUpdateAsync(Guid id) => await _bookRepository.GetByIdForUpdateAsync(id);
+
+        public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(Guid authorId) => await _bookRepository.GetByAuthorIdAsync(authorId);
+
+        private async Task<Result> ValidateBookAsync(Book book, bool isNew)
         {
-            var result = new ValidationResult();
-
-            if (book.PublicationDate is not null && book.PublicationDate > DateTime.Now)
+            if (book.PublicationDate > DateTime.UtcNow)
             {
-                _logger.LogErrorForValidation("The publication date should not be in the future", result);
+                _logger.LogWarning("Validation failed: Future publication date for book {Title}", book.Title);
+                return Result.Failure(Error.Validation("FuturePublicationDate"));
             }
 
-            await ValidateISBNAsync(book, result, isNew);
-
-            if (result.Errors.Any())
+            if (string.IsNullOrWhiteSpace(book.ISBN))
             {
-                _logger.LogErrorForValidation($"BookInputDto validation failed with {result.Errors.Count} errors.", result);
+                return Result.Failure(Error.Validation("IsbnRequired"));
             }
 
-            return result;
+            bool isExist = isNew
+                ? await _bookRepository.IsExistByIsbnAsync(book.ISBN)
+                : await _bookRepository.IsExistByIsbnAsync(book.Id, book.ISBN);
+
+            if (isExist)
+            {
+                _logger.LogWarning("Validation failed: ISBN {ISBN} already exists.", book.ISBN);
+                return Result.Failure(Error.Conflict("DuplicateIsbn"));
+            }
+
+            return Result.Success();
         }
 
         private void UpdateBookProperties(Book existingBook, Book updatedBook)
@@ -70,106 +118,10 @@ namespace BookFlix.Core.Services
             existingBook.UpdatedAt = DateTime.UtcNow;
 
             existingBook.Authors.Clear();
-            foreach (var author in updatedBook.Authors)
-                existingBook.Authors.Add(author);
+            foreach (var author in updatedBook.Authors) existingBook.Authors.Add(author);
 
             existingBook.Genres.Clear();
-            foreach (var genre in updatedBook.Genres)
-                existingBook.Genres.Add(genre);
+            foreach (var genre in updatedBook.Genres) existingBook.Genres.Add(genre);
         }
-
-        public async Task<(ValidationResult result, Book book)> AddBookAsync(Book book)
-        {
-            var result = await ValidatBookAsync(book);
-
-            if (!result.IsValid)
-            {
-                _logger.LogErrorForValidation($"Failed to add book with ISBN {book.ISBN}. Validation errors: {@result.Errors}", result);
-                return (result, null);
-            }
-
-            var addedBook = await _bookRepository.AddAsync(book);
-            return (result, addedBook);
-        }
-
-        public async Task<IReadOnlyCollection<Book>> GetAllBooksAsync() => await _bookRepository.GetAllAsync();
-
-        public async Task<IReadOnlyCollection<Book>> GetBooksByAuthorAsync(int authorId) => await _bookRepository.GetByAuthorIdAsync(authorId);
-
-        public async Task<Book> GetBookByIdAsync(int id) => await _bookRepository.GetByIdAsync(id);
-
-        public async Task<Book> GetBookByIdForUpdateAsync(int id) => await _bookRepository.GetByIdForUpdateAsync(id);
-
-        public async Task<(ValidationResult result, Book book)> UpdateBookAsync(Book updatedBook)
-        {
-            var result = new ValidationResult();
-
-            result = await ValidatBookAsync(updatedBook, false);
-            if (!result.IsValid)
-            {
-                _logger.LogErrorForValidation($"Book update failed for ID = {updatedBook.Id} with {result.Errors.Count} validation errors: {@result.Errors}",
-                    result);
-                result.StatusCode = enStatusCode.BadRequest;
-                return (result, null);
-            }
-
-            var existingBook = await _bookRepository.GetByIdForUpdateAsync(updatedBook.Id);
-            if (existingBook is null)
-            {
-                _logger.LogErrorForValidation($"Book with ID {updatedBook.Id} not found.", result);
-                result.StatusCode = enStatusCode.NotFound;
-                return (result, null);
-            }
-
-            UpdateBookProperties(existingBook, updatedBook);
-
-            var saved = await _bookRepository.UpdateAsync(existingBook);
-
-            return (result, saved);
-        }
-
-
-        public async Task<ValidationResult> DeleteBookAsync(int id)
-        {
-            ValidationResult result = new ValidationResult();
-
-            using var transaction = await _bookRepository.BeginTransactionAsync();
-            try
-            {
-                var bookResult = await _bookRepository.GetFileLocationAsync(id);
-                var bookFileLocation = bookResult.FileLocation;
-
-                if (bookFileLocation is not null)
-                {
-                    _fileService.DeleteBookFile(bookFileLocation, result);
-                }
-
-                if (!await _bookRepository.DeleteAsync(id))
-                {
-                    result.StatusCode = enStatusCode.NotFound;
-                    _logger.LogErrorForValidation($"There is no book with id = {id}.", result);
-                }
-
-                await transaction.CommitAsync();
-                return result;
-            }
-            catch (IOException ex)
-            {
-                await transaction.RollbackAsync();
-
-                _logger.LogExceptionErrorForValidation(ex, $"IO error deleting file for book ID {id}", result);
-                result.StatusCode = enStatusCode.InternalServerError;
-                return result;
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                _logger.LogExceptionErrorForValidation(ex, $"Unexpected error deleting book ID {id}", result);
-                result.StatusCode = enStatusCode.InternalServerError;
-                return result;
-            }
-        }
-
-        public async Task<Book> GetBookByIsbnAsync(string isbn) => await _bookRepository.GetByISBNAsync(isbn);
     }
 }

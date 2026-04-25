@@ -1,4 +1,5 @@
-﻿using BookFlix.Core.Service_Interfaces;
+﻿using BookFlix.Core.Extensions;
+using BookFlix.Core.Service_Interfaces;
 using BookFlix.Web.Dtos.UserLog;
 using BookFlix.Web.Mapper_Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -24,12 +25,11 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IReadOnlyCollection<UserLogDto>>> GetUserLogs(int userId)
+        public async Task<IActionResult> GetUserLogs(Guid userId)
         {
-            if (userId < 1) return BadRequest("InvalidID");
             var userLogs = await _userLogService.GetLogsByUserIdAsync(userId);
 
-            if (userLogs is null || !userLogs.Any()) return Ok(new List<UserLogDto>());
+            if (userLogs.IsEmpty()) return Ok(new List<UserLogDto>());
             var userLogDtos = _userLogMapper.ToUserLogDtos(userLogs);
 
             return Ok(userLogDtos);

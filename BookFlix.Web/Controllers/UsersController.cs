@@ -8,8 +8,7 @@ namespace BookFlix.Web.Controllers
 {
     [Authorize]
     [Route("api/Users")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiController
     {
         public readonly IUserMapper _userMapper;
         public readonly IUserService _userService;
@@ -22,65 +21,45 @@ namespace BookFlix.Web.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDto>> GetUserByIdAsync(int id)
+        public async Task<IActionResult> GetUserByIdAsync(Guid id)
         {
-            if (id < 1) return BadRequest("InvalidID");
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user is null) return NotFound($"UserNotFound");
-            UserDto userDto = _userMapper.ToUserDto(user);
+            var result = await _userService.GetUserByIdAsync(id);
+            if (result.IsFailure) return HandleFailure(result);
+            UserDto userDto = _userMapper.ToUserDto(result.Value);
             return Ok(userDto);
         }
 
         [HttpPut("{id}/password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserDto>> UpdateUserPasswordAsync(int id, UserUpdatePasswordDto userUpdatePasswordDto)
+        public async Task<IActionResult> UpdateUserPasswordAsync(Guid id, UserUpdatePasswordDto userUpdatePasswordDto)
         {
-            if (id < 1) return BadRequest("InvalidID");
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var user = _userMapper.ToUser(userUpdatePasswordDto);
-            user.Id = id;
-            var (result, updatedUser) = await _userService.UpdateUserPasswordAsync(user, userUpdatePasswordDto.OldPassword);
-            if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser);
-            return Ok(userDto);
+            var result = await _userService.UpdateUserPasswordAsync(id, userUpdatePasswordDto.OldPassword, userUpdatePasswordDto.NewPassword);
+            if (result.IsFailure) return HandleFailure(result);
+            return NoContent();
         }
 
         [HttpPut("{id}/username")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDto>> UpdateUserUsernameAsync(int id, UserUpdateUsernameDto userUpdateUsernameDto)
+        public async Task<IActionResult> UpdateUserUsernameAsync(Guid id, UserUpdateUsernameDto userUpdateUsernameDto)
         {
-            if (id < 1) return BadRequest("InvalidID");
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var user = _userMapper.ToUser(userUpdateUsernameDto);
-            user.Id = id;
-            var (result, updatedUser) = await _userService.UpdateUserUsernameAsync(user);
-            if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser);
+            var result = await _userService.UpdateUserUsernameAsync(id, userUpdateUsernameDto.Username);
+            if (result.IsFailure) return HandleFailure(result);
+            var userDto = _userMapper.ToUserDto(result.Value);
             return Ok(userDto);
         }
 
         [HttpPut("{id}/email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserDto>> UpdateUserEmailAsync(int id, UserUpdateEmailDto userUpdateEmailDto)
+        public async Task<IActionResult> UpdateUserEmailAsync(Guid id, UserUpdateEmailDto userUpdateEmailDto)
         {
-            if (id < 1) return BadRequest("InvalidID");
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var user = _userMapper.ToUser(userUpdateEmailDto);
-            user.Id = id;
-            var (result, updatedUser) = await _userService.UpdateUserEmailAsync(user);
-            if (!result.IsValid) return result.ToActionResult<UserDto>();
-            var userDto = _userMapper.ToUserDto(updatedUser);
+            var result = await _userService.UpdateUserEmailAsync(id, userUpdateEmailDto.Email);
+            if (result.IsFailure) return HandleFailure(result);
+            var userDto = _userMapper.ToUserDto(result.Value);
             return Ok(userDto);
         }
     }

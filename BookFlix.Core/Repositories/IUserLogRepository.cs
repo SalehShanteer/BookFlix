@@ -5,6 +5,6 @@ namespace BookFlix.Core.Repositories
     public interface IUserLogRepository
     {
         Task<UserLog> AddAsync(UserLog userLog);
-        Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(int userId);
+        Task<IReadOnlyCollection<UserLog>> GetLogsByUserIdAsync(Guid userId);
     }
 }

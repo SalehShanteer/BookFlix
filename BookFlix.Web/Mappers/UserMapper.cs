@@ -29,7 +29,7 @@ namespace BookFlix.Web.Mappers
         {
             return new User
             {
-                Email = userUpdateEmailDto.NewEmail
+                Email = userUpdateEmailDto.Email
             };
         }
 
@@ -37,7 +37,7 @@ namespace BookFlix.Web.Mappers
         {
             return new User
             {
-                Username = userUpdateUsernameDto.NewUsername
+                Username = userUpdateUsernameDto.Username
             };
         }
 
@@ -46,8 +46,8 @@ namespace BookFlix.Web.Mappers
             return new UserDto
             {
                 Id = user.Id,
-                Username = user.Username ?? string.Empty,
-                Email = user.Email ?? string.Empty,
+                Username = user.Username,
+                Email = user.Email,
                 Role = user.Role
             };
 

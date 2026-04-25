@@ -22,60 +22,54 @@ namespace BookFlix.Core.Services
             _jwtService = jwtService;
         }
 
-        private void LogLoginAttempt(int userId, bool isSuccess, string ipAddress)
+        public async Task<Result<(string AccessToken, string RefreshToken)>> LoginAsync(string email, string password, string ipAddress)
         {
-            var log = new UserLog
-            {
-                UserId = userId,
-                EventType = enEventType.Login,
-                Success = isSuccess,
-                IpAddress = ipAddress,
-            };
-            _userLogRepository.AddAsync(log);
-        }
-
-        private (ValidationResult Result, string AccessToken, string RefreshToken) ReturnTokens(User user, ValidationResult result)
-        {
-            string accessToken = _jwtService.GenerateJwtToken(user);
-            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
-            user.RefreshTokens.Add(refreshToken);
-            _userRepository.UpdateAsync(user);
-
-            return (result, accessToken, refreshToken.Token);
-        }
-
-        public async Task<(ValidationResult Result, string AccessToken, string RefreshToken)>
-            LoginAsync(string email, string password, string ipAddress)
-        {
-            var result = new ValidationResult();
-
             if (string.IsNullOrWhiteSpace(email))
             {
-                _logger.LogErrorForValidation("Email is empty or whitespace", result);
-                result.StatusCode = enStatusCode.BadRequest;
-                return (result, null, null);
+                _logger.LogError("Email is empty or whitespace");
+                return Result.Failure<(string, string)>(Error.Validation("EmailIsEmpty"));
             }
 
             var user = await _userRepository.GetByEmailAsync(email);
 
             if (user is null)
             {
-                _logger.LogErrorForValidation("User not found", result);
-                result.StatusCode = enStatusCode.NotFound;
-                return (result, null, null);
+                _logger.LogError("User not found");
+                return Result.Failure<(string, string)>(Error.NotFound("UserNotFound"));
             }
 
             if (!PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
-                _logger.LogErrorForValidation("Invalid password", result);
-                result.StatusCode = enStatusCode.Unauthorized;
+                _logger.LogError("Invalid password");
                 LogLoginAttempt(user.Id, false, ipAddress);
 
-                return (result, null, null);
+                return Result.Failure<(string, string)>(Error.Validation("InvalidPassword"));
             }
 
             LogLoginAttempt(user.Id, true, ipAddress);
-            return ReturnTokens(user, result);
+            return ReturnTokens(user);
+        }
+
+        private void LogLoginAttempt(Guid userId, bool isSuccess, string ipAddress)
+        {
+            var log = new UserLog
+            {
+                UserId = userId,
+                EventType = EventType.Login,
+                Success = isSuccess,
+                IpAddress = ipAddress,
+            };
+            _userLogRepository.AddAsync(log);
+        }
+
+        private Result<(string AccessToken, string RefreshToken)> ReturnTokens(User user)
+        {
+            string accessToken = _jwtService.GenerateJwtToken(user);
+            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            user.RefreshTokens.Add(refreshToken);
+            _userRepository.UpdateAsync(user);
+
+            return Result.Success((accessToken, refreshToken.Token));
         }
     }
 }

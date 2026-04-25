@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookFlix.Web.Controllers
 {
     [Route("api/auth")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiController
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
@@ -26,84 +25,87 @@ namespace BookFlix.Web.Controllers
 
         [HttpPost("signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> SignupAsync(UserCreateDto userCreateDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = _userMapper.ToUser(userCreateDto);
-            var (result, createdUser) = await _userService.AddUserAsync(user);
+            var result = await _userService.AddUserAsync(user);
 
-            if (!result.IsValid || createdUser is null) return result.ToActionResult();
+            if (result.IsFailure) return HandleFailure(result);
 
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
             var authResult = await _authService.LoginAsync(userCreateDto.Email, userCreateDto.Password, ipAddress);
-            return Ok(new TokensDto { AccessToken = authResult.AccessToken, RefreshToken = authResult.RefreshToken });
+
+            if (authResult.IsFailure) return HandleFailure(authResult);
+                
+            return Ok(new TokensDto
+            {
+                AccessToken = authResult.Value.AccessToken,
+                RefreshToken = authResult.Value.RefreshToken
+            });
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("signup/admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> SignupAsAdminAsync(UserCreateDto userCreateDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
             var user = _userMapper.ToUser(userCreateDto);
-            var (result, createdUser) = await _userService.AddUserAsAdminAsync(user);
+            var result = await _userService.AddUserAsAdminAsync(user);
 
-            if (!result.IsValid || createdUser is null) return result.ToActionResult();
+            if (result.IsFailure) return HandleFailure(result);
 
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
             var authResult = await _authService.LoginAsync(userCreateDto.Email, userCreateDto.Password, ipAddress);
 
-            return Ok(new TokensDto { AccessToken = authResult.AccessToken, RefreshToken = authResult.RefreshToken });
-        }
+            if (authResult.IsFailure) return HandleFailure(authResult);
 
+            return Ok(new TokensDto
+            {
+                AccessToken = authResult.Value.AccessToken,
+                RefreshToken = authResult.Value.RefreshToken
+            });
+        }
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
         {
-            if (loginDto is null) return BadRequest("NullLoginRequest");
-
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-            var (result, token, refreshToken) = await _authService.LoginAsync(loginDto.Email, loginDto.Password, ipAddress);
+            var result = await _authService.LoginAsync(loginDto.Email, loginDto.Password, ipAddress);
 
-            if (!result.IsValid) return result.ToActionResult();
+            if (result.IsFailure) return HandleFailure(result);
 
-            return Ok(new TokensDto { AccessToken = token, RefreshToken = refreshToken });
+            return Ok(new TokensDto
+            {
+                AccessToken = result.Value.AccessToken,
+                RefreshToken = result.Value.RefreshToken
+            });
         }
 
         [HttpPost("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RefreshAsync([FromBody] RefreshTokenDto refreshToken)
         {
-            if (refreshToken is null || refreshToken.Token is null) return BadRequest("RefreshTokenIsNull");
-            var (result, newAccessToken, newRefreshToken) = await _userService.UpdateUserRefreshToken(refreshToken.Token);
+            var result = await _userService.UpdateUserRefreshToken(refreshToken.Token);
 
-            if (!result.IsValid) return result.ToActionResult();
+            if (result.IsFailure) return HandleFailure(result);
 
             return Ok(new TokensDto
             {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken
+                AccessToken = result.Value.AccessToken,
+                RefreshToken = result.Value.RefreshToken
             });
         }
 
         [HttpPost("is-authenticated")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> IsAuthenticatedAsync([FromBody] RefreshTokenDto refreshToken)
         {
-            if (refreshToken is null || refreshToken.Token is null) return BadRequest("RefreshTokenIsNull");
             var isAuthenticated = await _jwtService.IsValidRefreshToken(refreshToken.Token);
 
             return Ok(isAuthenticated);

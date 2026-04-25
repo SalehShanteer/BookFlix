@@ -1,6 +1,5 @@
 ﻿using BookFlix.Core.Models;
 using BookFlix.Core.Repositories;
-using BookFlix.Core.Services.Validation;
 using BookFlix.Web.Dtos.Author;
 using BookFlix.Web.Dtos.Book;
 using BookFlix.Web.Dtos.Genre;
@@ -10,54 +9,18 @@ namespace BookFlix.Web.Mappers
 {
     public class BookMapper : IBookMapper
     {
-
         private readonly IAuthorRepository _authorRepository;
         private readonly IGenreRepository _genreRepository;
+
         public BookMapper(IAuthorRepository authorRepository, IGenreRepository genreRepository)
         {
             _authorRepository = authorRepository;
             _genreRepository = genreRepository;
-
-        }
-
-        private async Task<List<Author>> GetAuthors(List<int> authorIds, ValidationResult result)
-        {
-            var authors = new List<Author>();
-            foreach (var authorId in authorIds)
-            {
-                var author = await _authorRepository.GetByIdAsync(authorId);
-                if (author is null)
-                {
-                    result.Errors.Add($"AuthorNotFound");
-                    break;
-                }
-
-                authors.Add(author);
-            }
-            return authors;
-        }
-
-        private async Task<List<Genre>> GetGenres(List<int> genreIds, ValidationResult result)
-        {
-            var genres = new List<Genre>();
-
-            foreach (var genreId in genreIds)
-            {
-                var genre = await _genreRepository.GetByIdAsync(genreId);
-                if (genre is null)
-                {
-                    result.Errors.Add($"GenreNotFound");
-                    break;
-                }
-                genres.Add(genre);
-            }
-            return genres;
         }
 
         public BookDto ToBookDto(Book book)
         {
-
-            BookDto bookDto = new BookDto
+            return new BookDto
             {
                 Id = book.Id,
                 Title = book.Title,
@@ -82,61 +45,76 @@ namespace BookFlix.Web.Mappers
                     Name = g.Name
                 }).ToList() ?? new List<GenreDto>()
             };
-            return bookDto;
         }
 
-        public async Task<(Book Book, ValidationResult Result)> ToBook(BookCreateDto bookCreateDto)
+        public async Task<Book> ToBook(BookCreateDto dto)
         {
-            var result = new ValidationResult();
+            var authors = await GetAuthors(dto.AuthorIds);
+            var genres = await GetGenres(dto.GenreIds);
 
-            var authors = await GetAuthors(bookCreateDto.AuthorIds, result);
-            var genres = await GetGenres(bookCreateDto.GenreIds, result);
-
-            Book book = new Book
+            return new Book
             {
-                Title = bookCreateDto.Title,
-                Description = bookCreateDto.Description,
-                ISBN = bookCreateDto.ISBN,
-                CoverImageUrl = bookCreateDto.CoverImageUrl,
-                PublicationDate = bookCreateDto.PublicationDate,
-                Publisher = bookCreateDto.Publisher,
-                PageCount = bookCreateDto.PageCount,
-                IsAvailable = bookCreateDto.IsAvailable,
-                FileLocation = bookCreateDto.FileLocation,
+                Title = dto.Title,
+                Description = dto.Description,
+                ISBN = dto.ISBN,
+                CoverImageUrl = dto.CoverImageUrl,
+                PublicationDate = dto.PublicationDate,
+                Publisher = dto.Publisher,
+                PageCount = dto.PageCount,
+                IsAvailable = dto.IsAvailable,
                 Authors = authors,
                 Genres = genres
             };
-            return (book, result);
         }
 
-        public async Task<(Book Book, ValidationResult Result)> ToBook(BookUpdateDto bookUpdateDto)
+        public async Task<Book> ToBook(BookUpdateDto dto)
         {
-            var result = new ValidationResult();
+            var authors = await GetAuthors(dto.AuthorIds);
+            var genres = await GetGenres(dto.GenreIds);
 
-            var authors = await GetAuthors(bookUpdateDto.AuthorIds, result);
-            var genres = await GetGenres(bookUpdateDto.GenreIds, result);
-
-            Book book = new Book
+            return new Book
             {
-                Id = bookUpdateDto.Id,
-                Title = bookUpdateDto.Title,
-                Description = bookUpdateDto.Description,
-                ISBN = bookUpdateDto.ISBN,
-                CoverImageUrl = bookUpdateDto.CoverImageUrl,
-                PublicationDate = bookUpdateDto.PublicationDate,
-                Publisher = bookUpdateDto.Publisher,
-                PageCount = bookUpdateDto.PageCount,
-                IsAvailable = bookUpdateDto.IsAvailable,
-                FileLocation = bookUpdateDto.FileLocation,
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                ISBN = dto.ISBN,
+                CoverImageUrl = dto.CoverImageUrl,
+                PublicationDate = dto.PublicationDate,
+                Publisher = dto.Publisher,
+                PageCount = dto.PageCount,
+                IsAvailable = dto.IsAvailable,
                 Authors = authors,
                 Genres = genres
             };
-            return (book, result);
         }
 
         public IList<BookDto> ToBookDtos(IList<Book> books)
         {
-            return books.Select(b => ToBookDto(b)).ToList();
+            return books.Select(ToBookDto).ToList();
+        }
+
+        private async Task<List<Author>> GetAuthors(List<Guid> authorIds)
+        {
+            var authors = new List<Author>();
+            foreach (var id in authorIds)
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                if (author is null) throw new KeyNotFoundException("AuthorNotFound");
+                authors.Add(author);
+            }
+            return authors;
+        }
+
+        private async Task<List<Genre>> GetGenres(List<int> genreIds)
+        {
+            var genres = new List<Genre>();
+            foreach (var id in genreIds)
+            {
+                var genre = await _genreRepository.GetByIdAsync(id);
+                if (genre is null) throw new KeyNotFoundException("GenreNotFound");
+                genres.Add(genre);
+            }
+            return genres;
         }
     }
 }

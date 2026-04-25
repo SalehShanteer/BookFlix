@@ -35,14 +35,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookFlix API V1"));
 }
 
-// Serve PDFs from BookDirectory in appsettings.json
-var bookDirectory = builder.Configuration.GetValue<string>("BookDirectory")
-    ?? throw new InvalidOperationException("BookDirectory not configured in appsettings.json.");
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(bookDirectory),
-    RequestPath = "/books"
-});
+
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(bookDirectory),
+//    RequestPath = "/books"
+//});
 
 app.UseCors("BookFlixApiCorsPolicy");
 

@@ -3,18 +3,16 @@ using Microsoft.Extensions.Logging;
 
 namespace BookFlix.Core.Helpers
 {
-    public static class LoggerExtensions
-    {
-        public static void LogErrorForValidation(this ILogger logger, string message, ValidationResult result)
-        {
-            result.Errors.Add(message);
-            logger.LogError(message);
-        }
+    //public static class LoggerExtensions
+    //{
+    //    public static void LogErrorForValidation(this ILogger logger, string message)
+    //    {
+    //        logger.LogError(message);
+    //    }
 
-        public static void LogExceptionErrorForValidation(this ILogger logger, Exception ex, string message, ValidationResult result)
-        {
-            result.Errors.Add(message);
-            logger.LogError(ex, message);
-        }
-    }
+    //    public static void LogExceptionErrorForValidation(this ILogger logger, Exception ex, string message)
+    //    {
+    //        logger.LogError(ex, message);
+    //    }
+    //}
 }

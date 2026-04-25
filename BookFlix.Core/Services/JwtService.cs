@@ -28,7 +28,7 @@ namespace BookFlix.Core.Services
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
@@ -46,7 +46,7 @@ namespace BookFlix.Core.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public RefreshToken GenerateRefreshToken(int userId)
+        public RefreshToken GenerateRefreshToken(Guid userId)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var refreshToken = new RefreshToken
@@ -58,7 +58,7 @@ namespace BookFlix.Core.Services
             return refreshToken;
         }
 
-        public RefreshToken GenerateRefreshToken(int userId, DateTime expireDate)
+        public RefreshToken GenerateRefreshToken(Guid userId, DateTime expireDate)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var refreshToken = new RefreshToken

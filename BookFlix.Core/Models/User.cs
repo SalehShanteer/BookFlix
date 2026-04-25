@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookFlix.Core.Models
 {
-    public class User : Entity
+    public class User : BaseEntity
     {
         [MinLength(4, ErrorMessage = "UsernameLengthTooShort")]
         public string Username { get; set; }

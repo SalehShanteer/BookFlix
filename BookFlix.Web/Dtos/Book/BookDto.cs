@@ -5,8 +5,8 @@ namespace BookFlix.Web.Dtos.Book
 {
     public class BookDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
+        public Guid Id { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string ISBN { get; set; }
         public string CoverImageUrl { get; set; }
@@ -18,7 +18,7 @@ namespace BookFlix.Web.Dtos.Book
         public string FileLocation { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public List<AuthorDto> Authors { get; set; } = new List<AuthorDto>();
-        public List<GenreDto> Genres { get; set; } = new List<GenreDto>();
+        public List<AuthorDto> Authors { get; set; }
+        public List<GenreDto> Genres { get; set; }
     }
 }

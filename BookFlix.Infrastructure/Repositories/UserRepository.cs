@@ -21,7 +21,7 @@ namespace BookFlix.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
@@ -37,10 +37,10 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<User> GetByEmailAsync(string email)
             => await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(Guid id)
             => await _context.Users.FindAsync(id);
 
-        public async Task<User> GetByIdWithRelationsAsync(int id)
+        public async Task<User> GetByIdWithRelationsAsync(Guid id)
             => await _context.Users
                 .Include(u => u.RefreshTokens)
                 .Include(u => u.Reviews)
@@ -49,7 +49,7 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<bool> IsEmailExist(string email)
             => await _context.Users.AsNoTracking().AnyAsync(u => u.Email == email);
 
-        public async Task<bool> IsExistById(int id)
+        public async Task<bool> IsExistById(Guid id)
             => await _context.Users.AsNoTracking().AnyAsync(u => u.Id == id);
 
         public async Task<bool> IsUsernameExist(string username)
