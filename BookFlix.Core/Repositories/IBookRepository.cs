@@ -5,7 +5,6 @@ namespace BookFlix.Core.Repositories
     public interface IBookRepository : IEntityRepository<Book>, ITransactionRepository
     {
         Task<IReadOnlyCollection<Book>> GetByAuthorIDAsync(Guid authorID);
-        Task<string> GetFileLocationAsync(Guid id);
         Task<Book> GetByISBNAsync(string isbn);
         Task<bool> IsExistByIsbnAsync(string isbn);
         Task<bool> IsExistByIsbnAsync(Guid id, string isbn);

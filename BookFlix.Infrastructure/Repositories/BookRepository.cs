@@ -85,18 +85,6 @@ namespace BookFlix.Infrastructure.Repositories
 
         public async Task<bool> IsExistByIDAsync(Guid id) => await _context.Books.AsNoTracking().AnyAsync(b => b.ID == id);
 
-        public async Task<string> GetFileLocationAsync(Guid id)
-        {
-            var result = await _context.Books
-                .AsNoTracking()
-                .Where(b => b.ID == id)
-                .Select(b => new { b.FileLocation })
-                .FirstOrDefaultAsync();
-
-            if (result is null) return null;
-
-            return result.FileLocation;
-        }
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

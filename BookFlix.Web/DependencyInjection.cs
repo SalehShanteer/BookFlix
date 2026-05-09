@@ -23,7 +23,7 @@ namespace BookFlix.Web
 
         private static void JwtConfiguration(IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("Jwt:Key");
+            var jwtSettings = configuration.GetSection("Jwt");
             byte[] jwtKeyBytes = GetJwtKey(configuration);
 
             services.AddAuthentication(options =>
