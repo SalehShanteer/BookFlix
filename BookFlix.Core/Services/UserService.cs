@@ -38,8 +38,8 @@ namespace BookFlix.Core.Services
 
         public async Task<Result<User>> AddUserAsUserAsync(User user)
         {
-            var authorRole = await _roleRepository.GetByIDAsync(Guid.Parse("2abd05f3-fc73-4a5f-a3b5-01291030851f"));
-            user.Roles.Add(authorRole);
+            var userRole = await _roleRepository.GetByIDAsync(Guid.Parse("2abd05f3-fc73-4a5f-a3b5-01291030851f"));
+            user.Roles.Add(userRole);
             return await AddUserAsync(user);
         }
 

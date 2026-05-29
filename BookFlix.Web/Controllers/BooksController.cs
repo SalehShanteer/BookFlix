@@ -57,7 +57,6 @@ namespace BookFlix.Web.Controllers
 
             if (result.IsFailure) return HandleFailure(result);
 
-
             var bookDto = _bookMapper.ToBookDto(result.Value);
 
             return CreatedAtAction(nameof(GetBookByIDAsync), new { id = bookDto.ID }, bookDto);

@@ -36,9 +36,7 @@ namespace BookFlix.Infrastructure.Repositories
             .ToListAsync();
 
         public async Task<Role> GetByIDAsync(Guid id)
-            => await _context.Roles
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.ID == id);
+            => await _context.Roles.FindAsync(id);
 
         public async Task<Role> GetByIDForUpdateAsync(Guid id)
             => await _context.Roles.FindAsync(id);
