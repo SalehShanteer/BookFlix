@@ -86,7 +86,7 @@ namespace BookFlix.Web
             {
                 options.AddPolicy("BookFlixApiCorsPolicy", policy =>
                 {
-                    policy.WithOrigins("https://localhost:7217", "http://localhost:5215")
+                    policy.WithOrigins("https://localhost:7217", "http://localhost:5215", "http://localhost:4200")
                           .AllowAnyMethod()
                           .AllowAnyHeader();
                 });

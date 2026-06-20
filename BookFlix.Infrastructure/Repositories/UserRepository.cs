@@ -37,7 +37,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<User> GetByEmailAsync(string email)
             => await _context.Users
                 .Include(u => u.Roles)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
 
         public async Task<User> GetByIDAsync(Guid id)

@@ -47,7 +47,7 @@ namespace BookFlix.Core.Services
             }
 
             LogLoginAttempt(user.ID, true, ipAddress);
-            return ReturnTokens(user);
+            return await ReturnTokens(user);
         }
 
         private void LogLoginAttempt(Guid userID, bool isSuccess, string ipAddress)
@@ -62,12 +62,12 @@ namespace BookFlix.Core.Services
             _userLogRepository.AddAsync(log);
         }
 
-        private Result<(string AccessToken, string RefreshToken)> ReturnTokens(User user)
+        private async Task<Result<(string AccessToken, string RefreshToken)>> ReturnTokens(User user)
         {
             string accessToken = _jwtService.GenerateJwtToken(user);
             var refreshToken = _jwtService.GenerateRefreshToken(user.ID);
             user.RefreshTokens.Add(refreshToken);
-            _userRepository.SaveChangesAsync();
+            await _userRepository.SaveChangesAsync();
 
             return Result.Success((accessToken, refreshToken.Token));
         }

@@ -11,6 +11,7 @@ namespace BookFlix.Core.Services.Validation
         public static Error NotFound(string key) => new(key, ErrorType.NotFound);
         public static Error Conflict(string key) => new(key, ErrorType.Conflict);
         public static Error Unauthorized(string key) => new(key, ErrorType.Unauthorized);
+        public static Error Forbidden(string key) => new(key, ErrorType.Forbidden);
     }
 
     public class Result

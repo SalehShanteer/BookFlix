@@ -27,8 +27,8 @@ namespace BookFlix.Core.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new (ClaimTypes.NameIdentifier, user.ID.ToString()),
+                new (ClaimTypes.Email, user.Email)
             };
 
             if (user.Roles != null)
@@ -65,6 +65,7 @@ namespace BookFlix.Core.Services
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                CreatedAt = DateTime.UtcNow,
                 ExpiresAt = DateTime.UtcNow.AddDays(int.Parse(jwtSettings["RefreshTokenExpireDays"] ?? "7")),
                 UserID = userID
             };

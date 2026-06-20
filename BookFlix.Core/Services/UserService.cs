@@ -4,6 +4,7 @@ using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace BookFlix.Core.Services
 {
@@ -14,14 +15,16 @@ namespace BookFlix.Core.Services
         private readonly ILogger<UserService> _logger;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IJwtService _jwtService;
+        private readonly ICurrentUserContext _currentUserContext;
 
-        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, ILogger<UserService> logger, ICurrentUserContext currentUserContext)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _refreshTokenRepository = refreshTokenRepository;
             _jwtService = jwtService;
             _logger = logger;
+            _currentUserContext = currentUserContext;
         }
 
         private async Task<Result<User>> AddUserAsync(User user)
@@ -69,6 +72,8 @@ namespace BookFlix.Core.Services
 
         public async Task<Result> UpdateUserPasswordAsync(Guid userID, string oldPassword, string newPassword)
         {
+            if (!IsCurrentUserOrAdmin(userID)) return Result.Failure(Error.Forbidden("AccessDenied"));
+
             var existingUser = await _userRepository.GetByIDAsync(userID);
 
             if (existingUser is null) return ReturnUserNotFound();
@@ -199,6 +204,12 @@ namespace BookFlix.Core.Services
             return Result.Success();
         }
 
+        private bool IsCurrentUserOrAdmin(Guid userID)
+        {
+            var currentUserId = _currentUserContext.UserID;
+            var isAdmin = _currentUserContext.IsAdmin;
+            return currentUserId == userID || isAdmin;
+        }
         private Result ValidatePassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
