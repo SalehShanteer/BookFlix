@@ -17,7 +17,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<User> AddAsync(User entity)
         {
             await _context.Users.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -27,7 +26,6 @@ namespace BookFlix.Infrastructure.Repositories
             if (user == null) return false;
 
             _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
             return true;
         }
 

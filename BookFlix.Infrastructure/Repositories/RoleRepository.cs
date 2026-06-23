@@ -16,7 +16,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<Role> AddAsync(Role role)
         {
             await _context.Roles.AddAsync(role);
-            await _context.SaveChangesAsync();
             return role;
         }
 

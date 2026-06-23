@@ -16,7 +16,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<RefreshToken> AddAsync(RefreshToken entity)
         {
             await _context.RefreshTokens.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 

@@ -34,6 +34,7 @@ namespace BookFlix.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> UpdateUserPasswordAsync(Guid id, UserUpdatePasswordDto userUpdatePasswordDto)
         {
             var result = await _userService.UpdateUserPasswordAsync(id, userUpdatePasswordDto.OldPassword, userUpdatePasswordDto.NewPassword);

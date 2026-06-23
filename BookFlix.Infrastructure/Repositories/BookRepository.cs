@@ -17,7 +17,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<Book> AddAsync(Book entity)
         {
             await _context.Books.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -57,7 +56,6 @@ namespace BookFlix.Infrastructure.Repositories
 
             book.FileLocation = fileLocation;
             book.UpdatedAt = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -67,7 +65,6 @@ namespace BookFlix.Infrastructure.Repositories
             if (book is null) return false;
 
             _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
             return true;
         }
 

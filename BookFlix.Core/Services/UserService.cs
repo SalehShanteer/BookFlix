@@ -4,7 +4,6 @@ using BookFlix.Core.Repositories;
 using BookFlix.Core.Service_Interfaces;
 using BookFlix.Core.Services.Validation;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace BookFlix.Core.Services
 {
@@ -74,7 +73,7 @@ namespace BookFlix.Core.Services
         {
             if (!IsCurrentUserOrAdmin(userID)) return Result.Failure(Error.Forbidden("AccessDenied"));
 
-            var existingUser = await _userRepository.GetByIDAsync(userID);
+            var existingUser = await _userRepository.GetByIDForUpdateAsync(userID);
 
             if (existingUser is null) return ReturnUserNotFound();
 
@@ -104,7 +103,7 @@ namespace BookFlix.Core.Services
 
         public async Task<Result<User>> UpdateUserUsernameAsync(Guid id, string username)
         {
-            var existingUser = await _userRepository.GetByIDAsync(id);
+            var existingUser = await _userRepository.GetByIDForUpdateAsync(id);
 
             if (existingUser is null) return ReturnUserNotFound();
             if (existingUser.Username != username)
@@ -121,7 +120,7 @@ namespace BookFlix.Core.Services
 
         public async Task<Result<User>> UpdateUserEmailAsync(Guid id, string email)
         {
-            var existingUser = await _userRepository.GetByIDAsync(id);
+            var existingUser = await _userRepository.GetByIDForUpdateAsync(id);
 
             if (existingUser is null) return ReturnUserNotFound();
 

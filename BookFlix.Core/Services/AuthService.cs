@@ -41,16 +41,16 @@ namespace BookFlix.Core.Services
             if (!PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
                 _logger.LogError("Invalid password");
-                LogLoginAttempt(user.ID, false, ipAddress);
+                await LogLoginAttempt(user.ID, false, ipAddress);
 
                 return Result.Failure<(string, string)>(Error.Validation("InvalidPassword"));
             }
 
-            LogLoginAttempt(user.ID, true, ipAddress);
+            await LogLoginAttempt(user.ID, true, ipAddress);
             return await ReturnTokens(user);
         }
 
-        private void LogLoginAttempt(Guid userID, bool isSuccess, string ipAddress)
+        private async Task LogLoginAttempt(Guid userID, bool isSuccess, string ipAddress)
         {
             var log = new UserLog
             {
@@ -59,7 +59,7 @@ namespace BookFlix.Core.Services
                 Success = isSuccess,
                 IpAddress = ipAddress,
             };
-            _userLogRepository.AddAsync(log);
+            await _userLogRepository.AddAsync(log);
         }
 
         private async Task<Result<(string AccessToken, string RefreshToken)>> ReturnTokens(User user)

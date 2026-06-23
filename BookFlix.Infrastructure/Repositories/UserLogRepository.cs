@@ -15,7 +15,6 @@ namespace BookFlix.Infrastructure.Repositories
         public async Task<UserLog> AddAsync(UserLog entity)
         {
             await _context.UserLogs.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 

@@ -21,7 +21,7 @@ namespace BookFlix.Web.Controllers
                 ErrorType.Validation => BadRequest(result.Error.Key),
                 ErrorType.Conflict => Conflict(result.Error.Key),
                 ErrorType.Unauthorized => Unauthorized(result.Error.Key),
-                ErrorType.Forbidden => Forbid(result.Error.Key),
+                ErrorType.Forbidden => StatusCode(StatusCodes.Status403Forbidden, result.Error.Key),
                 ErrorType.Failure => StatusCode(500, result.Error),
                 _ => StatusCode(500, "An unexpected error occurred.")
             };
