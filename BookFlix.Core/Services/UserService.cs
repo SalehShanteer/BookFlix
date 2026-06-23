@@ -34,6 +34,7 @@ namespace BookFlix.Core.Services
 
             user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
             var userToAdd = await _userRepository.AddAsync(user);
+            await _userRepository.SaveChangesAsync();
 
             return Result.Success(userToAdd);
         }
