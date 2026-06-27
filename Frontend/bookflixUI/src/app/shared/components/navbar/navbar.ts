@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { LocalePipe } from '../../pipes/locale-pipe';
+import { TokenHelper } from '../../helpers/token-helper';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule],
+  imports: [LocalePipe, RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {}
+export class Navbar {
+  constructor(private router: Router) {}
+  signOut() {
+    TokenHelper.removeTokens();
+    this.router.navigate(['login']);
+  }
+}

@@ -14,4 +14,9 @@ export class TokenHelper {
   public static getRefreshToken() {
     return localStorage.getItem('refreshToken');
   }
+
+  public static removeTokens() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  }
 }

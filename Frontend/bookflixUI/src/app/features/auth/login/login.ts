@@ -23,7 +23,6 @@ export class Login {
   }
 
   onLogin() {
-    debugger;
     const loginRequest: ILogin = this.loginForm.value;
     this.authService.login(loginRequest).subscribe({
       next: (res) => {

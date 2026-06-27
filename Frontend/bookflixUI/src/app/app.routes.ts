@@ -7,6 +7,7 @@ import { Home } from './features/home/home';
 import { Register } from './features/auth/register/register';
 import { ServerError } from './shared/components/server-error/server-error';
 import { authGuard } from './core/guards/auth-guard';
+import { AccountSettings } from './features/settings/account-settings/account-settings';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home },
       { path: 'dashboard', component: UserDashboard },
+      { path: 'account-settings', component: AccountSettings },
     ],
   },
   {

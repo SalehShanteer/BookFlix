@@ -16,5 +16,6 @@
   "SignIn": "تسجيل الدخول",
   "SignInToAccount": "سجّل الدخول إلى حسابك",
   "UsernameUsed": "اسم المستخدم مستخدم من قبل",
-  "WelcomeBack": "مرحبًا بعودتك"
+  "WelcomeBack": "مرحبًا بعودتك",
+  "AccountSettings": "اعدادات الحساب"
 }
